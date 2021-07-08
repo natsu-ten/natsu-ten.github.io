@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="zh-CN">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<title>nginx通过x_forwarded_for实现黑白名单访问策略 | Natsu-ten</title>
+<link rel="icon" href="/img/img1.jpg">
+<meta name="keywords" content="nginx">
+<meta name="description" content="nginx 通过负载均衡,防火墙 过来之后, remote_addr 的地址是防火墙的地址, 客户端的真实地址是在 x_forwarded_for中的, 这样nginx默认的 deny 和 allow 就不生效了, 我们需要在每个域名中判断一个 x_forwarded_for中是否有我们要拒绝的ip地址, 如果有就返回403.定义一个map 拒绝的ip地址列表1234567 vim x_forwarded_for_deny.conf map $http_x_forwarded_for $allowed &amp;#123;    default allow;    #~s*192.168.0.100$ deny;   # 拒绝一个IP地址    #~s*192.168.0.d+$ deny;    #  拒绝一个网段IP地址&amp;#125;
+每个域名中的location中添加如下判断12345678server &amp;#123;    listen       80;    server_name  ....;    location / &amp;#123;        if ( $allowed = &amp;" />
+<meta property="site_name" content="Natsu-ten" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tutuu.top/2021/07/08/nginx 通过x_forwarded_for实现黑白名单访问/">
+<meta property="og:title" content="nginx通过x_forwarded_for实现黑白名单访问策略 | Natsu-ten" />
+<meta property="og:site_name" content="Natsu-ten" />
+<meta property="og:description" content="nginx 通过负载均衡,防火墙 过来之后, remote_addr 的地址是防火墙的地址, 客户端的真实地址是在 x_forwarded_for中的, 这样nginx默认的 deny 和 allow 就不生效了, 我们需要在每个域名中判断一个 x_forwarded_for中是否有我们要拒绝的ip地址, 如果有就返回403.定义一个map 拒绝的ip地址列表1234567 vim x_forwarded_for_deny.conf map $http_x_forwarded_for $allowed &amp;#123;    default allow;    #~s*192.168.0.100$ deny;   # 拒绝一个IP地址    #~s*192.168.0.d+$ deny;    #  拒绝一个网段IP地址&amp;#125;
+每个域名中的location中添加如下判断12345678server &amp;#123;    listen       80;    server_name  ....;    location / &amp;#123;        if ( $allowed = &amp;" />
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx通过x_forwarded_for实现黑白名单访问策略 | Natsu-ten">
+<meta name="twitter:description" content="nginx 通过负载均衡,防火墙 过来之后, remote_addr 的地址是防火墙的地址, 客户端的真实地址是在 x_forwarded_for中的, 这样nginx默认的 deny 和 allow 就不生效了, 我们需要在每个域名中判断一个 x_forwarded_for中是否有我们要拒绝的ip地址, 如果有就返回403.定义一个map 拒绝的ip地址列表1234567 vim x_forwarded_for_deny.conf map $http_x_forwarded_for $allowed &amp;#123;    default allow;    #~s*192.168.0.100$ deny;   # 拒绝一个IP地址    #~s*192.168.0.d+$ deny;    #  拒绝一个网段IP地址&amp;#125;
+每个域名中的location中添加如下判断12345678server &amp;#123;    listen       80;    server_name  ....;    location / &amp;#123;        if ( $allowed = &amp;">
+<link rel="dns-prefetch" href="https://tutuu.top/2021/07/08/nginx 通过x_forwarded_for实现黑白名单访问/">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/index.css">
+
+
+     
+    
+   
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body id="body">
+    <div id="mask"></div>
+    
+<script type="text/javascript">$.getScript('/js/search.js',function(){searchFunc('/search.xml', 'local-search-input', 'local-search-result') })</script>
+<div class="search-dialog" id="local-search">
+    <div id="local-search-title">本地搜索</div>
+    <input id="local-search-input" placeholder="搜索文章" type="text" >
+    <hr>
+    <div id="local-search-result">
+        <div id="local-hits"></div>
+    </div>
+    <span class="search-close-button"><i class="fas fa-times"></i></span>
+</div>
+
+    
+
+  
+    <div style="display: flex;">
+        <div id="body-wrap">
+            <nav class="site_nav" id="site_nav">
+    <i id="openNav" class="fas fa-bars"></i>
+    
+    <i class="fas fa-search search-btn"></i>
+    
+    <div id="mobileNav">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <ul>
+        
+            <li><a href="/">首页</a></li>
+        
+            <li><a href="/tags">标签</a></li>
+        
+            <li><a href="/categories">分类</a></li>
+        
+            <li><a href="/archives">归档</a></li>
+        
+            <li><a href="/link">友情链接</a></li>
+        
+            <li><a href="/about">关于我</a></li>
+        
+        </ul>
+    </div>
+    <ul>
+    
+        <li><a href="/">首页</a></li>
+    
+        <li><a href="/tags">标签</a></li>
+    
+        <li><a href="/categories">分类</a></li>
+    
+        <li><a href="/archives">归档</a></li>
+    
+        <li><a href="/link">友情链接</a></li>
+    
+        <li><a href="/about">关于我</a></li>
+    
+    </ul>
+</nav>
+            <header>
+    <div class="card-content">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+        </div>
+        <div id="description" class="description">
+            <p>一个废物博主!!</p>
+            <div class="social-icon">
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/natsu-ten"><i class="fab fa-github"></i></a>
+                
+                    <a href="mailto:743856137@qq.com"><i class="fa fa-envelope"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+            <main class="content">
+                
+    
+        <article class="post">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+            
+            <div class="post-title">
+              <h2 class="title">nginx通过x_forwarded_for实现黑白名单访问策略</h2>
+            </div>
+             
+             <div class="post-meta">
+                <div class="meta-firstline">
+                    <span class="post-meta-date">
+                        <i class="far fa-calendar-alt fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">发表于 2021-07-08 | </span>
+                        
+                        <i class="fas fa-history fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">更新于 2021-07-08</span>
+                    </span>
+                </div>
+                <div class="meta-secondline"> 
+                    <span class="post-meta-wordcount">
+                        <i class="far fa-file-word fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">总字数:</span>
+                        <span class="word-count">169 | </span>
+                        <i class="far fa-clock fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">阅读时长:</span>
+                        <span>1分钟 | </span>
+                        <i class="far fa-eye fa-fw post-meta-icon"></i>
+                        <span id="/2021/07/08/nginx%20%E9%80%9A%E8%BF%87x_forwarded_for%E5%AE%9E%E7%8E%B0%E9%BB%91%E7%99%BD%E5%90%8D%E5%8D%95%E8%AE%BF%E9%97%AE/" class="leancloud_visitors">
+                            <span class="post-meta-label">阅读量:</span>
+                            <span class="leancloud-visitors-count" id="twikoo_visitors">0</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+             
+            <div class="post-content">
+                <h3 id="nginx-通过负载均衡-防火墙-过来之后-remote-addr-的地址是防火墙的地址-客户端的真实地址是在-x-forwarded-for中的-这样nginx默认的-deny-和-allow-就不生效了-我们需要在每个域名中判断一个-x-forwarded-for中是否有我们要拒绝的ip地址-如果有就返回403"><a href="#nginx-通过负载均衡-防火墙-过来之后-remote-addr-的地址是防火墙的地址-客户端的真实地址是在-x-forwarded-for中的-这样nginx默认的-deny-和-allow-就不生效了-我们需要在每个域名中判断一个-x-forwarded-for中是否有我们要拒绝的ip地址-如果有就返回403" class="headerlink" title="nginx 通过负载均衡,防火墙 过来之后, remote_addr 的地址是防火墙的地址, 客户端的真实地址是在 x_forwarded_for中的, 这样nginx默认的 deny 和 allow 就不生效了, 我们需要在每个域名中判断一个 x_forwarded_for中是否有我们要拒绝的ip地址, 如果有就返回403."></a>nginx 通过负载均衡,防火墙 过来之后, remote_addr 的地址是防火墙的地址, 客户端的真实地址是在 x_forwarded_for中的, 这样nginx默认的 deny 和 allow 就不生效了, 我们需要在每个域名中判断一个 x_forwarded_for中是否有我们要拒绝的ip地址, 如果有就返回403.</h3><h3 id="定义一个map-拒绝的ip地址列表"><a href="#定义一个map-拒绝的ip地址列表" class="headerlink" title="定义一个map 拒绝的ip地址列表"></a>定义一个map 拒绝的ip地址列表</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> vim x_forwarded_for_deny.conf</span><br><span class="line"></span><br><span class="line"> map <span class="variable">$http_x_forwarded_for</span> <span class="variable">$allowed</span> &#123;</span><br><span class="line">    default allow;</span><br><span class="line">    <span class="comment">#~s*192.168.0.100$ deny;   # 拒绝一个IP地址</span></span><br><span class="line">    <span class="comment">#~s*192.168.0.d+$ deny;    #  拒绝一个网段IP地址</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<h3 id="每个域名中的location中添加如下判断"><a href="#每个域名中的location中添加如下判断" class="headerlink" title="每个域名中的location中添加如下判断"></a>每个域名中的location中添加如下判断</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  ....;</span><br><span class="line">    location / &#123;</span><br><span class="line">        <span class="keyword">if</span> ( <span class="variable">$allowed</span> = <span class="string">&quot;deny&quot;</span> ) &#123; <span class="built_in">return</span> 403; &#125;</span><br><span class="line">        proxy_pass    .....;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+            </div>
+            
+            <!--版权-->
+
+    
+    <div class="post-copyright">
+      <div class="post-copyright-icon"><a></a></div>
+        <div class="post-copyright__author">
+            <span class="post-copyright-meta">文章作者: </span>
+              <span class="post-copyright-info">
+                <a href="mailto:743856137@qq.com" one-link-mark="yes">Natsu-ten</a>
+              </span>
+        </div>
+        <div class="post-copyright__type">
+            <span class="post-copyright-meta">文章链接: </span>
+              <span class="post-copyright-info">
+                <a href="https://tutuu.top/2021/07/08/nginx 通过x_forwarded_for实现黑白名单访问/" one-link-mark="yes">https://tutuu.top/2021/07/08/nginx 通过x_forwarded_for实现黑白名单访问/</a>
+              </span>
+        </div><div class="post-copyright__notice">
+            <span class="post-copyright-meta">版权声明: </span>
+              <span class="post-copyright-info">本博客所有文章除特别声明外，均采用
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" one-link-mark="yes">
+                    CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自
+                <a href="https://tutuu.top" target="_blank" one-link-mark="yes">Natsu-ten</a>
+                ！</span>
+        </div>
+    </div>
+    
+
+            
+            
+            <div class="post-tag">
+                <span>
+                    <i class="fa fa-tag"></i>
+                     
+                    <a href="tags/nginx/"><span>nginx</span></a>
+                        
+                    
+                </span>
+            </div>
+
+            
+
+            
+            <div class="social-share"></div>
+
+            
+
+
+<div class="post-reward">
+    <div class="reward-button" >
+         赏
+         <div class="reward-main">
+            <ul class="reward-all">
+                <li class="reward-item"><a href="/img/wzf.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="微信"
+                            src="/img/wzf.png"></a>
+                    <div class="post-qr-code-desc">微信</div>
+                </li>
+                <li class="reward-item"><a href="/img/zfb.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="支付宝"
+                            src="/img/zfb.png"></a>
+                    <div class="post-qr-code-desc">支付宝</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+            
+        </article>
+        
+        
+        <style>
+            #body-wrap{
+                margin: 60px 0; 
+                margin-left: 300px;
+            }
+            
+            @media screen and (max-width: 1400px){
+                #body-wrap{
+                    margin: 60px 0;
+                    margin-left: 150px
+                }
+            }
+
+            @media screen and (max-width: 1300px){ 
+                #body-wrap{
+                    margin: 60px 0;
+                    margin-left: 60px
+                }
+            }
+            @media screen and (max-width: 1200px){
+                #toc{
+                    margin: 60px 10px 0
+                }
+                #body-wrap{
+                    margin: 60px 0 0 2%
+                }
+            }
+            @media screen and (max-width: 1100px){
+                .comment-head{
+                    padding: 0 20px 0 20px    
+                }
+            }
+            @media screen and (max-width: 1000px){
+                #toc{
+                    display: none;
+                    height: 250px ;
+                    position: fixed ;
+                    right: 35px;
+                    bottom: 30px ;
+                    top: 48%;
+                    z-index: 1000 ;
+                    width: 280px ;
+                    background: rgba(255,255,255,.9) ;
+                    margin: 0
+                }
+                .toc{
+                    max-height: 180px !important
+                }
+                #body-wrap{
+                    margin: 60px auto 
+                }
+                .rightside-toc{
+                    display: inline-block !important
+                }
+            }
+
+            
+            @media screen and (max-width: 800px){
+                .comment-head{
+                    padding: 0 20px 30px 20px 
+                }
+            }
+
+            @media screen and (max-width: 600px){
+                .social-share {
+                    text-align: center;
+                    float: none;
+                    margin: 0
+                }
+            }
+        </style>
+        
+        
+        
+        <script>
+            
+            setInterval(function(){
+                if(document.body.clientWidth < 800){
+                    $('img#up').remove();
+                }
+            },0)
+            
+        </script>
+        
+        <section id="rightside">
+            <div id="rightside-item">
+                <a class="rightside-toc" title="目录">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                <a href="#直达评论" title="直达评论">
+                    <i class="fas fa-comments"></i>
+                </a>
+                
+                <a href="#body" title="回到顶部">
+                    <i class="fas fa-arrow-up"></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="pagination">
+            
+            
+            <a href="/2021/06/28/promethues%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8A%A8%E6%80%81%E7%AE%A1%E7%90%86/" class="page-next">
+                promethues 配置文件动态管理
+                <i class="fas fa-arrow-alt-circle-right"></i>
+            </a>
+            
+        </div>
+        
+            
+            <hr>
+            <section id="rightside">
+                <div id="rightside-item">
+                    <a href="#直达评论" title="直达评论">
+                        <i class="fas fa-comments"></i>
+                    </a>
+                    <a href="#body" title="回到顶部">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
+            </section>
+            <div class="comment-head" id="直达评论">
+                <div class="comment-headline">
+                    <i class="fas fa-comments fa-fw"></i>
+                    <span>评论</span>
+                </div>
+                
+                    
+<div id="tcomment"></div>
+
+                
+            </div>
+            
+        
+    
+
+
+
+            </main>
+        </div>
+        
+        
+            
+            <div id="toc">
+                <div id="toc-title">
+                    <h4>目录
+                        <span id="num">0%</span>
+                    </h4>
+                    <progress id="progress" value="0" max="100"></progress>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#nginx-%E9%80%9A%E8%BF%87%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1-%E9%98%B2%E7%81%AB%E5%A2%99-%E8%BF%87%E6%9D%A5%E4%B9%8B%E5%90%8E-remote-addr-%E7%9A%84%E5%9C%B0%E5%9D%80%E6%98%AF%E9%98%B2%E7%81%AB%E5%A2%99%E7%9A%84%E5%9C%B0%E5%9D%80-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%9C%B0%E5%9D%80%E6%98%AF%E5%9C%A8-x-forwarded-for%E4%B8%AD%E7%9A%84-%E8%BF%99%E6%A0%B7nginx%E9%BB%98%E8%AE%A4%E7%9A%84-deny-%E5%92%8C-allow-%E5%B0%B1%E4%B8%8D%E7%94%9F%E6%95%88%E4%BA%86-%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E5%9C%A8%E6%AF%8F%E4%B8%AA%E5%9F%9F%E5%90%8D%E4%B8%AD%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA-x-forwarded-for%E4%B8%AD%E6%98%AF%E5%90%A6%E6%9C%89%E6%88%91%E4%BB%AC%E8%A6%81%E6%8B%92%E7%BB%9D%E7%9A%84ip%E5%9C%B0%E5%9D%80-%E5%A6%82%E6%9E%9C%E6%9C%89%E5%B0%B1%E8%BF%94%E5%9B%9E403"><span class="toc-text">nginx 通过负载均衡,防火墙 过来之后, remote_addr 的地址是防火墙的地址, 客户端的真实地址是在 x_forwarded_for中的, 这样nginx默认的 deny 和 allow 就不生效了, 我们需要在每个域名中判断一个 x_forwarded_for中是否有我们要拒绝的ip地址, 如果有就返回403.</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AAmap-%E6%8B%92%E7%BB%9D%E7%9A%84ip%E5%9C%B0%E5%9D%80%E5%88%97%E8%A1%A8"><span class="toc-text">定义一个map 拒绝的ip地址列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AF%8F%E4%B8%AA%E5%9F%9F%E5%90%8D%E4%B8%AD%E7%9A%84location%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%A6%82%E4%B8%8B%E5%88%A4%E6%96%AD"><span class="toc-text">每个域名中的location中添加如下判断</span></a></li></ol>
+            </div>
+            
+        
+        
+        
+    </div>
+    <img id="up" src="https://cdn.jsdelivr.net/gh/lete114/CDN/Use/up.gif" alt="回到顶部">
+    <footer class="footer" id="footer">
+    <div class="copyright">
+        
+      &copy; 2020 - 2021
+        <i class="fas fa-fan"></i>
+        Natsu-ten
+    </div>
+    <div class="framework-info">
+        <span>框架 </span>
+        <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="footer-separator">|</span>
+        <span>主题 </span>
+        <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典) </a>
+    </div>
+    
+    
+    <div class="custom-text">干啥啥不行,吃饭第一名.学也也不会,学了也白学！！</div>
+</footer>   
+    
+<script data-pjax id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+<script data-pjax src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="/js/main.js"></script>
+
+    
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script>
+        var pjax = new Pjax({
+            selectors: [
+                "head title",
+                "main.content",
+                "#toc"
+            ],
+            cache: true,
+            cacheBust: false
+        });
+        
+            
+                function LoadTwikoo(){
+                    
+                    $.getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){ 
+                    initData = {
+                        el: '#tcomment',
+                        envId: 'twikoo-3gwreqi0e4d4875e',
+                        region: 'ap-shanghai',
+                        path: 'window.location.pathname',
+                    }
+                    var option = false;
+                    if(option){
+                        initData = Object.assign(initData, option)
+                    }
+                    twikoo.init(initData);
+                    })
+                }
+            
+        
+        
+        // MathJax
+        function MathJaxFn(){
+            MathJax = {
+                loader: {
+                    source: {
+                        '[tex]/amsCd': '[tex]/amscd'
+                    }
+                },
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        }
+        
+        function LoadShare(){
+                var $config = {
+                sites   : "facebook,qq,weibo,wechat,twitter".split(","),
+                wechatQrcodeTitle: "微信扫一扫：分享",
+                wechatQrcodeHelper: "立即下载发送专属二维码,邀请朋友加入",
+            };
+            socialShare('.social-share', $config);
+        }
+
+        function LoadFancybox(){
+            $(".post-content img").each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "images");
+                $(element).attr("href", $(this).attr("src"));
+                $(this).wrap(element);
+            });
+
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                loop: true,
+                transitionEffect: 'slide',
+                protect: true,
+                buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
+                hash: false
+            });
+        }
+
+        
+        MathJaxFn();
+        
+        LoadShare();
+        LoadFancybox();
+
+        
+            
+                LoadTwikoo();
+            
+        
+
+        
+
+        // 开始 PJAX 执行的函数
+		document.addEventListener('pjax:send', function () {
+
+            // 设置初始进度
+            var progress = 10;
+            // 创建进度条 及 css样式
+            $("body").append("<div class='progress'></div>")
+
+            // 定义随机数最大值最小值
+            var max=10,mini=3;
+            var result=max-mini;
+            
+            // 清除
+            clearInterval(timer);
+            // 0.5秒内累加进度
+            timer = setInterval(function(){
+                // 随机数
+                var num = parseInt(Math.random()*result);
+                var randomResult = num+mini;
+                // 累加
+                progress+=randomResult
+                $("body .progress").css("width",progress+"%")
+                // 当进度达到95%时停止
+                if(progress>95)progress=95
+            },500)
+        });
+        
+        
+        // 清除时间
+        var timer = null;
+
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+		document.addEventListener('pjax:complete', function () {
+            
+                
+                    LoadTwikoo();
+                
+            
+            clearInterval(timer);
+            // 页面加载完毕后进度100% 并在0.7秒后删除
+            $("body .progress").css("width","100%")
+            timer = setTimeout(function () {
+                $("body .progress").remove();
+            }, 700);
+
+            // 手机端导航栏跳转关闭
+            $("#mobileNav").css("opacity", "0")
+            $("#mobileNav").removeClass("open")
+            $("#mask").removeClass("mask")
+
+            // 手机端搜索框关闭
+            $("#local-search").css("display", "none")
+
+            // 接触滚动
+            $("html").css("overflow", "auto")
+
+            // 当鼠标移动到代码块上时执行
+            $(".highlight-wrap").hover(
+                function() {
+                    // 移除其他代码块的 CopyContent 属性
+                    $("[CopyContent]").removeAttr("CopyContent");
+                    // 在当前鼠标所在的元素下的 .code 元素上添加 CopyContent属性
+                    $(this).find(".code").attr("CopyContent", "");
+                }
+            );
+
+            
+            
+            MathJaxFn();
+            
+            LoadShare();
+            LoadFancybox();
+            
+            
+            document.querySelectorAll('script[data-pjax]').forEach(item => {
+                const newScript = document.createElement('script')
+                const content = item.text || item.textContent || item.innerHTML || ""
+                Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+                newScript.appendChild(document.createTextNode(content))
+                item.parentNode.replaceChild(newScript, item)
+            })
+        });
+    </script>
+    
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="zh-CN">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<title>ACM + Confd 管理配置文件 | Natsu-ten</title>
+<link rel="icon" href="/img/img1.jpg">
+<meta name="keywords" content="ACM - CONFD">
+<meta name="description" content="ACM + confd 管理配置文件
+confd 是一款开源的配置管理工具， 通过将存储于etcd，redis zookeeper 等后端存储系统的数据于配置模板结合起来使用，可实现保持配置处于最新状态的目的， 现在将阿里云的 ACM 作为后端，配合confd 实现无侵入式 的配置，实现 自动推送 监听等功能！
+
+
+ACM配置
+
+配置列表
+
+命名空间
+每个命名空间相当于一个大的分组,拥有自己的&amp;quot;命名空间ID&amp;quot; , 启动服务的时候需要指定链接的命名空间
+
+
+Endpoint
+服务访问的地址
+
+
+AccessKey/SecretKey
+登录需要的key
+
+
+创建配置
+Data ID
+Data ID在一个Group下是唯一的。相当于 一个单独的应用id
+
+
+Group
+ 配置分组,全局唯一, 启动服务时需要指定分组
+
+
+配置内容和格式 根据格式自行选择
+其余功能,看字面意思即可理解
+
+
+
+confd 安装
+
+
+confd 的构建依赖于 Go 1.10 或更高版本。
+
+创建docker容器,并进入容器,下载源码包
+123mkdir -p $GOPATH/src/github" />
+<meta property="site_name" content="Natsu-ten" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tutuu.top/2021/03/02/ACM+Confd 管理配置文件/">
+<meta property="og:title" content="ACM + Confd 管理配置文件 | Natsu-ten" />
+<meta property="og:site_name" content="Natsu-ten" />
+<meta property="og:description" content="ACM + confd 管理配置文件
+confd 是一款开源的配置管理工具， 通过将存储于etcd，redis zookeeper 等后端存储系统的数据于配置模板结合起来使用，可实现保持配置处于最新状态的目的， 现在将阿里云的 ACM 作为后端，配合confd 实现无侵入式 的配置，实现 自动推送 监听等功能！
+
+
+ACM配置
+
+配置列表
+
+命名空间
+每个命名空间相当于一个大的分组,拥有自己的&amp;quot;命名空间ID&amp;quot; , 启动服务的时候需要指定链接的命名空间
+
+
+Endpoint
+服务访问的地址
+
+
+AccessKey/SecretKey
+登录需要的key
+
+
+创建配置
+Data ID
+Data ID在一个Group下是唯一的。相当于 一个单独的应用id
+
+
+Group
+ 配置分组,全局唯一, 启动服务时需要指定分组
+
+
+配置内容和格式 根据格式自行选择
+其余功能,看字面意思即可理解
+
+
+
+confd 安装
+
+
+confd 的构建依赖于 Go 1.10 或更高版本。
+
+创建docker容器,并进入容器,下载源码包
+123mkdir -p $GOPATH/src/github" />
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ACM + Confd 管理配置文件 | Natsu-ten">
+<meta name="twitter:description" content="ACM + confd 管理配置文件
+confd 是一款开源的配置管理工具， 通过将存储于etcd，redis zookeeper 等后端存储系统的数据于配置模板结合起来使用，可实现保持配置处于最新状态的目的， 现在将阿里云的 ACM 作为后端，配合confd 实现无侵入式 的配置，实现 自动推送 监听等功能！
+
+
+ACM配置
+
+配置列表
+
+命名空间
+每个命名空间相当于一个大的分组,拥有自己的&amp;quot;命名空间ID&amp;quot; , 启动服务的时候需要指定链接的命名空间
+
+
+Endpoint
+服务访问的地址
+
+
+AccessKey/SecretKey
+登录需要的key
+
+
+创建配置
+Data ID
+Data ID在一个Group下是唯一的。相当于 一个单独的应用id
+
+
+Group
+ 配置分组,全局唯一, 启动服务时需要指定分组
+
+
+配置内容和格式 根据格式自行选择
+其余功能,看字面意思即可理解
+
+
+
+confd 安装
+
+
+confd 的构建依赖于 Go 1.10 或更高版本。
+
+创建docker容器,并进入容器,下载源码包
+123mkdir -p $GOPATH/src/github">
+<link rel="dns-prefetch" href="https://tutuu.top/2021/03/02/ACM+Confd 管理配置文件/">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/index.css">
+
+
+     
+    
+   
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body id="body">
+    <div id="mask"></div>
+    
+<script type="text/javascript">$.getScript('/js/search.js',function(){searchFunc('/search.xml', 'local-search-input', 'local-search-result') })</script>
+<div class="search-dialog" id="local-search">
+    <div id="local-search-title">本地搜索</div>
+    <input id="local-search-input" placeholder="搜索文章" type="text" >
+    <hr>
+    <div id="local-search-result">
+        <div id="local-hits"></div>
+    </div>
+    <span class="search-close-button"><i class="fas fa-times"></i></span>
+</div>
+
+    
+
+  
+    <div style="display: flex;">
+        <div id="body-wrap">
+            <nav class="site_nav" id="site_nav">
+    <i id="openNav" class="fas fa-bars"></i>
+    
+    <i class="fas fa-search search-btn"></i>
+    
+    <div id="mobileNav">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <ul>
+        
+            <li><a href="/">首页</a></li>
+        
+            <li><a href="/tags">标签</a></li>
+        
+            <li><a href="/categories">分类</a></li>
+        
+            <li><a href="/archives">归档</a></li>
+        
+            <li><a href="/link">友情链接</a></li>
+        
+            <li><a href="/about">关于我</a></li>
+        
+        </ul>
+    </div>
+    <ul>
+    
+        <li><a href="/">首页</a></li>
+    
+        <li><a href="/tags">标签</a></li>
+    
+        <li><a href="/categories">分类</a></li>
+    
+        <li><a href="/archives">归档</a></li>
+    
+        <li><a href="/link">友情链接</a></li>
+    
+        <li><a href="/about">关于我</a></li>
+    
+    </ul>
+</nav>
+            <header>
+    <div class="card-content">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+        </div>
+        <div id="description" class="description">
+            <p>一个废物博主!!</p>
+            <div class="social-icon">
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/natsu-ten"><i class="fab fa-github"></i></a>
+                
+                    <a href="mailto:743856137@qq.com"><i class="fa fa-envelope"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+            <main class="content">
+                
+    
+        <article class="post">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+            
+            <div class="post-title">
+              <h2 class="title">ACM + Confd 管理配置文件</h2>
+            </div>
+             
+             <div class="post-meta">
+                <div class="meta-firstline">
+                    <span class="post-meta-date">
+                        <i class="far fa-calendar-alt fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">发表于 2021-03-02 | </span>
+                        
+                        <i class="fas fa-history fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">更新于 2021-07-08</span>
+                    </span>
+                </div>
+                <div class="meta-secondline"> 
+                    <span class="post-meta-wordcount">
+                        <i class="far fa-file-word fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">总字数:</span>
+                        <span class="word-count">1.1k | </span>
+                        <i class="far fa-clock fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">阅读时长:</span>
+                        <span>4分钟 | </span>
+                        <i class="far fa-eye fa-fw post-meta-icon"></i>
+                        <span id="/2021/03/02/ACM+Confd%20%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" class="leancloud_visitors">
+                            <span class="post-meta-label">阅读量:</span>
+                            <span class="leancloud-visitors-count" id="twikoo_visitors">0</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+             
+            <div class="post-content">
+                <h2 id="ACM-confd-管理配置文件"><a href="#ACM-confd-管理配置文件" class="headerlink" title="ACM + confd 管理配置文件"></a>ACM + confd 管理配置文件</h2><blockquote>
+<p>confd 是一款开源的配置管理工具， 通过将存储于etcd，redis zookeeper 等后端存储系统的数据于配置模板结合起来使用，可实现保持配置处于最新状态的目的， 现在将阿里云的 ACM 作为后端，配合confd 实现无侵入式 的配置，实现 自动推送 监听等功能！</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/confd+ACM.jpeg" alt="ACM结果图"></p>
+<h3 id="ACM配置"><a href="#ACM配置" class="headerlink" title="ACM配置"></a>ACM配置</h3><p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/ACM.png" alt="ACM"></p>
+<ul>
+<li><p>配置列表</p>
+<ul>
+<li>命名空间<ul>
+<li>每个命名空间相当于一个大的分组,拥有自己的<code>&quot;命名空间ID&quot;</code> , 启动服务的时候需要指定链接的命名空间</li>
+</ul>
+</li>
+<li>Endpoint<ul>
+<li>服务访问的地址</li>
+</ul>
+</li>
+<li>AccessKey/SecretKey<ul>
+<li>登录需要的key</li>
+</ul>
+</li>
+<li>创建配置<ul>
+<li>Data ID<ul>
+<li>Data ID在一个Group下是唯一的。相当于 一个单独的应用id</li>
+</ul>
+</li>
+<li>Group<ul>
+<li> 配置分组,全局唯一, <code>启动服务时需要指定分组</code></li>
+</ul>
+</li>
+<li>配置内容和格式 根据格式自行选择</li>
+<li>其余功能,看字面意思即可理解</li>
+</ul>
+</li>
+</ul>
+<h3 id="confd-安装"><a href="#confd-安装" class="headerlink" title="confd 安装"></a>confd 安装</h3></li>
+</ul>
+<ol>
+<li><p>confd 的构建依赖于 Go 1.10 或更高版本。</p>
+</li>
+<li><p>创建docker容器,并进入容器,下载源码包</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$GOPATH</span>/src/github.com/kelseyhightower </span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/kelseyhightower </span><br><span class="line">wget https://github.com/nacos-group/nacos-confd/archive/v0.19.2.tar.gz</span><br></pre></td></tr></table></figure></div></li>
+<li><p>解压下载的 confd 源码。并重命名为 confd</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf v0.19.2.tar.gz</span><br><span class="line">mv nacos-confd-0.19.2 confd</span><br></pre></td></tr></table></figure></div></li>
+<li><p>编译</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> confd</span><br><span class="line">make</span><br><span class="line">-------</span><br><span class="line">如果编译报错用 : mkdir -p bin; go build -o bin/confd .</span><br></pre></td></tr></table></figure></div></li>
+<li><p>编译好之后,复制 二进制文件 到想要运行的目录即可</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv bin/confd /etc/confd</span><br></pre></td></tr></table></figure></div></li>
+<li><p>confd  –verion 查看是否成功 </p>
+</li>
+<li><p><strong><code>confd 官方文档: https://github.com/kelseyhightower/confd/tree/master/docs</code></strong></p>
+</li>
+</ol>
+<h3 id="confd配合ACM配置"><a href="#confd配合ACM配置" class="headerlink" title="confd配合ACM配置"></a>confd配合ACM配置</h3><ol>
+<li><p>创建 confd 所需的目录用来存放模板资源配置文件和模板文件。</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /etc/confd/&#123;conf.d,templates&#125;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>在 conf.d 目录下创建 TOML 格式的 confd 模板资源配置文件。</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/confd/conf.d/tomcat-admin.toml</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li>配置参数<ul>
+<li>src 参数指定 confd 模板文件</li>
+<li>dest 参数指定生成的配置文件</li>
+<li>keys 参数指定将模板渲染成配置文件所需的配置内容</li>
+<li>mode 文件权限</li>
+<li>reload_cmd 运行重启命令, 可以运行自定义的脚本  </li>
+<li>check_cmd 同上</li>
+<li><code>模板见下面示例</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在 templates 目录下创建 confd 模板文件。</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/confd/templates/tomcat-admin.tmpl</span><br></pre></td></tr></table></figure></div>
+<p>在该模板文件中添加以下内容。其含义为通过 getv 从 ACM 获取 Data ID 为 tomcat-admin 的配置内容</p>
+<blockquote>
+<p>说明 在模板中必须将 ACM 的 Data ID 中的 .  转换为 / 格式，即以斜线（/）代替句点（.）并在开头增加一个斜线。</p>
+</blockquote>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">value = &#123;&#123;getv <span class="string">&quot;/tomcat-admin&quot;</span>&#125;&#125;</span><br></pre></td></tr></table></figure></div>
+<p>4 启动confd</p>
+</li>
+</ol>
+<ul>
+<li><blockquote>
+<p>说明 请将代码中的 {endpoint}、{namespace}、{accessKey}、{secretKey} 分别替换为 ACM 控制台上命名空间详情对话框内的 End Point、命名空间 ID、AccessKey、SecretKey。</p>
+</blockquote>
+</li>
+<li><pre><code class="bash">confd -backend nacos -endpoint &#123;endpoint&#125;:8080 -namespace &#123;namespace&#125; -accessKey &#123;accessKey&#125; -secretKey &#123;secretKey&#125;
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Code"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  * 查看&#x2F;usr&#x2F;loca&#x2F;tomcat-admini&#x2F;conf&#x2F;server.xml 目录下有没有生成 dataid 里面配置的内容</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 开启confd监听</span><br><span class="line">如果按照上述方法操作，confd 生成一次配置文件后就会退出。只要在 confd 启动命令中添加 -watch 参数即可监听后端系统（在本示例中为 ACM）的配置变更，一旦配置内容发生变化，confd 就会重新生成配置文件。</span><br><span class="line">* 以监听模式启动</span><br><span class="line">  &#96;&#96;&#96;bash</span><br><span class="line">  confd -watch -backend nacos -endpoint &#123;endpoint&#125;:8080 -namespace &#123;namespace&#125; -accessKey &#123;accessKey&#125; -secretKey &#123;secretKey&#125;</span><br></pre></td></tr></table></figure></div>
+</code></pre>
+</li>
+</ul>
+<hr>
+<h2 id="配置内容参考"><a href="#配置内容参考" class="headerlink" title="配置内容参考"></a>配置内容参考</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## config param</span></span><br><span class="line">endpoint=addr-sz-internal.edas.aliyun.com</span><br><span class="line">namespace=acee06c8-xxxxx-xxxxxxxxxx-xxxxxxxxxxxx</span><br><span class="line">accessKey=LTxxxxxxxxxxxxxx</span><br><span class="line">secretKey=Kxxxxxxxxxxxxxx</span><br><span class="line"><span class="comment">#dataId=myapp.database.url</span></span><br><span class="line">group=tomcat</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span></span> () &#123;</span><br><span class="line">    <span class="comment">#以tomcat用户运行并监听confd</span></span><br><span class="line">    nohup sudo -u tomcat /etc/confd/bin/confd -watch -backend nacos -endpoint <span class="variable">$endpoint</span>:8080 -namespace <span class="variable">$namespace</span> -group <span class="variable">$group</span> -accessKey <span class="variable">$accessKey</span> -secretKey <span class="variable">$secretKey</span> &gt;/dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">    <span class="keyword">if</span> [[ $? == 0 ]];<span class="keyword">then</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">&quot;启动成功&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">stop</span></span> () &#123;</span><br><span class="line">    killall confd</span><br><span class="line">    <span class="keyword">if</span> [[ $? == 0 ]];<span class="keyword">then</span></span><br><span class="line">      <span class="built_in">echo</span> <span class="string">&quot;停止成功&quot;</span></span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">restart</span></span> ()&#123;</span><br><span class="line">    stop</span><br><span class="line">    start</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">&quot;<span class="variable">$1</span>&quot;</span> <span class="keyword">in</span></span><br><span class="line">start)</span><br><span class="line">    start</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line">    stop</span><br><span class="line">;;</span><br><span class="line">restart)</span><br><span class="line">    restart</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;参数:start|stop|restart&quot;</span></span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[template]</span><br><span class="line">src = <span class="string">&quot;tomcat-admin.tmpl&quot;</span></span><br><span class="line">dest = <span class="string">&quot;/usr/local/tomcat-admin/conf/server.xml&quot;</span></span><br><span class="line">mode = <span class="string">&quot;0775&quot;</span></span><br><span class="line">keys = [</span><br><span class="line"><span class="string">&quot;/tomcat-admin&quot;</span>,</span><br><span class="line">]</span><br><span class="line">reload_cmd = <span class="string">&quot;/etc/confd/dos2unix.sh /usr/local/tomcat-admin/conf/server.xml&quot;</span></span><br></pre></td></tr></table></figure></div>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/bash</span></span><br><span class="line">dos2unix -q <span class="variable">$1</span></span><br></pre></td></tr></table></figure></div>
+<p><code>发现问题:  ACM配置管理编辑器,换行符是windows编码格式, 在linux里面用vim打开 会发现^M </code></p>
+<p><code>解决办法:  dos2unix -q file   转换为inux编码格式, 可以将脚本写到 reload_cmd 里面, 如 reload_cmd = dos2nuix.sh fiel</code></p>
+
+            </div>
+            
+            <!--版权-->
+
+    
+    <div class="post-copyright">
+      <div class="post-copyright-icon"><a></a></div>
+        <div class="post-copyright__author">
+            <span class="post-copyright-meta">文章作者: </span>
+              <span class="post-copyright-info">
+                <a href="mailto:743856137@qq.com" one-link-mark="yes">Natsu-ten</a>
+              </span>
+        </div>
+        <div class="post-copyright__type">
+            <span class="post-copyright-meta">文章链接: </span>
+              <span class="post-copyright-info">
+                <a href="https://tutuu.top/2021/03/02/ACM+Confd 管理配置文件/" one-link-mark="yes">https://tutuu.top/2021/03/02/ACM+Confd 管理配置文件/</a>
+              </span>
+        </div><div class="post-copyright__notice">
+            <span class="post-copyright-meta">版权声明: </span>
+              <span class="post-copyright-info">本博客所有文章除特别声明外，均采用
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" one-link-mark="yes">
+                    CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自
+                <a href="https://tutuu.top" target="_blank" one-link-mark="yes">Natsu-ten</a>
+                ！</span>
+        </div>
+    </div>
+    
+
+            
+            
+            <div class="post-tag">
+                <span>
+                    <i class="fa fa-tag"></i>
+                     
+                    <a href="tags/ACM-CONFD/"><span>ACM - CONFD</span></a>
+                        
+                    
+                </span>
+            </div>
+
+            
+
+            
+            <div class="social-share"></div>
+
+            
+
+
+<div class="post-reward">
+    <div class="reward-button" >
+         赏
+         <div class="reward-main">
+            <ul class="reward-all">
+                <li class="reward-item"><a href="/img/wzf.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="微信"
+                            src="/img/wzf.png"></a>
+                    <div class="post-qr-code-desc">微信</div>
+                </li>
+                <li class="reward-item"><a href="/img/zfb.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="支付宝"
+                            src="/img/zfb.png"></a>
+                    <div class="post-qr-code-desc">支付宝</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+            
+        </article>
+        
+        
+        <style>
+            #body-wrap{
+                margin: 60px 0; 
+                margin-left: 300px;
+            }
+            
+            @media screen and (max-width: 1400px){
+                #body-wrap{
+                    margin: 60px 0;
+                    margin-left: 150px
+                }
+            }
+
+            @media screen and (max-width: 1300px){ 
+                #body-wrap{
+                    margin: 60px 0;
+                    margin-left: 60px
+                }
+            }
+            @media screen and (max-width: 1200px){
+                #toc{
+                    margin: 60px 10px 0
+                }
+                #body-wrap{
+                    margin: 60px 0 0 2%
+                }
+            }
+            @media screen and (max-width: 1100px){
+                .comment-head{
+                    padding: 0 20px 0 20px    
+                }
+            }
+            @media screen and (max-width: 1000px){
+                #toc{
+                    display: none;
+                    height: 250px ;
+                    position: fixed ;
+                    right: 35px;
+                    bottom: 30px ;
+                    top: 48%;
+                    z-index: 1000 ;
+                    width: 280px ;
+                    background: rgba(255,255,255,.9) ;
+                    margin: 0
+                }
+                .toc{
+                    max-height: 180px !important
+                }
+                #body-wrap{
+                    margin: 60px auto 
+                }
+                .rightside-toc{
+                    display: inline-block !important
+                }
+            }
+
+            
+            @media screen and (max-width: 800px){
+                .comment-head{
+                    padding: 0 20px 30px 20px 
+                }
+            }
+
+            @media screen and (max-width: 600px){
+                .social-share {
+                    text-align: center;
+                    float: none;
+                    margin: 0
+                }
+            }
+        </style>
+        
+        
+        
+        <script>
+            
+            setInterval(function(){
+                if(document.body.clientWidth < 800){
+                    $('img#up').remove();
+                }
+            },0)
+            
+        </script>
+        
+        <section id="rightside">
+            <div id="rightside-item">
+                <a class="rightside-toc" title="目录">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                <a href="#直达评论" title="直达评论">
+                    <i class="fas fa-comments"></i>
+                </a>
+                
+                <a href="#body" title="回到顶部">
+                    <i class="fas fa-arrow-up"></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="pagination">
+            
+            <a href="/2021/03/03/centos%20rename%20%E7%94%A8%E6%B3%95/" class="page-pre">
+                <i class="fas fa-arrow-alt-circle-left"></i>
+                centos rename 重命名用法
+            </a>
+            
+            
+            
+            <a href="/2021/02/23/LVM/" class="page-next">
+                LVM 操作简要
+                <i class="fas fa-arrow-alt-circle-right"></i>
+            </a>
+            
+        </div>
+        
+            
+            <hr>
+            <section id="rightside">
+                <div id="rightside-item">
+                    <a href="#直达评论" title="直达评论">
+                        <i class="fas fa-comments"></i>
+                    </a>
+                    <a href="#body" title="回到顶部">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
+            </section>
+            <div class="comment-head" id="直达评论">
+                <div class="comment-headline">
+                    <i class="fas fa-comments fa-fw"></i>
+                    <span>评论</span>
+                </div>
+                
+                    
+<div id="tcomment"></div>
+
+                
+            </div>
+            
+        
+    
+
+
+
+            </main>
+        </div>
+        
+        
+            
+            <div id="toc">
+                <div id="toc-title">
+                    <h4>目录
+                        <span id="num">0%</span>
+                    </h4>
+                    <progress id="progress" value="0" max="100"></progress>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ACM-confd-%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">ACM + confd 管理配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ACM%E9%85%8D%E7%BD%AE"><span class="toc-text">ACM配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#confd-%E5%AE%89%E8%A3%85"><span class="toc-text">confd 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#confd%E9%85%8D%E5%90%88ACM%E9%85%8D%E7%BD%AE"><span class="toc-text">confd配合ACM配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%86%85%E5%AE%B9%E5%8F%82%E8%80%83"><span class="toc-text">配置内容参考</span></a></li></ol>
+            </div>
+            
+        
+        
+        
+    </div>
+    <img id="up" src="https://cdn.jsdelivr.net/gh/lete114/CDN/Use/up.gif" alt="回到顶部">
+    <footer class="footer" id="footer">
+    <div class="copyright">
+        
+      &copy; 2020 - 2021
+        <i class="fas fa-fan"></i>
+        Natsu-ten
+    </div>
+    <div class="framework-info">
+        <span>框架 </span>
+        <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="footer-separator">|</span>
+        <span>主题 </span>
+        <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典) </a>
+    </div>
+    
+    
+    <div class="custom-text">干啥啥不行,吃饭第一名.学也也不会,学了也白学！！</div>
+</footer>   
+    
+<script data-pjax id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+<script data-pjax src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="/js/main.js"></script>
+
+    
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script>
+        var pjax = new Pjax({
+            selectors: [
+                "head title",
+                "main.content",
+                "#toc"
+            ],
+            cache: true,
+            cacheBust: false
+        });
+        
+            
+                function LoadTwikoo(){
+                    
+                    $.getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){ 
+                    initData = {
+                        el: '#tcomment',
+                        envId: 'twikoo-3gwreqi0e4d4875e',
+                        region: 'ap-shanghai',
+                        path: 'window.location.pathname',
+                    }
+                    var option = false;
+                    if(option){
+                        initData = Object.assign(initData, option)
+                    }
+                    twikoo.init(initData);
+                    })
+                }
+            
+        
+        
+        // MathJax
+        function MathJaxFn(){
+            MathJax = {
+                loader: {
+                    source: {
+                        '[tex]/amsCd': '[tex]/amscd'
+                    }
+                },
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        }
+        
+        function LoadShare(){
+                var $config = {
+                sites   : "facebook,qq,weibo,wechat,twitter".split(","),
+                wechatQrcodeTitle: "微信扫一扫：分享",
+                wechatQrcodeHelper: "立即下载发送专属二维码,邀请朋友加入",
+            };
+            socialShare('.social-share', $config);
+        }
+
+        function LoadFancybox(){
+            $(".post-content img").each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "images");
+                $(element).attr("href", $(this).attr("src"));
+                $(this).wrap(element);
+            });
+
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                loop: true,
+                transitionEffect: 'slide',
+                protect: true,
+                buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
+                hash: false
+            });
+        }
+
+        
+        MathJaxFn();
+        
+        LoadShare();
+        LoadFancybox();
+
+        
+            
+                LoadTwikoo();
+            
+        
+
+        
+
+        // 开始 PJAX 执行的函数
+		document.addEventListener('pjax:send', function () {
+
+            // 设置初始进度
+            var progress = 10;
+            // 创建进度条 及 css样式
+            $("body").append("<div class='progress'></div>")
+
+            // 定义随机数最大值最小值
+            var max=10,mini=3;
+            var result=max-mini;
+            
+            // 清除
+            clearInterval(timer);
+            // 0.5秒内累加进度
+            timer = setInterval(function(){
+                // 随机数
+                var num = parseInt(Math.random()*result);
+                var randomResult = num+mini;
+                // 累加
+                progress+=randomResult
+                $("body .progress").css("width",progress+"%")
+                // 当进度达到95%时停止
+                if(progress>95)progress=95
+            },500)
+        });
+        
+        
+        // 清除时间
+        var timer = null;
+
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+		document.addEventListener('pjax:complete', function () {
+            
+                
+                    LoadTwikoo();
+                
+            
+            clearInterval(timer);
+            // 页面加载完毕后进度100% 并在0.7秒后删除
+            $("body .progress").css("width","100%")
+            timer = setTimeout(function () {
+                $("body .progress").remove();
+            }, 700);
+
+            // 手机端导航栏跳转关闭
+            $("#mobileNav").css("opacity", "0")
+            $("#mobileNav").removeClass("open")
+            $("#mask").removeClass("mask")
+
+            // 手机端搜索框关闭
+            $("#local-search").css("display", "none")
+
+            // 接触滚动
+            $("html").css("overflow", "auto")
+
+            // 当鼠标移动到代码块上时执行
+            $(".highlight-wrap").hover(
+                function() {
+                    // 移除其他代码块的 CopyContent 属性
+                    $("[CopyContent]").removeAttr("CopyContent");
+                    // 在当前鼠标所在的元素下的 .code 元素上添加 CopyContent属性
+                    $(this).find(".code").attr("CopyContent", "");
+                }
+            );
+
+            
+            
+            MathJaxFn();
+            
+            LoadShare();
+            LoadFancybox();
+            
+            
+            document.querySelectorAll('script[data-pjax]').forEach(item => {
+                const newScript = document.createElement('script')
+                const content = item.text || item.textContent || item.innerHTML || ""
+                Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+                newScript.appendChild(document.createTextNode(content))
+                item.parentNode.replaceChild(newScript, item)
+            })
+        });
+    </script>
+    
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

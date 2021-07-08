@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="zh-CN">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<title>Natsu-ten</title>
+<link rel="icon" href="/img/img1.jpg">
+<meta name="keywords" content="">
+<meta name="description" content="一个废物博主!!" />
+<meta property="site_name" content="Natsu-ten" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tutuu.top/page/2/index.html">
+<meta property="og:title" content="Natsu-ten" />
+<meta property="og:site_name" content="Natsu-ten" />
+<meta property="og:description" content="一个废物博主!!" />
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Natsu-ten">
+<meta name="twitter:description" content="一个废物博主!!">
+<link rel="dns-prefetch" href="https://tutuu.top/page/2/index.html">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/index.css">
+
+
+     
+    
+   
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body id="body">
+    <div id="mask"></div>
+    
+<script type="text/javascript">$.getScript('/js/search.js',function(){searchFunc('/search.xml', 'local-search-input', 'local-search-result') })</script>
+<div class="search-dialog" id="local-search">
+    <div id="local-search-title">本地搜索</div>
+    <input id="local-search-input" placeholder="搜索文章" type="text" >
+    <hr>
+    <div id="local-search-result">
+        <div id="local-hits"></div>
+    </div>
+    <span class="search-close-button"><i class="fas fa-times"></i></span>
+</div>
+
+    
+
+  
+    <div style="display: flex;">
+        <div id="body-wrap">
+            <nav class="site_nav" id="site_nav">
+    <i id="openNav" class="fas fa-bars"></i>
+    
+    <i class="fas fa-search search-btn"></i>
+    
+    <div id="mobileNav">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <ul>
+        
+            <li><a href="/">首页</a></li>
+        
+            <li><a href="/tags">标签</a></li>
+        
+            <li><a href="/categories">分类</a></li>
+        
+            <li><a href="/archives">归档</a></li>
+        
+            <li><a href="/link">友情链接</a></li>
+        
+            <li><a href="/about">关于我</a></li>
+        
+        </ul>
+    </div>
+    <ul>
+    
+        <li><a href="/">首页</a></li>
+    
+        <li><a href="/tags">标签</a></li>
+    
+        <li><a href="/categories">分类</a></li>
+    
+        <li><a href="/archives">归档</a></li>
+    
+        <li><a href="/link">友情链接</a></li>
+    
+        <li><a href="/about">关于我</a></li>
+    
+    </ul>
+</nav>
+            <header>
+    <div class="card-content">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+        </div>
+        <div id="description" class="description">
+            <p>一个废物博主!!</p>
+            <div class="social-icon">
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/natsu-ten"><i class="fab fa-github"></i></a>
+                
+                    <a href="mailto:743856137@qq.com"><i class="fa fa-envelope"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+            <main class="content">
+                
+	
+        <div class="post-item">
+            <div class="post-title">
+                <h2><a href="/2021/05/10/centos7-%E5%85%B3%E9%97%ADipv6/">centos7-关闭ipv6</a></h2>
+            </div>
+            <div class="post-description">
+                <p style="-webkit-line-clamp: 3">
+                    
+                    1.在/etc/sysctl.conf中添加此规则：net.ipv6.conf.all.disable_ipv6 = 1
+2.在/etc/sysconfig/network中添加此规则：NETWORKING_IPV6 = no
+3.在/etc/sysconfig/network-scripts/ifcfg-ethX中添加此规则：IPV6INIT = no
+4.关闭防火墙的开机自启动服务：systemctl disable ip6tables.service
+5.重新加载sysctl配置或者重启网络#sysctl -por#systemctl restart network
+
+                </p>
+            </div>
+            
+                
+            
+
+            <div class="post-footer">
+                <!-- 发布时间 -->
+                <div class="post-meta">
+                    <span class="post-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>发表于</span>
+                        <span>2021-05-10</span>
+                    </span>
+                </div>
+                <!-- 标签 -->
+                
+                    <div class="post-tag">
+                        <span>
+                            <i class="fa fa-tag"></i>
+                             
+                            <span>
+                                <a href="tags/教程/">
+                                    <span>教程</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+                <!-- 分类 -->
+                
+                    <div class="post-categorie">
+                        <span>
+                            <i class="fas fa-folder-open"></i>
+                             
+                            <span>
+                                <a href="categories/教程/">
+                                    <span>教程</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+            </div>
+        </div>
+
+
+
+
+	
+        <div class="post-item">
+            <div class="post-title">
+                <h2><a href="/2021/03/03/centos%20rename%20%E7%94%A8%E6%B3%95/">centos rename 重命名用法</a></h2>
+            </div>
+            <div class="post-description">
+                <p style="-webkit-line-clamp: 3">
+                    
+                    centos rename 重命名用法操作系统 Centos71. rename 命令批量改文件名C版本：12rename 原字符串 新字符串 文件名rename .jpg .png *  
+2. Perl版本：支持正则表达式12rename ‘s/原字符串/新字符串/’ 文件名rename ‘s/$/\.bak/’ *               # 把所有文件加扩展名 .bak
+其中 Centos 默认是 C 版本, Ubuntu 默认是 Perl 版本，Centos 需要自己安装 Perl 版本命令是 prename
+批量修改内容
+替换当前目录下 所有fat成dev
+1sed -i &quot;s@fat@dev@g&quot; ./*
+
+
+
+                </p>
+            </div>
+            
+                
+            
+
+            <div class="post-footer">
+                <!-- 发布时间 -->
+                <div class="post-meta">
+                    <span class="post-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>发表于</span>
+                        <span>2021-03-03</span>
+                    </span>
+                </div>
+                <!-- 标签 -->
+                
+                    <div class="post-tag">
+                        <span>
+                            <i class="fa fa-tag"></i>
+                             
+                            <span>
+                                <a href="tags/批量重命名/">
+                                    <span>批量重命名</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+                <!-- 分类 -->
+                
+                    <div class="post-categorie">
+                        <span>
+                            <i class="fas fa-folder-open"></i>
+                             
+                            <span>
+                                <a href="categories/linux/">
+                                    <span>linux</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+            </div>
+        </div>
+
+
+
+
+	
+        <div class="post-item">
+            <div class="post-title">
+                <h2><a href="/2021/03/02/ACM+Confd%20%E7%AE%A1%E7%90%86%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">ACM + Confd 管理配置文件</a></h2>
+            </div>
+            <div class="post-description">
+                <p style="-webkit-line-clamp: 3">
+                    
+                    ACM + confd 管理配置文件
+confd 是一款开源的配置管理工具， 通过将存储于etcd，redis zookeeper 等后端存储系统的数据于配置模板结合起来使用，可实现保持配置处于最新状态的目的， 现在将阿里云的 ACM 作为后端，配合confd 实现无侵入式 的配置，实现 自动推送 监听等功能！
+
+
+ACM配置
+
+配置列表
+
+命名空间
+每个命名空间相当于一个大的分组,拥有自己的&quot;命名空间ID&quot; , 启动服务的时候需要指定链接的命名空间
+
+
+Endpoint
+服务访问的地址
+
+
+AccessKey/SecretKey
+登录需要的key
+
+
+创建配置
+Data ID
+Data ID在一个Group下是唯一的。相当于 一个单独的应用id
+
+
+Group
+ 配置分组,全局唯一, 启动服务时需要指定分组
+
+
+配置内容和格式 根据格式自行选择
+其余功能,看字面意思即可理解
+
+
+
+confd 安装
+
+
+confd 的构建依赖于 Go 1.10 或更高版本。
+
+创建docker容器,并进入容器,下载源码包
+123mkdir -p $GOPATH/src/github
+                </p>
+            </div>
+            
+                
+            
+
+            <div class="post-footer">
+                <!-- 发布时间 -->
+                <div class="post-meta">
+                    <span class="post-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>发表于</span>
+                        <span>2021-03-02</span>
+                    </span>
+                </div>
+                <!-- 标签 -->
+                
+                    <div class="post-tag">
+                        <span>
+                            <i class="fa fa-tag"></i>
+                             
+                            <span>
+                                <a href="tags/ACM-CONFD/">
+                                    <span>ACM - CONFD</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+                <!-- 分类 -->
+                
+                    <div class="post-categorie">
+                        <span>
+                            <i class="fas fa-folder-open"></i>
+                             
+                            <span>
+                                <a href="categories/安装教程/">
+                                    <span>安装教程</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+            </div>
+        </div>
+
+
+
+
+	
+        <div class="post-item">
+            <div class="post-title">
+                <h2><a href="/2021/02/23/LVM/">LVM 操作简要</a></h2>
+            </div>
+            <div class="post-description">
+                <p style="-webkit-line-clamp: 3">
+                    
+                    LVM 操作简要
+lvm安装
+
+yum install lvm2
+如果安装不上 先更新yum update 简历缓存 yum makecache 然后在安装
+
+
+磁盘分区
+
+fdisk -l 查看磁盘情况
+fdisk /dev/sdx 选择要分区的磁盘
+然后 n 创建新分区，输入 p 选择主分区， 回车回车 默认选择分区1 全部大小
+然后 t 更改分区类型， 输入 8e ， 是linux lvm的分区类型， 可是使用 l 查看所有的分区类型
+然后 w 保存 更改
+
+
+开始创建 pv（物理卷）
+
+pvcreate /dev/sdx 如果有多个磁盘 可以 pvcreate /dev/sd{a,b,c,d}1 ,全部创建成 pv物理磁盘
+然后 使用pvs 查看pv 情况，pvdisplay 查看详细信息
+
+
+创建vg （卷组）
+
+vgcreate vgname(卷组的名字) /dev/sdx #要把那些磁盘设置成一个卷组
+完成以后使用 vgs 查看分组情况，vgdisplay 查看详细情况
+
+
+创建lv （分区）
+
+lvcreate -L 100M -n lv1 vgname   # -L 
+                </p>
+            </div>
+            
+                
+            
+
+            <div class="post-footer">
+                <!-- 发布时间 -->
+                <div class="post-meta">
+                    <span class="post-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>发表于</span>
+                        <span>2021-02-23</span>
+                    </span>
+                </div>
+                <!-- 标签 -->
+                
+                    <div class="post-tag">
+                        <span>
+                            <i class="fa fa-tag"></i>
+                             
+                            <span>
+                                <a href="tags/lvm/">
+                                    <span>lvm</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+                <!-- 分类 -->
+                
+                    <div class="post-categorie">
+                        <span>
+                            <i class="fas fa-folder-open"></i>
+                             
+                            <span>
+                                <a href="categories/lvm/">
+                                    <span>lvm</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+            </div>
+        </div>
+
+
+
+
+	
+        <div class="post-item">
+            <div class="post-title">
+                <h2><a href="/2021/02/23/%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2/">gitlab-ansible-jenkins 安装</a></h2>
+            </div>
+            <div class="post-description">
+                <p style="-webkit-line-clamp: 3">
+                    
+                    交付 + [ 版本控制 - 持续集成工具 - 部署工具 ] = 持续交付版本控制系统
+gitlab github
+
+持续集成工具
+Jenkins
+
+部署工具
+Ansible Saltstack Chef
+
+
+Gitlab
+Gitlab是一个开源分布式版本控制系统
+开发语言 Ruby
+功能: 管理项目源代码,版本控制,代码复用与查找
+
+Gitlab安装
+依赖安装
+
+关闭firewalld 关闭selinux
+安装依赖 : yum -y install policycoreutils openssh-server openssh-clients postfix
+开启邮件服务: systemctl enable postfix &amp;&amp; systemctl start postfix
+
+
+gitlab-ce安装
+
+shell方式安装 :1curl -s https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+源方式安装:1234[gitlab-ce] n
+                </p>
+            </div>
+            
+                
+            
+
+            <div class="post-footer">
+                <!-- 发布时间 -->
+                <div class="post-meta">
+                    <span class="post-date">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>发表于</span>
+                        <span>2021-02-23</span>
+                    </span>
+                </div>
+                <!-- 标签 -->
+                
+                    <div class="post-tag">
+                        <span>
+                            <i class="fa fa-tag"></i>
+                             
+                            <span>
+                                <a href="tags/CI-CD/">
+                                    <span>CI/CD</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+                <!-- 分类 -->
+                
+                    <div class="post-categorie">
+                        <span>
+                            <i class="fas fa-folder-open"></i>
+                             
+                            <span>
+                                <a href="categories/安装教程/">
+                                    <span>安装教程</span>
+                                </a>
+                                
+                            </span>
+                            
+                        </span>
+                    </div>
+                
+            </div>
+        </div>
+
+
+
+
+
+    <div class="pagination">
+        <a class="extend prev" rel="prev" href="/"><i class='fas fa-chevron-left fa-fw'></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class='fas fa-chevron-right fa-fw'></i></a>
+    </div>
+
+
+            </main>
+        </div>
+        
+        
+            <div id="toc" style="display: none;"></div>
+        
+        
+        
+    </div>
+    <img id="up" src="https://cdn.jsdelivr.net/gh/lete114/CDN/Use/up.gif" alt="回到顶部">
+    <footer class="footer" id="footer">
+    <div class="copyright">
+        
+      &copy; 2020 - 2021
+        <i class="fas fa-fan"></i>
+        Natsu-ten
+    </div>
+    <div class="framework-info">
+        <span>框架 </span>
+        <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="footer-separator">|</span>
+        <span>主题 </span>
+        <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典) </a>
+    </div>
+    
+    
+    <div class="custom-text">干啥啥不行,吃饭第一名.学也也不会,学了也白学！！</div>
+</footer>   
+    
+<script data-pjax id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+<script data-pjax src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="/js/main.js"></script>
+
+    
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script>
+        var pjax = new Pjax({
+            selectors: [
+                "head title",
+                "main.content",
+                "#toc"
+            ],
+            cache: true,
+            cacheBust: false
+        });
+        
+            
+                function LoadTwikoo(){
+                    
+                    $.getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){ 
+                    initData = {
+                        el: '#tcomment',
+                        envId: 'twikoo-3gwreqi0e4d4875e',
+                        region: 'ap-shanghai',
+                        path: 'window.location.pathname',
+                    }
+                    var option = false;
+                    if(option){
+                        initData = Object.assign(initData, option)
+                    }
+                    twikoo.init(initData);
+                    })
+                }
+            
+        
+        
+        // MathJax
+        function MathJaxFn(){
+            MathJax = {
+                loader: {
+                    source: {
+                        '[tex]/amsCd': '[tex]/amscd'
+                    }
+                },
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        }
+        
+        function LoadShare(){
+                var $config = {
+                sites   : "facebook,qq,weibo,wechat,twitter".split(","),
+                wechatQrcodeTitle: "微信扫一扫：分享",
+                wechatQrcodeHelper: "立即下载发送专属二维码,邀请朋友加入",
+            };
+            socialShare('.social-share', $config);
+        }
+
+        function LoadFancybox(){
+            $(".post-content img").each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "images");
+                $(element).attr("href", $(this).attr("src"));
+                $(this).wrap(element);
+            });
+
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                loop: true,
+                transitionEffect: 'slide',
+                protect: true,
+                buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
+                hash: false
+            });
+        }
+
+        
+        MathJaxFn();
+        
+        LoadShare();
+        LoadFancybox();
+
+        
+            
+                LoadTwikoo();
+            
+        
+
+        
+
+        // 开始 PJAX 执行的函数
+		document.addEventListener('pjax:send', function () {
+
+            // 设置初始进度
+            var progress = 10;
+            // 创建进度条 及 css样式
+            $("body").append("<div class='progress'></div>")
+
+            // 定义随机数最大值最小值
+            var max=10,mini=3;
+            var result=max-mini;
+            
+            // 清除
+            clearInterval(timer);
+            // 0.5秒内累加进度
+            timer = setInterval(function(){
+                // 随机数
+                var num = parseInt(Math.random()*result);
+                var randomResult = num+mini;
+                // 累加
+                progress+=randomResult
+                $("body .progress").css("width",progress+"%")
+                // 当进度达到95%时停止
+                if(progress>95)progress=95
+            },500)
+        });
+        
+        
+        // 清除时间
+        var timer = null;
+
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+		document.addEventListener('pjax:complete', function () {
+            
+                
+                    LoadTwikoo();
+                
+            
+            clearInterval(timer);
+            // 页面加载完毕后进度100% 并在0.7秒后删除
+            $("body .progress").css("width","100%")
+            timer = setTimeout(function () {
+                $("body .progress").remove();
+            }, 700);
+
+            // 手机端导航栏跳转关闭
+            $("#mobileNav").css("opacity", "0")
+            $("#mobileNav").removeClass("open")
+            $("#mask").removeClass("mask")
+
+            // 手机端搜索框关闭
+            $("#local-search").css("display", "none")
+
+            // 接触滚动
+            $("html").css("overflow", "auto")
+
+            // 当鼠标移动到代码块上时执行
+            $(".highlight-wrap").hover(
+                function() {
+                    // 移除其他代码块的 CopyContent 属性
+                    $("[CopyContent]").removeAttr("CopyContent");
+                    // 在当前鼠标所在的元素下的 .code 元素上添加 CopyContent属性
+                    $(this).find(".code").attr("CopyContent", "");
+                }
+            );
+
+            
+            
+            MathJaxFn();
+            
+            LoadShare();
+            LoadFancybox();
+            
+            
+            document.querySelectorAll('script[data-pjax]').forEach(item => {
+                const newScript = document.createElement('script')
+                const content = item.text || item.textContent || item.innerHTML || ""
+                Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+                newScript.appendChild(document.createTextNode(content))
+                item.parentNode.replaceChild(newScript, item)
+            })
+        });
+    </script>
+    
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

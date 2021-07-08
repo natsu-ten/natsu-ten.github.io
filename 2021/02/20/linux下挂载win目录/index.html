@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="zh-CN">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<title>linux下挂载win目录 | Natsu-ten</title>
+<link rel="icon" href="/img/img1.jpg">
+<meta name="keywords" content="linux">
+<meta name="description" content="windows设置共享目录
+共享注意事项
+
+网络共享中心 | [启用]公用文件共享 | [关闭]密码保护的共享
+关闭windows防火墙
+如果用来宾账户,记得启动guest用户
+建议添加 Everyone 用户
+
+linux下使用mount命令挂载即可123$ mount -t cifs -o username=username(用户名),password=（密码）//192.168.1.1/f /tmp/win$ 例: mount -t cifs -o username=Everyone //192.168.249.75/ftp /tmp/win
+/tmp/win 目标目录 需提前创建 mkidr -p /tmp/win
+
+//192.168.249.75/ftp ftp: 共享的目录
+
+-t : 指定挂载文件类型
+
+cifs : 挂载通用网际文件系统
+取消挂载1umount /tmp/win
+samba方式
+smbclient命令不存在,使用 yum  provides smbclient 查看smbclient在那个包, yum install samba-client安装即可
+" />
+<meta property="site_name" content="Natsu-ten" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tutuu.top/2021/02/20/linux下挂载win目录/">
+<meta property="og:title" content="linux下挂载win目录 | Natsu-ten" />
+<meta property="og:site_name" content="Natsu-ten" />
+<meta property="og:description" content="windows设置共享目录
+共享注意事项
+
+网络共享中心 | [启用]公用文件共享 | [关闭]密码保护的共享
+关闭windows防火墙
+如果用来宾账户,记得启动guest用户
+建议添加 Everyone 用户
+
+linux下使用mount命令挂载即可123$ mount -t cifs -o username=username(用户名),password=（密码）//192.168.1.1/f /tmp/win$ 例: mount -t cifs -o username=Everyone //192.168.249.75/ftp /tmp/win
+/tmp/win 目标目录 需提前创建 mkidr -p /tmp/win
+
+//192.168.249.75/ftp ftp: 共享的目录
+
+-t : 指定挂载文件类型
+
+cifs : 挂载通用网际文件系统
+取消挂载1umount /tmp/win
+samba方式
+smbclient命令不存在,使用 yum  provides smbclient 查看smbclient在那个包, yum install samba-client安装即可
+" />
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux下挂载win目录 | Natsu-ten">
+<meta name="twitter:description" content="windows设置共享目录
+共享注意事项
+
+网络共享中心 | [启用]公用文件共享 | [关闭]密码保护的共享
+关闭windows防火墙
+如果用来宾账户,记得启动guest用户
+建议添加 Everyone 用户
+
+linux下使用mount命令挂载即可123$ mount -t cifs -o username=username(用户名),password=（密码）//192.168.1.1/f /tmp/win$ 例: mount -t cifs -o username=Everyone //192.168.249.75/ftp /tmp/win
+/tmp/win 目标目录 需提前创建 mkidr -p /tmp/win
+
+//192.168.249.75/ftp ftp: 共享的目录
+
+-t : 指定挂载文件类型
+
+cifs : 挂载通用网际文件系统
+取消挂载1umount /tmp/win
+samba方式
+smbclient命令不存在,使用 yum  provides smbclient 查看smbclient在那个包, yum install samba-client安装即可
+">
+<link rel="dns-prefetch" href="https://tutuu.top/2021/02/20/linux下挂载win目录/">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/index.css">
+
+
+     
+    
+   
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body id="body">
+    <div id="mask"></div>
+    
+<script type="text/javascript">$.getScript('/js/search.js',function(){searchFunc('/search.xml', 'local-search-input', 'local-search-result') })</script>
+<div class="search-dialog" id="local-search">
+    <div id="local-search-title">本地搜索</div>
+    <input id="local-search-input" placeholder="搜索文章" type="text" >
+    <hr>
+    <div id="local-search-result">
+        <div id="local-hits"></div>
+    </div>
+    <span class="search-close-button"><i class="fas fa-times"></i></span>
+</div>
+
+    
+
+  
+    <div style="display: flex;">
+        <div id="body-wrap">
+            <nav class="site_nav" id="site_nav">
+    <i id="openNav" class="fas fa-bars"></i>
+    
+    <i class="fas fa-search search-btn"></i>
+    
+    <div id="mobileNav">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <ul>
+        
+            <li><a href="/">首页</a></li>
+        
+            <li><a href="/tags">标签</a></li>
+        
+            <li><a href="/categories">分类</a></li>
+        
+            <li><a href="/archives">归档</a></li>
+        
+            <li><a href="/link">友情链接</a></li>
+        
+            <li><a href="/about">关于我</a></li>
+        
+        </ul>
+    </div>
+    <ul>
+    
+        <li><a href="/">首页</a></li>
+    
+        <li><a href="/tags">标签</a></li>
+    
+        <li><a href="/categories">分类</a></li>
+    
+        <li><a href="/archives">归档</a></li>
+    
+        <li><a href="/link">友情链接</a></li>
+    
+        <li><a href="/about">关于我</a></li>
+    
+    </ul>
+</nav>
+            <header>
+    <div class="card-content">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+        </div>
+        <div id="description" class="description">
+            <p>一个废物博主!!</p>
+            <div class="social-icon">
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/natsu-ten"><i class="fab fa-github"></i></a>
+                
+                    <a href="mailto:743856137@qq.com"><i class="fa fa-envelope"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+            <main class="content">
+                
+    
+        <article class="post">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+            
+            <div class="post-title">
+              <h2 class="title">linux下挂载win目录</h2>
+            </div>
+             
+             <div class="post-meta">
+                <div class="meta-firstline">
+                    <span class="post-meta-date">
+                        <i class="far fa-calendar-alt fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">发表于 2021-02-20 | </span>
+                        
+                        <i class="fas fa-history fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">更新于 2021-07-08</span>
+                    </span>
+                </div>
+                <div class="meta-secondline"> 
+                    <span class="post-meta-wordcount">
+                        <i class="far fa-file-word fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">总字数:</span>
+                        <span class="word-count">229 | </span>
+                        <i class="far fa-clock fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">阅读时长:</span>
+                        <span>1分钟 | </span>
+                        <i class="far fa-eye fa-fw post-meta-icon"></i>
+                        <span id="/2021/02/20/linux%E4%B8%8B%E6%8C%82%E8%BD%BDwin%E7%9B%AE%E5%BD%95/" class="leancloud_visitors">
+                            <span class="post-meta-label">阅读量:</span>
+                            <span class="leancloud-visitors-count" id="twikoo_visitors">0</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+             
+            <div class="post-content">
+                <h2 id="windows设置共享目录"><a href="#windows设置共享目录" class="headerlink" title="windows设置共享目录"></a>windows设置共享目录</h2><ul>
+<li><p><strong><code>共享注意事项</code></strong></p>
+<ol>
+<li><code>网络共享中心 | [启用]公用文件共享 | [关闭]密码保护的共享</code></li>
+<li><code>关闭windows防火墙</code></li>
+<li><code>如果用来宾账户,记得启动guest用户</code></li>
+<li><code>建议添加 Everyone 用户</code></li>
+</ol>
+<h2 id="linux下使用mount命令挂载即可"><a href="#linux下使用mount命令挂载即可" class="headerlink" title="linux下使用mount命令挂载即可"></a>linux下使用mount命令挂载即可</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mount -t cifs -o username=username(用户名),password=（密码）//192.168.1.1/f /tmp/win</span><br><span class="line"></span><br><span class="line">$ 例: mount -t cifs -o username=Everyone //192.168.249.75/ftp /tmp/win</span><br></pre></td></tr></table></figure></div></li>
+<li><p><code>/tmp/win</code> 目标目录 需提前创建 <code>mkidr -p /tmp/win</code></p>
+</li>
+<li><p>//192.168.249.75/ftp ftp: 共享的目录</p>
+</li>
+<li><p>-t : 指定挂载文件类型</p>
+</li>
+<li><p>cifs : 挂载通用网际文件系统</p>
+<h2 id="取消挂载"><a href="#取消挂载" class="headerlink" title="取消挂载"></a>取消挂载</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="false"data-rel="Bash"><span class="clipboard"><i class="fa fa-clipboard"></i></span><figure class="iseeu highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">umount /tmp/win</span><br></pre></td></tr></table></figure></div>
+<h2 id="samba方式"><a href="#samba方式" class="headerlink" title="samba方式"></a>samba方式</h2></li>
+<li><p>smbclient命令不存在,使用 <code>yum  provides smbclient</code> 查看smbclient在那个包, yum install samba-client安装即可</p>
+</li>
+<li><p>smbclient -L 192.168.1.1 -U username 查看当前ip下这个用户的共享目录；</p>
+</li>
+<li><p>也可以使用samba链接命令： smblicent //192.168.2.2/f -U username</p>
+</li>
+</ul>
+
+            </div>
+            
+            <!--版权-->
+
+    
+    <div class="post-copyright">
+      <div class="post-copyright-icon"><a></a></div>
+        <div class="post-copyright__author">
+            <span class="post-copyright-meta">文章作者: </span>
+              <span class="post-copyright-info">
+                <a href="mailto:743856137@qq.com" one-link-mark="yes">Natsu-ten</a>
+              </span>
+        </div>
+        <div class="post-copyright__type">
+            <span class="post-copyright-meta">文章链接: </span>
+              <span class="post-copyright-info">
+                <a href="https://tutuu.top/2021/02/20/linux下挂载win目录/" one-link-mark="yes">https://tutuu.top/2021/02/20/linux下挂载win目录/</a>
+              </span>
+        </div><div class="post-copyright__notice">
+            <span class="post-copyright-meta">版权声明: </span>
+              <span class="post-copyright-info">本博客所有文章除特别声明外，均采用
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" one-link-mark="yes">
+                    CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自
+                <a href="https://tutuu.top" target="_blank" one-link-mark="yes">Natsu-ten</a>
+                ！</span>
+        </div>
+    </div>
+    
+
+            
+            
+            <div class="post-tag">
+                <span>
+                    <i class="fa fa-tag"></i>
+                     
+                    <a href="tags/linux/"><span>linux</span></a>
+                        
+                    
+                </span>
+            </div>
+
+            
+
+            
+            <div class="social-share"></div>
+
+            
+
+
+<div class="post-reward">
+    <div class="reward-button" >
+         赏
+         <div class="reward-main">
+            <ul class="reward-all">
+                <li class="reward-item"><a href="/img/wzf.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="微信"
+                            src="/img/wzf.png"></a>
+                    <div class="post-qr-code-desc">微信</div>
+                </li>
+                <li class="reward-item"><a href="/img/zfb.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="支付宝"
+                            src="/img/zfb.png"></a>
+                    <div class="post-qr-code-desc">支付宝</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+            
+        </article>
+        
+        
+        <style>
+            #body-wrap{
+                margin: 60px 0; 
+                margin-left: 300px;
+            }
+            
+            @media screen and (max-width: 1400px){
+                #body-wrap{
+                    margin: 60px 0;
+                    margin-left: 150px
+                }
+            }
+
+            @media screen and (max-width: 1300px){ 
+                #body-wrap{
+                    margin: 60px 0;
+                    margin-left: 60px
+                }
+            }
+            @media screen and (max-width: 1200px){
+                #toc{
+                    margin: 60px 10px 0
+                }
+                #body-wrap{
+                    margin: 60px 0 0 2%
+                }
+            }
+            @media screen and (max-width: 1100px){
+                .comment-head{
+                    padding: 0 20px 0 20px    
+                }
+            }
+            @media screen and (max-width: 1000px){
+                #toc{
+                    display: none;
+                    height: 250px ;
+                    position: fixed ;
+                    right: 35px;
+                    bottom: 30px ;
+                    top: 48%;
+                    z-index: 1000 ;
+                    width: 280px ;
+                    background: rgba(255,255,255,.9) ;
+                    margin: 0
+                }
+                .toc{
+                    max-height: 180px !important
+                }
+                #body-wrap{
+                    margin: 60px auto 
+                }
+                .rightside-toc{
+                    display: inline-block !important
+                }
+            }
+
+            
+            @media screen and (max-width: 800px){
+                .comment-head{
+                    padding: 0 20px 30px 20px 
+                }
+            }
+
+            @media screen and (max-width: 600px){
+                .social-share {
+                    text-align: center;
+                    float: none;
+                    margin: 0
+                }
+            }
+        </style>
+        
+        
+        
+        <script>
+            
+            setInterval(function(){
+                if(document.body.clientWidth < 800){
+                    $('img#up').remove();
+                }
+            },0)
+            
+        </script>
+        
+        <section id="rightside">
+            <div id="rightside-item">
+                <a class="rightside-toc" title="目录">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                <a href="#直达评论" title="直达评论">
+                    <i class="fas fa-comments"></i>
+                </a>
+                
+                <a href="#body" title="回到顶部">
+                    <i class="fas fa-arrow-up"></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="pagination">
+            
+            <a href="/2021/02/20/Mac%20OS%E4%B8%8B%20MAMP%E4%B8%8E%E7%B3%BB%E7%BB%9F%E8%87%AA%E5%B8%A6php%E5%85%B1%E5%AD%98/" class="page-pre">
+                <i class="fas fa-arrow-alt-circle-left"></i>
+                Mac OS下 MAMP与系统自带php共存
+            </a>
+            
+            
+            
+            <a href="/2021/02/20/Ubuntu%20%E4%B8%8B%E5%AE%89%E8%A3%85%E5%BE%AE%E4%BF%A1%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7/" class="page-next">
+                ubuntu下安装微信开发者工具
+                <i class="fas fa-arrow-alt-circle-right"></i>
+            </a>
+            
+        </div>
+        
+            
+            <hr>
+            <section id="rightside">
+                <div id="rightside-item">
+                    <a href="#直达评论" title="直达评论">
+                        <i class="fas fa-comments"></i>
+                    </a>
+                    <a href="#body" title="回到顶部">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
+            </section>
+            <div class="comment-head" id="直达评论">
+                <div class="comment-headline">
+                    <i class="fas fa-comments fa-fw"></i>
+                    <span>评论</span>
+                </div>
+                
+                    
+<div id="tcomment"></div>
+
+                
+            </div>
+            
+        
+    
+
+
+
+            </main>
+        </div>
+        
+        
+            
+            <div id="toc">
+                <div id="toc-title">
+                    <h4>目录
+                        <span id="num">0%</span>
+                    </h4>
+                    <progress id="progress" value="0" max="100"></progress>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#windows%E8%AE%BE%E7%BD%AE%E5%85%B1%E4%BA%AB%E7%9B%AE%E5%BD%95"><span class="toc-text">windows设置共享目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#linux%E4%B8%8B%E4%BD%BF%E7%94%A8mount%E5%91%BD%E4%BB%A4%E6%8C%82%E8%BD%BD%E5%8D%B3%E5%8F%AF"><span class="toc-text">linux下使用mount命令挂载即可</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E6%B6%88%E6%8C%82%E8%BD%BD"><span class="toc-text">取消挂载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#samba%E6%96%B9%E5%BC%8F"><span class="toc-text">samba方式</span></a></li></ol>
+            </div>
+            
+        
+        
+        
+    </div>
+    <img id="up" src="https://cdn.jsdelivr.net/gh/lete114/CDN/Use/up.gif" alt="回到顶部">
+    <footer class="footer" id="footer">
+    <div class="copyright">
+        
+      &copy; 2020 - 2021
+        <i class="fas fa-fan"></i>
+        Natsu-ten
+    </div>
+    <div class="framework-info">
+        <span>框架 </span>
+        <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="footer-separator">|</span>
+        <span>主题 </span>
+        <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典) </a>
+    </div>
+    
+    
+    <div class="custom-text">干啥啥不行,吃饭第一名.学也也不会,学了也白学！！</div>
+</footer>   
+    
+<script data-pjax id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+<script data-pjax src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="/js/main.js"></script>
+
+    
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script>
+        var pjax = new Pjax({
+            selectors: [
+                "head title",
+                "main.content",
+                "#toc"
+            ],
+            cache: true,
+            cacheBust: false
+        });
+        
+            
+                function LoadTwikoo(){
+                    
+                    $.getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){ 
+                    initData = {
+                        el: '#tcomment',
+                        envId: 'twikoo-3gwreqi0e4d4875e',
+                        region: 'ap-shanghai',
+                        path: 'window.location.pathname',
+                    }
+                    var option = false;
+                    if(option){
+                        initData = Object.assign(initData, option)
+                    }
+                    twikoo.init(initData);
+                    })
+                }
+            
+        
+        
+        // MathJax
+        function MathJaxFn(){
+            MathJax = {
+                loader: {
+                    source: {
+                        '[tex]/amsCd': '[tex]/amscd'
+                    }
+                },
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        }
+        
+        function LoadShare(){
+                var $config = {
+                sites   : "facebook,qq,weibo,wechat,twitter".split(","),
+                wechatQrcodeTitle: "微信扫一扫：分享",
+                wechatQrcodeHelper: "立即下载发送专属二维码,邀请朋友加入",
+            };
+            socialShare('.social-share', $config);
+        }
+
+        function LoadFancybox(){
+            $(".post-content img").each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "images");
+                $(element).attr("href", $(this).attr("src"));
+                $(this).wrap(element);
+            });
+
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                loop: true,
+                transitionEffect: 'slide',
+                protect: true,
+                buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
+                hash: false
+            });
+        }
+
+        
+        MathJaxFn();
+        
+        LoadShare();
+        LoadFancybox();
+
+        
+            
+                LoadTwikoo();
+            
+        
+
+        
+
+        // 开始 PJAX 执行的函数
+		document.addEventListener('pjax:send', function () {
+
+            // 设置初始进度
+            var progress = 10;
+            // 创建进度条 及 css样式
+            $("body").append("<div class='progress'></div>")
+
+            // 定义随机数最大值最小值
+            var max=10,mini=3;
+            var result=max-mini;
+            
+            // 清除
+            clearInterval(timer);
+            // 0.5秒内累加进度
+            timer = setInterval(function(){
+                // 随机数
+                var num = parseInt(Math.random()*result);
+                var randomResult = num+mini;
+                // 累加
+                progress+=randomResult
+                $("body .progress").css("width",progress+"%")
+                // 当进度达到95%时停止
+                if(progress>95)progress=95
+            },500)
+        });
+        
+        
+        // 清除时间
+        var timer = null;
+
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+		document.addEventListener('pjax:complete', function () {
+            
+                
+                    LoadTwikoo();
+                
+            
+            clearInterval(timer);
+            // 页面加载完毕后进度100% 并在0.7秒后删除
+            $("body .progress").css("width","100%")
+            timer = setTimeout(function () {
+                $("body .progress").remove();
+            }, 700);
+
+            // 手机端导航栏跳转关闭
+            $("#mobileNav").css("opacity", "0")
+            $("#mobileNav").removeClass("open")
+            $("#mask").removeClass("mask")
+
+            // 手机端搜索框关闭
+            $("#local-search").css("display", "none")
+
+            // 接触滚动
+            $("html").css("overflow", "auto")
+
+            // 当鼠标移动到代码块上时执行
+            $(".highlight-wrap").hover(
+                function() {
+                    // 移除其他代码块的 CopyContent 属性
+                    $("[CopyContent]").removeAttr("CopyContent");
+                    // 在当前鼠标所在的元素下的 .code 元素上添加 CopyContent属性
+                    $(this).find(".code").attr("CopyContent", "");
+                }
+            );
+
+            
+            
+            MathJaxFn();
+            
+            LoadShare();
+            LoadFancybox();
+            
+            
+            document.querySelectorAll('script[data-pjax]').forEach(item => {
+                const newScript = document.createElement('script')
+                const content = item.text || item.textContent || item.innerHTML || ""
+                Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+                newScript.appendChild(document.createTextNode(content))
+                item.parentNode.replaceChild(newScript, item)
+            })
+        });
+    </script>
+    
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

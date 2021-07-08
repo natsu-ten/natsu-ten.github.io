@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    
+<meta charset="utf-8">
+<meta http-equiv="content-language" content="zh-CN">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+<title>centos7-关闭ipv6 | Natsu-ten</title>
+<link rel="icon" href="/img/img1.jpg">
+<meta name="keywords" content="教程">
+<meta name="description" content="1.在/etc/sysctl.conf中添加此规则：net.ipv6.conf.all.disable_ipv6 = 1
+2.在/etc/sysconfig/network中添加此规则：NETWORKING_IPV6 = no
+3.在/etc/sysconfig/network-scripts/ifcfg-ethX中添加此规则：IPV6INIT = no
+4.关闭防火墙的开机自启动服务：systemctl disable ip6tables.service
+5.重新加载sysctl配置或者重启网络#sysctl -por#systemctl restart network
+" />
+<meta property="site_name" content="Natsu-ten" />
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tutuu.top/2021/05/10/centos7-关闭ipv6/">
+<meta property="og:title" content="centos7-关闭ipv6 | Natsu-ten" />
+<meta property="og:site_name" content="Natsu-ten" />
+<meta property="og:description" content="1.在/etc/sysctl.conf中添加此规则：net.ipv6.conf.all.disable_ipv6 = 1
+2.在/etc/sysconfig/network中添加此规则：NETWORKING_IPV6 = no
+3.在/etc/sysconfig/network-scripts/ifcfg-ethX中添加此规则：IPV6INIT = no
+4.关闭防火墙的开机自启动服务：systemctl disable ip6tables.service
+5.重新加载sysctl配置或者重启网络#sysctl -por#systemctl restart network
+" />
+<meta property="og:locale" content="zh-CN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="centos7-关闭ipv6 | Natsu-ten">
+<meta name="twitter:description" content="1.在/etc/sysctl.conf中添加此规则：net.ipv6.conf.all.disable_ipv6 = 1
+2.在/etc/sysconfig/network中添加此规则：NETWORKING_IPV6 = no
+3.在/etc/sysconfig/network-scripts/ifcfg-ethX中添加此规则：IPV6INIT = no
+4.关闭防火墙的开机自启动服务：systemctl disable ip6tables.service
+5.重新加载sysctl配置或者重启网络#sysctl -por#systemctl restart network
+">
+<link rel="dns-prefetch" href="https://tutuu.top/2021/05/10/centos7-关闭ipv6/">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/index.css">
+
+
+     
+    
+   
+<meta name="generator" content="Hexo 5.3.0"></head>
+<body id="body">
+    <div id="mask"></div>
+    
+<script type="text/javascript">$.getScript('/js/search.js',function(){searchFunc('/search.xml', 'local-search-input', 'local-search-result') })</script>
+<div class="search-dialog" id="local-search">
+    <div id="local-search-title">本地搜索</div>
+    <input id="local-search-input" placeholder="搜索文章" type="text" >
+    <hr>
+    <div id="local-search-result">
+        <div id="local-hits"></div>
+    </div>
+    <span class="search-close-button"><i class="fas fa-times"></i></span>
+</div>
+
+    
+
+  
+    <div style="display: flex;">
+        <div id="body-wrap">
+            <nav class="site_nav" id="site_nav">
+    <i id="openNav" class="fas fa-bars"></i>
+    
+    <i class="fas fa-search search-btn"></i>
+    
+    <div id="mobileNav">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+            <hr>
+        </div>
+        <ul>
+        
+            <li><a href="/">首页</a></li>
+        
+            <li><a href="/tags">标签</a></li>
+        
+            <li><a href="/categories">分类</a></li>
+        
+            <li><a href="/archives">归档</a></li>
+        
+            <li><a href="/link">友情链接</a></li>
+        
+            <li><a href="/about">关于我</a></li>
+        
+        </ul>
+    </div>
+    <ul>
+    
+        <li><a href="/">首页</a></li>
+    
+        <li><a href="/tags">标签</a></li>
+    
+        <li><a href="/categories">分类</a></li>
+    
+        <li><a href="/archives">归档</a></li>
+    
+        <li><a href="/link">友情链接</a></li>
+    
+        <li><a href="/about">关于我</a></li>
+    
+    </ul>
+</nav>
+            <header>
+    <div class="card-content">
+        <div class="author-info">
+            <div>
+                <a href="/">
+                    <img src="/img/img1.jpg" alt="Natsu-ten" class="avatar">
+                    <div class="author">Natsu-ten</div>
+                </a>
+            </div>
+        </div>
+        <div id="description" class="description">
+            <p>一个废物博主!!</p>
+            <div class="social-icon">
+                
+                    <a target="_blank" rel="noopener" href="https://github.com/natsu-ten"><i class="fab fa-github"></i></a>
+                
+                    <a href="mailto:743856137@qq.com"><i class="fa fa-envelope"></i></a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+            <main class="content">
+                
+    
+        <article class="post">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css"/>
+            
+            <div class="post-title">
+              <h2 class="title">centos7-关闭ipv6</h2>
+            </div>
+             
+             <div class="post-meta">
+                <div class="meta-firstline">
+                    <span class="post-meta-date">
+                        <i class="far fa-calendar-alt fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">发表于 2021-05-10 | </span>
+                        
+                        <i class="fas fa-history fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">更新于 2021-07-08</span>
+                    </span>
+                </div>
+                <div class="meta-secondline"> 
+                    <span class="post-meta-wordcount">
+                        <i class="far fa-file-word fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">总字数:</span>
+                        <span class="word-count">83 | </span>
+                        <i class="far fa-clock fa-fw post-meta-icon"></i>
+                        <span class="post-meta-label">阅读时长:</span>
+                        <span>1分钟 | </span>
+                        <i class="far fa-eye fa-fw post-meta-icon"></i>
+                        <span id="/2021/05/10/centos7-%E5%85%B3%E9%97%ADipv6/" class="leancloud_visitors">
+                            <span class="post-meta-label">阅读量:</span>
+                            <span class="leancloud-visitors-count" id="twikoo_visitors">0</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
+             
+            <div class="post-content">
+                <p>1.在/etc/sysctl.conf中添加此规则：<br>net.ipv6.conf.all.disable_ipv6 = 1</p>
+<p>2.在/etc/sysconfig/network中添加此规则：<br>NETWORKING_IPV6 = no</p>
+<p>3.在/etc/sysconfig/network-scripts/ifcfg-ethX中添加此规则：<br>IPV6INIT = no</p>
+<p>4.关闭防火墙的开机自启动服务：<br>systemctl disable ip6tables.service</p>
+<p>5.重新加载sysctl配置或者重启网络<br>#sysctl -p<br>or<br>#systemctl restart network</p>
+
+            </div>
+            
+            <!--版权-->
+
+    
+    <div class="post-copyright">
+      <div class="post-copyright-icon"><a></a></div>
+        <div class="post-copyright__author">
+            <span class="post-copyright-meta">文章作者: </span>
+              <span class="post-copyright-info">
+                <a href="mailto:743856137@qq.com" one-link-mark="yes">Natsu-ten</a>
+              </span>
+        </div>
+        <div class="post-copyright__type">
+            <span class="post-copyright-meta">文章链接: </span>
+              <span class="post-copyright-info">
+                <a href="https://tutuu.top/2021/05/10/centos7-关闭ipv6/" one-link-mark="yes">https://tutuu.top/2021/05/10/centos7-关闭ipv6/</a>
+              </span>
+        </div><div class="post-copyright__notice">
+            <span class="post-copyright-meta">版权声明: </span>
+              <span class="post-copyright-info">本博客所有文章除特别声明外，均采用
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" one-link-mark="yes">
+                    CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自
+                <a href="https://tutuu.top" target="_blank" one-link-mark="yes">Natsu-ten</a>
+                ！</span>
+        </div>
+    </div>
+    
+
+            
+            
+            <div class="post-tag">
+                <span>
+                    <i class="fa fa-tag"></i>
+                     
+                    <a href="tags/教程/"><span>教程</span></a>
+                        
+                    
+                </span>
+            </div>
+
+            
+
+            
+            <div class="social-share"></div>
+
+            
+
+
+<div class="post-reward">
+    <div class="reward-button" >
+         赏
+         <div class="reward-main">
+            <ul class="reward-all">
+                <li class="reward-item"><a href="/img/wzf.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="微信"
+                            src="/img/wzf.png"></a>
+                    <div class="post-qr-code-desc">微信</div>
+                </li>
+                <li class="reward-item"><a href="/img/zfb.png"
+                        target="_blank">
+                        <img class="post-qr-code-img" alt="支付宝"
+                            src="/img/zfb.png"></a>
+                    <div class="post-qr-code-desc">支付宝</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+            
+        </article>
+        
+        
+        
+        
+        <script>
+            
+            setInterval(function(){
+                if(document.body.clientWidth < 800){
+                    $('img#up').remove();
+                }
+            },0)
+            
+        </script>
+        
+        <section id="rightside">
+            <div id="rightside-item">
+                <a class="rightside-toc" title="目录">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                <a href="#直达评论" title="直达评论">
+                    <i class="fas fa-comments"></i>
+                </a>
+                
+                <a href="#body" title="回到顶部">
+                    <i class="fas fa-arrow-up"></i>
+                </a>
+            </div>
+        </section>
+
+        <div class="pagination">
+            
+            <a href="/2021/05/25/SHELL%E5%8D%95%E5%BC%95%E5%8F%B7%E5%86%85%E8%A7%A3%E6%9E%90%E5%8F%98%E9%87%8F/" class="page-pre">
+                <i class="fas fa-arrow-alt-circle-left"></i>
+                shell 单引号内解析变量
+            </a>
+            
+            
+            
+            <a href="/2021/03/03/centos%20rename%20%E7%94%A8%E6%B3%95/" class="page-next">
+                centos rename 重命名用法
+                <i class="fas fa-arrow-alt-circle-right"></i>
+            </a>
+            
+        </div>
+        
+            
+            <hr>
+            <section id="rightside">
+                <div id="rightside-item">
+                    <a href="#直达评论" title="直达评论">
+                        <i class="fas fa-comments"></i>
+                    </a>
+                    <a href="#body" title="回到顶部">
+                        <i class="fas fa-arrow-up"></i>
+                    </a>
+                </div>
+            </section>
+            <div class="comment-head" id="直达评论">
+                <div class="comment-headline">
+                    <i class="fas fa-comments fa-fw"></i>
+                    <span>评论</span>
+                </div>
+                
+                    
+<div id="tcomment"></div>
+
+                
+            </div>
+            
+        
+    
+
+
+
+            </main>
+        </div>
+        
+        
+            
+                <div id="toc" style="display: none;"></div>
+            
+        
+        
+        
+    </div>
+    <img id="up" src="https://cdn.jsdelivr.net/gh/lete114/CDN/Use/up.gif" alt="回到顶部">
+    <footer class="footer" id="footer">
+    <div class="copyright">
+        
+      &copy; 2020 - 2021
+        <i class="fas fa-fan"></i>
+        Natsu-ten
+    </div>
+    <div class="framework-info">
+        <span>框架 </span>
+        <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="footer-separator">|</span>
+        <span>主题 </span>
+        <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典) </a>
+    </div>
+    
+    
+    <div class="custom-text">干啥啥不行,吃饭第一名.学也也不会,学了也白学！！</div>
+</footer>   
+    
+<script data-pjax id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+
+<script data-pjax src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script src="/js/main.js"></script>
+
+    
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script>
+        var pjax = new Pjax({
+            selectors: [
+                "head title",
+                "main.content",
+                "#toc"
+            ],
+            cache: true,
+            cacheBust: false
+        });
+        
+            
+                function LoadTwikoo(){
+                    
+                    $.getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){ 
+                    initData = {
+                        el: '#tcomment',
+                        envId: 'twikoo-3gwreqi0e4d4875e',
+                        region: 'ap-shanghai',
+                        path: 'window.location.pathname',
+                    }
+                    var option = false;
+                    if(option){
+                        initData = Object.assign(initData, option)
+                    }
+                    twikoo.init(initData);
+                    })
+                }
+            
+        
+        
+        // MathJax
+        function MathJaxFn(){
+            MathJax = {
+                loader: {
+                    source: {
+                        '[tex]/amsCd': '[tex]/amscd'
+                    }
+                },
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']]
+                }
+            };
+        }
+        
+        function LoadShare(){
+                var $config = {
+                sites   : "facebook,qq,weibo,wechat,twitter".split(","),
+                wechatQrcodeTitle: "微信扫一扫：分享",
+                wechatQrcodeHelper: "立即下载发送专属二维码,邀请朋友加入",
+            };
+            socialShare('.social-share', $config);
+        }
+
+        function LoadFancybox(){
+            $(".post-content img").each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "images");
+                $(element).attr("href", $(this).attr("src"));
+                $(this).wrap(element);
+            });
+
+            $().fancybox({
+                selector: '[data-fancybox="images"]',
+                loop: true,
+                transitionEffect: 'slide',
+                protect: true,
+                buttons: ['slideShow', 'fullScreen', 'thumbs', 'close'],
+                hash: false
+            });
+        }
+
+        
+        MathJaxFn();
+        
+        LoadShare();
+        LoadFancybox();
+
+        
+            
+                LoadTwikoo();
+            
+        
+
+        
+
+        // 开始 PJAX 执行的函数
+		document.addEventListener('pjax:send', function () {
+
+            // 设置初始进度
+            var progress = 10;
+            // 创建进度条 及 css样式
+            $("body").append("<div class='progress'></div>")
+
+            // 定义随机数最大值最小值
+            var max=10,mini=3;
+            var result=max-mini;
+            
+            // 清除
+            clearInterval(timer);
+            // 0.5秒内累加进度
+            timer = setInterval(function(){
+                // 随机数
+                var num = parseInt(Math.random()*result);
+                var randomResult = num+mini;
+                // 累加
+                progress+=randomResult
+                $("body .progress").css("width",progress+"%")
+                // 当进度达到95%时停止
+                if(progress>95)progress=95
+            },500)
+        });
+        
+        
+        // 清除时间
+        var timer = null;
+
+        // PJAX 完成之后执行的函数，可以和上面的重载放在一起
+		document.addEventListener('pjax:complete', function () {
+            
+                
+                    LoadTwikoo();
+                
+            
+            clearInterval(timer);
+            // 页面加载完毕后进度100% 并在0.7秒后删除
+            $("body .progress").css("width","100%")
+            timer = setTimeout(function () {
+                $("body .progress").remove();
+            }, 700);
+
+            // 手机端导航栏跳转关闭
+            $("#mobileNav").css("opacity", "0")
+            $("#mobileNav").removeClass("open")
+            $("#mask").removeClass("mask")
+
+            // 手机端搜索框关闭
+            $("#local-search").css("display", "none")
+
+            // 接触滚动
+            $("html").css("overflow", "auto")
+
+            // 当鼠标移动到代码块上时执行
+            $(".highlight-wrap").hover(
+                function() {
+                    // 移除其他代码块的 CopyContent 属性
+                    $("[CopyContent]").removeAttr("CopyContent");
+                    // 在当前鼠标所在的元素下的 .code 元素上添加 CopyContent属性
+                    $(this).find(".code").attr("CopyContent", "");
+                }
+            );
+
+            
+            
+            MathJaxFn();
+            
+            LoadShare();
+            LoadFancybox();
+            
+            
+            document.querySelectorAll('script[data-pjax]').forEach(item => {
+                const newScript = document.createElement('script')
+                const content = item.text || item.textContent || item.innerHTML || ""
+                Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+                newScript.appendChild(document.createTextNode(content))
+                item.parentNode.replaceChild(newScript, item)
+            })
+        });
+    </script>
+    
+    
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>
