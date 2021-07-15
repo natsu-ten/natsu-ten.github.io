@@ -234,10 +234,10 @@ lvcreate -L 100M -n lv1 vgname   # -L ">
                     <span class="post-meta-wordcount">
                         <i class="far fa-file-word fa-fw post-meta-icon"></i>
                         <span class="post-meta-label">总字数:</span>
-                        <span class="word-count">475 | </span>
+                        <span class="word-count">691 | </span>
                         <i class="far fa-clock fa-fw post-meta-icon"></i>
                         <span class="post-meta-label">阅读时长:</span>
-                        <span>1分钟 | </span>
+                        <span>2分钟 | </span>
                         <i class="far fa-eye fa-fw post-meta-icon"></i>
                         <span id="/2021/02/23/LVM/" class="leancloud_visitors">
                             <span class="post-meta-label">阅读量:</span>
@@ -310,6 +310,11 @@ lvcreate -L 100M -n lv1 vgname   # -L ">
 <li>lvremove /dev/mapper/vgname-lv</li>
 </ul>
 </li>
+<li><p>扩容pv</p>
+<ul>
+<li>pvresize -v /dev/vdb1  # -v pv绑定的磁盘</li>
+</ul>
+</li>
 <li><p>扩容vg</p>
 <ul>
 <li>vgextend vgname /dev/sdx  # vgxten 后面跟要扩容的卷组 + 那个pv要扩容 即可</li>
@@ -322,6 +327,14 @@ lvcreate -L 100M -n lv1 vgname   # -L ">
 <li>然后 vgreduce myvg /dev/sdc1  </li>
 </ul>
 </li>
+</ul>
+<hr>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景:"></a>场景:</h2><ul>
+<li>虚拟机热扩容磁盘20G到60G , 宿主机执行命令:  growpart /dev/xxx 1  #扩容 /dev/xxx 的第一个分区, 分区编号可以指定</li>
+<li>扩容之后 lsblk -l 可以看到 分区已经被扩容, 这个时候pv 的大小不会变化, 文件系统也没有变化</li>
+<li>使用 pvresize -v /dev/xxx1 pv绑定的分区,来进行重新调整pv的大小, 使用pvs 查看 调整后的容量</li>
+<li>使用 vgs 查看 vgs大小, 这时候扩容lv , lvextend -l +524287 /dev/ucap/ucap , 也可以使用 lvextend -l +100%FREE /dev/ucap/ucap 扩容全部容量</li>
+<li>扩容文件系统 , lv扩容之后 文件系统不会自动扩容, df -TH 可以查看, xfs 文件系统使用 xfs_growfs /dev/ucap/ucap , ext文件系统使用 resize2fs  /dev/ucap/ucap 扩容</li>
 </ul>
 
             </div>
@@ -557,7 +570,7 @@ lvcreate -L 100M -n lv1 vgname   # -L ">
                     </h4>
                     <progress id="progress" value="0" max="100"></progress>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LVM-%E6%93%8D%E4%BD%9C%E7%AE%80%E8%A6%81"><span class="toc-text">LVM 操作简要</span></a></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LVM-%E6%93%8D%E4%BD%9C%E7%AE%80%E8%A6%81"><span class="toc-text">LVM 操作简要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%BA%E6%99%AF"><span class="toc-text">场景:</span></a></li></ol>
             </div>
             
         
