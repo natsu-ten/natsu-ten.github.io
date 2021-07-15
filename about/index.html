@@ -146,24 +146,32 @@
         </div>
         
             
-<div id="tcomment"></div>
+<div id="wcomments"></div>
 <script>
-function LoadTwikoo(){
-  getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){
-    initData = {
-      el: '#tcomment',
-      envId: 'twikoo-3gwreqi0e4d4875e',
-      region: 'ap-shanghai',
-      path: 'window.location.pathname',
-  }
-  var option = false;
-  if(option){
-      initData = Object.assign(initData, option)
-  }
-  twikoo.init(initData);
-  })
+function LoadWaline() {
+    getScript("//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js",function(){
+        let initData = {
+            el: '#wcomments',
+            path: location.pathname,
+            serverURL: 'https://waline.vercel.app/',
+            placeholder: '快来评论吧!!',
+            avatar: '',
+            meta: 'nick,mail,link'.split(","),
+            requiredFields: 'nick,mail,link'.split(","),
+            pageSize: 5,
+            lang: 'zh-CN',
+            emojiCDN: '',
+            emojiMaps: null,
+            visitor: true
+        }
+        var option = false;
+        if (option) {
+            initData = Object.assign(initData, option)
+        }
+        new Waline(initData)
+    })
 }
-LoadTwikoo()
+LoadWaline()
 </script>
         
     </div>

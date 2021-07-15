@@ -134,7 +134,7 @@
             标签 - 14
         </div>
 <div class="tag_content">
-    <a href="/tags/ACM-CONFD/" style="font-size: 1.2em; color: rgb(128, 108, 191)">ACM - CONFD</a><a href="/tags/lvm/" style="font-size: 1.2em; color: rgb(194, 66, 179)">lvm</a><a href="/tags/shell/" style="font-size: 1.2em; color: rgb(12, 189, 78)">shell</a><a href="/tags/Mac/" style="font-size: 1.2em; color: rgb(30, 116, 157)">Mac</a><a href="/tags/ubuntu/" style="font-size: 1.2em; color: rgb(142, 46, 56)">ubuntu</a><a href="/tags/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" style="font-size: 1.2em; color: rgb(117, 195, 4)">批量重命名</a><a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.2em; color: rgb(120, 59, 111)">教程</a><a href="/tags/hexo/" style="font-size: 1.2em; color: rgb(17, 5, 132)">hexo</a><a href="/tags/linux/" style="font-size: 1.6em; color: rgb(47, 115, 6)">linux</a><a href="/tags/nginx/" style="font-size: 1.2em; color: rgb(179, 178, 19)">nginx</a><a href="/tags/PHP/" style="font-size: 1.2em; color: rgb(154, 11, 124)">PHP</a><a href="/tags/Prometheus/" style="font-size: 1.2em; color: rgb(72, 165, 55)">Prometheus</a><a href="/tags/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86/" style="font-size: 1.2em; color: rgb(147, 145, 130)">日志采集</a><a href="/tags/CI-CD/" style="font-size: 1.2em; color: rgb(172, 173, 106)">CI/CD</a>
+    <a href="/tags/ACM-CONFD/" style="font-size: 1.2em; color: rgb(147, 85, 95)">ACM - CONFD</a><a href="/tags/lvm/" style="font-size: 1.2em; color: rgb(52, 44, 128)">lvm</a><a href="/tags/Mac/" style="font-size: 1.2em; color: rgb(25, 146, 33)">Mac</a><a href="/tags/shell/" style="font-size: 1.2em; color: rgb(185, 121, 196)">shell</a><a href="/tags/ubuntu/" style="font-size: 1.2em; color: rgb(30, 37, 111)">ubuntu</a><a href="/tags/%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" style="font-size: 1.2em; color: rgb(55, 74, 6)">批量重命名</a><a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.2em; color: rgb(80, 32, 40)">教程</a><a href="/tags/hexo/" style="font-size: 1.2em; color: rgb(189, 188, 69)">hexo</a><a href="/tags/linux/" style="font-size: 1.6em; color: rgb(187, 123, 194)">linux</a><a href="/tags/nginx/" style="font-size: 1.2em; color: rgb(65, 129, 187)">nginx</a><a href="/tags/PHP/" style="font-size: 1.2em; color: rgb(90, 47, 14)">PHP</a><a href="/tags/Prometheus/" style="font-size: 1.2em; color: rgb(153, 84, 34)">Prometheus</a><a href="/tags/%E6%97%A5%E5%BF%97%E9%87%87%E9%9B%86/" style="font-size: 1.2em; color: rgb(133, 96, 6)">日志采集</a><a href="/tags/CI-CD/" style="font-size: 1.2em; color: rgb(75, 88, 149)">CI/CD</a>
 </div> 
 
  
@@ -147,24 +147,32 @@
         </div>
         
             
-<div id="tcomment"></div>
+<div id="wcomments"></div>
 <script>
-function LoadTwikoo(){
-  getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){
-    initData = {
-      el: '#tcomment',
-      envId: 'twikoo-3gwreqi0e4d4875e',
-      region: 'ap-shanghai',
-      path: 'window.location.pathname',
-  }
-  var option = false;
-  if(option){
-      initData = Object.assign(initData, option)
-  }
-  twikoo.init(initData);
-  })
+function LoadWaline() {
+    getScript("//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js",function(){
+        let initData = {
+            el: '#wcomments',
+            path: location.pathname,
+            serverURL: 'https://waline.vercel.app/',
+            placeholder: '快来评论吧!!',
+            avatar: '',
+            meta: 'nick,mail,link'.split(","),
+            requiredFields: 'nick,mail,link'.split(","),
+            pageSize: 5,
+            lang: 'zh-CN',
+            emojiCDN: '',
+            emojiMaps: null,
+            visitor: true
+        }
+        var option = false;
+        if (option) {
+            initData = Object.assign(initData, option)
+        }
+        new Waline(initData)
+    })
 }
-LoadTwikoo()
+LoadWaline()
 </script>
         
     </div>
