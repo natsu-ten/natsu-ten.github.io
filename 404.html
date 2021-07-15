@@ -1,223 +1,301 @@
 
-    <meta charset="UTF-8">
-    <title>页面没有找到 | 夏十</title>
-    <meta http-equiv="Refresh" content="5;url=https://tutuu.top" />
-    <style>
-        body {
-            background: #00c4b6;
-        }
-        #not_found {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translateY(-50%) translateX(-50%) scale(1.2);
-            width: 80%;
-            height: auto;
-        }
-    </style>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/pixi.js/2.2.5/pixi.js'></script>
-    <body>
-    <script id="rendered-js">
-        (function () {
-            var lastTime = 0;
-            var vendors = ['ms', 'moz', 'webkit', 'o'];
-            for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-                window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-                window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame'] || window[vendors[x] + 'CancelRequestAnimationFrame'];
-            }
 
-            if (!window.requestAnimationFrame)
-                window.requestAnimationFrame = function (callback, element) {
-                    var currTime = new Date().getTime();
-                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                    var id = window.setTimeout(function () {
-                        callback(currTime + timeToCall);
-                    },
-                        timeToCall);
-                    lastTime = currTime + timeToCall;
-                    return id;
-                };
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
 
-            if (!window.cancelAnimationFrame)
-                window.cancelAnimationFrame = function (id) {
-                    clearTimeout(id);
-                };
-        })();
 
-        //math2 utils
-        var Math2 = {}; Math2.random = function (t, n) { return Math.random() * (n - t) + t; }, Math2.map = function (t, n, r, a, o) { return (o - a) * ((t - n) / (r - n)) + a; }, Math2.randomPlusMinus = function (t) { return t = t ? t : .5, Math.random() > t ? -1 : 1; }, Math2.randomInt = function (t, n) { return n += 1, Math.floor(Math.random() * (n - t) + t); }, Math2.randomBool = function (t) { return t = t ? t : .5, Math.random() < t ? !0 : !1; }, Math2.degToRad = function (t) { return rad = t * Math.PI / 180, rad; }, Math2.radToDeg = function (t) { return deg = 180 / (Math.PI * t), deg; }, Math2.rgbToHex = function (t) { function n(t) { return ("0" + parseInt(t).toString(16)).slice(-2); } t = t.match(/^rgb((d+),s*(d+),s*(d+))$/); var r = n(t[1]) + n(t[2]) + n(t[3]); return r.toUpperCase(); }, Math2.distance = function (t, n, r, a) { return Math.sqrt((r - t) * (r - t) + (a - n) * (a - n)); };
 
-        //mouse
-        var mousePos = {
-            x: 0,
-            y: 0
-        };
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>页面走丢啦~ - 夏十</title>
 
-        window.onmousemove = function (e) {
-            e = e || window.event;
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
-            var pageX = e.pageX;
-            var pageY = e.pageY;
-            if (pageX === undefined) {
-                pageX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                pageY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-            }
-            mousePos = {
-                x: pageX,
-                y: pageY
-            };
 
-        };
 
-        var options = {
-            width: window.innerWidth,
-            height: window.innerHeight,
-            keyword: "404",
-            density: 10,
-            densityText: 3,
-            minDist: 20
-        };
+<!-- 主题依赖的图标库，不要自行修改 -->
 
-        // initialize canvas
-        var canvas = document.createElement('canvas');
-        canvas.width = options.width;
-        canvas.height = options.height;
-        canvas.style.width = options.width / 2;
-        canvas.style.height = options.height / 2;
-        canvas.getContext('2d').scale(2, 2);
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
-        var renderer = new PIXI.autoDetectRenderer(options.width, options.height, {
-            transparent: true
-        });
 
-        var stage = new PIXI.Stage("0X000000", true);
-        document.body.appendChild(renderer.view);
-        renderer.view.id = "not_found";
 
-        var imageData = false;
-        var particles = [];
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
 
-        function init() {
-            positionParticles();
-            positionText();
-        }
-        function positionParticles() {
-            var canvas = document.createElement("canvas");
-            canvas.width = 500;
-            canvas.height = 350;
-            var context = canvas.getContext("2d");
-            context.fillStyle = "#000000";
-            context.font = "300px 'Arial', sans-serif";
-            context.fillText(options.keyword, 0, 250);
 
-            var imageData = context.getImageData(0, 0, 350, 500);
-            data = imageData.data;
+<link  rel="stylesheet" href="/css/main.css" />
 
-            // Iterate each row and column
-            for (var i = 0; i < imageData.height; i += options.density) {
-                for (var j = 0; j < imageData.width; j += options.density) {
+<!-- 自定义样式保持在最底部 -->
 
-                    // Get the color of the pixel
-                    var color = data[j * (imageData.width * 4) + i * 4 - 1];
 
-                    // If the color is black, draw pixels
-                    if (color == 255) {
-                        var newPar = particle();
-                        newPar.setPosition(i, j);
-                        particles.push(newPar);
-                        stage.addChild(newPar);
-                    }
-                }
-            }
-        }
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
-        function positionText() {
-            var canvas = document.createElement("canvas");
-            canvas.width = 400;
-            canvas.height = 200;
-            var context = canvas.getContext("2d");
-            context.fillStyle = "#000000";
-            context.font = "80px 'Arial', sans-serif";
-            context.fillText("Not Found", 0, 80);
 
-            var imageData = context.getImageData(0, 0, 400, 400);
-            data = imageData.data;
+<body>
+  <header style="height: 85vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Fluid</strong>&nbsp;</a>
 
-            // Iterate each row and column
-            for (var i = 0; i < imageData.height; i += options.densityText) {
-                for (var j = 0; j < imageData.width; j += options.densityText) {
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-                    // Get the color of the pixel
-                    var color = data[j * (imageData.width * 4) + i * 4 - 1];
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
 
-                    // If the color is black, draw pixels
-                    if (color == 255) {
-                        var newPar = particle(true);
-                        newPar.setPosition(i, j);
-                        particles.push(newPar);
-                        stage.addChild(newPar);
-                    }
-                }
-            }
-        }
-        function particle(text) {
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Page not found">
+              
+            </span>
 
-            $this = new PIXI.Graphics();
+            
+          </div>
 
-            if (text == true) {
-                $this.text = true;
-            }
+          
+        </div>
+      </div>
+    </div>
+  </header>
 
-            $this.beginFill(0XFFFFFF);
-
-            var radius;
-            $this.radius = radius = $this.text ? Math.random() * 3.5 : Math.random() * 10.5;
-
-            $this.drawCircle(0, 0, radius);
-
-            $this.size = this.radius;
-            $this.x = -this.width;
-            $this.y = -this.height;
-            $this.free = false;
-
-            $this.timer = Math2.randomInt(0, 100);
-            $this.v = Math2.randomPlusMinus() * Math2.random(.5, 1);
-            $this.hovered = false;
-
-            $this.alpha = Math2.randomInt(10, 100) / 100;
-
-            $this.vy = -5 + parseInt(Math.random() * 10) / 2;
-            $this.vx = -4 + parseInt(Math.random() * 8);
-
-            $this.setPosition = function (x, y) {
-                if ($this.text) {
-                    $this.x = x + (options.width / 2 - 180);
-                    $this.y = y + (options.height / 2 + 100);
-                } else {
-                    $this.x = x + (options.width / 2 - 250);
-                    $this.y = y + (options.height / 2 - 175);
-                }
-            };
-            return $this;
-        }
-        function update() {
-            renderer.render(stage);
-            for (i = 0; i < particles.length; i++) {
-                var p = particles[i];
-
-                if (mousePos.x > p.x && mousePos.x < p.x + p.size && mousePos.y > p.y && mousePos.y < p.y + p.size) {
-                    p.hovered = true;
-                }
-                p.scale.x = p.scale.y = scale = Math.max(Math.min(2.5 - Math2.distance(p.x, p.y, mousePos.x, mousePos.y) / 160, 160), 1);
-
-                p.x = p.x + .2 * Math.sin(p.timer * .15);
-                p.y = p.y + .2 * Math.cos(p.timer * .15);
-                p.timer = p.timer + p.v;
-            }
-            window.requestAnimationFrame(update);
-        }
-        init();
-        update();
-    </script>
-    </body>
+  <main>
     
+      
+
+<script>
+  function redirect() {
+    location.href = "/";
+  }
+
+  //setTimeout(redirect, 3000)
+</script>
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>
