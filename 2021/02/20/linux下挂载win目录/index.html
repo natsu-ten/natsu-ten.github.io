@@ -8,7 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
 <title>linux下挂载win目录 | 夏十</title>
-<link href="/img/favicon.png" rel="shortcut icon">
+<link href="/img/img1.jpg" rel="shortcut icon">
 <meta name="author" content="natsu-ten ">
 <meta name="copyright" content="natsu-ten">
 <meta name="keywords" content="linux">
@@ -70,11 +70,59 @@
         <i class="fas fa-bars open_nav"></i>
         <ul class="menu">
           
+                  
+                  <li><a href="/">首页</a></li>
+                  
+              
+                  
+                  <li><a href="/tags">标签</a></li>
+                  
+              
+                  
+                  <li><a href="/categories">分类</a></li>
+                  
+              
+                  
+                  <li><a href="/archives">归档</a></li>
+                  
+              
+                  
+                  <li><a href="/link">友情链接</a></li>
+                  
+              
+                  
+                  <li><a href="/about">关于我</a></li>
+                  
+              
         </ul>
     </div>
 </nav>
 <div id="mobile_nav">
     <ul>
+    
+        
+        <li><a href="/">首页</a></li>
+        
+    
+        
+        <li><a href="/tags">标签</a></li>
+        
+    
+        
+        <li><a href="/categories">分类</a></li>
+        
+    
+        
+        <li><a href="/archives">归档</a></li>
+        
+    
+        
+        <li><a href="/link">友情链接</a></li>
+        
+    
+        
+        <li><a href="/about">关于我</a></li>
+        
     
     </ul>
 </div>
@@ -155,7 +203,7 @@
       <div class="post_copyright_author">
           <span class="post_copyright_meta">文章作者: </span>
             <span class="post_copyright_info">
-              <a href="mailto:lete@lete114.top" >Lete乐特</a>
+              <a href="mailto:743856137@qq.com" >夏十</a>
             </span>
       </div>
       <div class="post_copyright_type">
@@ -168,7 +216,7 @@
             <span class="post_copyright_info">本博客所有文章除特别声明外，均采用
               <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/ " target="_blank" >
                   CC BY-NC-SA 4.0 </a> 许可协议。转载请注明来自
-              <a href="https://tutuu.top/2021/02/20/linux下挂载win目录/" target="_blank" >Lete乐特's Blog</a>
+              <a href="https://tutuu.top/2021/02/20/linux下挂载win目录/" target="_blank" >夏十 Blog</a>
               ！</span>
       </div>
   </div>
@@ -189,16 +237,16 @@
            <div class="reward_main">
               <ul class="reward_all">
                 
-                  <li class="reward_item"><a href="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/zfb.png"
+                  <li class="reward_item"><a href=" /img/zfb.png"
                           target="_blank">
-                          <img class="post_qr_code_img" src="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/zfb.png"></a>
+                          <img class="post_qr_code_img" src=" /img/zfb.png"></a>
                       <div class="post_qr_code_desc">alipay</div>
                   </li>
                   
                   
-                  <li class="reward_item"><a href="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/wzf.png"
+                  <li class="reward_item"><a href=" /img/wzf.png"
                           target="_blank">
-                          <img class="post_qr_code_img" src="https://cdn.jsdelivr.net/gh/lete114/CDN@2.0/Use/wzf.png"></a>
+                          <img class="post_qr_code_img" src=" /img/wzf.png"></a>
                       <div class="post_qr_code_desc">wechat</div>
                   </li>
                   
@@ -233,32 +281,24 @@
         </div>
         
             
-<div id="wcomments"></div>
+<div id="tcomment"></div>
 <script>
-function LoadWaline() {
-    getScript("//cdn.jsdelivr.net/npm/@waline/client/dist/Waline.min.js",function(){
-        let initData = {
-            el: '#wcomments',
-            path: location.pathname,
-            serverURL: 'https://waline.vercel.app/',
-            placeholder: '快来评论吧!!',
-            avatar: '',
-            meta: 'nick,mail,link'.split(","),
-            requiredFields: 'nick,mail,link'.split(","),
-            pageSize: 5,
-            lang: 'zh-CN',
-            emojiCDN: '',
-            emojiMaps: null,
-            visitor: true
-        }
-        var option = false;
-        if (option) {
-            initData = Object.assign(initData, option)
-        }
-        new Waline(initData)
-    })
+function LoadTwikoo(){
+  getScript("https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js",function(){
+    initData = {
+      el: '#tcomment',
+      envId: 'twikoo-3gwreqi0e4d4875e',
+      region: 'ap-shanghai',
+      path: 'window.location.pathname',
+  }
+  var option = false;
+  if(option){
+      initData = Object.assign(initData, option)
+  }
+  twikoo.init(initData);
+  })
 }
-LoadWaline()
+LoadTwikoo()
 </script>
         
     </div>
@@ -326,7 +366,7 @@ LoadWaline()
         <a href="https://github.com/lete114/hexo-theme-MengD" target="_blank">MengD.(萌典) </a>
     </div>
     
-    <div class="custom-text">我相信我可以，但我一直在路上，所以我有无限的可能！！</div>
+    <div class="custom-text">干啥啥不行,吃饭第一名.学也也不会,学了也白学！！</div>
 </footer>
     </div>
     <div id="mask" onclick="close_all()"></div>
