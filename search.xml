@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>linux 面试参考</title>
+      <link href="2021/07/16/linux%E9%9D%A2%E8%AF%95%E5%8F%82%E8%80%83%E9%A2%98/"/>
+      <url>2021/07/16/linux%E9%9D%A2%E8%AF%95%E5%8F%82%E8%80%83%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> linux </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>nginx通过x_forwarded_for实现黑白名单访问策略</title>
       <link href="2021/07/08/nginx%20%E9%80%9A%E8%BF%87x_forwarded_for%E5%AE%9E%E7%8E%B0%E9%BB%91%E7%99%BD%E5%90%8D%E5%8D%95%E8%AE%BF%E9%97%AE/"/>
       <url>2021/07/08/nginx%20%E9%80%9A%E8%BF%87x_forwarded_for%E5%AE%9E%E7%8E%B0%E9%BB%91%E7%99%BD%E5%90%8D%E5%8D%95%E8%AE%BF%E9%97%AE/</url>
