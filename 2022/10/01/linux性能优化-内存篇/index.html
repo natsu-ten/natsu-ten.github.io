@@ -1,0 +1,515 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>linux性能优化-内存 - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="linux性能优化-内存">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-01 19:35" pubdate>
+        2022年10月1日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      18
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">linux性能优化-内存</h1>
+            
+            <div class="markdown-body">
+              <h3 id="内存映射"><a href="#内存映射" class="headerlink" title="内存映射"></a>内存映射</h3><p>pc里面的内存条,称之为 物理内存, 系统里面每个进程启动的时候 内核会分配一个独有的连续的虚拟内存, 所以系统并不直接读取物理内存, 只有实际使用的虚拟内存才会给分配物理内存, 并且分配了物理内存之后通过内存映射来管理,<br>内存映射: 虚拟内存映射到物理内存,内核为内阁进程都维护了一张页表,记录虚拟内存和物理内存的映射地址,</p>
+<p>  <img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/%E5%86%85%E5%AD%98%E6%98%A0%E5%B0%84.png" srcset="/img/loading.gif" lazyload alt="内存映射"></p>
+<p>当进程访问的虚拟内存在页表中查不到的时候, 系统会产生一个<code>缺页异常</code>, 进入内核空间分配物理内存,更新进程页表,最后返回用户空间,恢复进程的运行.</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h3><h3 id="内存使用情况"><a href="#内存使用情况" class="headerlink" title="内存使用情况"></a>内存使用情况</h3><p>top命令下的某参数说明</p>
+<ul>
+<li>VIRT: 进程虚拟内存的大小,只要是进程申请过的内存,即便还没有真正的分配物理内存,也会计算在内</li>
+<li>RES: 常驻内存的大小,也就是进程实际使用过程中使用的物理内存的大小,但不包括 swap和共享内存</li>
+<li>SHR: 是共享内存的大小,比如与其他进程共同使用的共享内存,加载的动态链接库以及程序的代码段等</li>
+</ul>
+<p>注意两点: </p>
+<ul>
+<li>一 : 虚拟内存通常并不会全部分配物理内存,从top命令可以看出,每个进程的虚拟内存都比常驻内存要大的多</li>
+<li>二 : 共享内存SHR 并不一定是共享的. 比方说,程序的代码段 非共享的动态链接库,也都算在SHR里面,  </li>
+</ul>
+<h3 id="buffer-和-cache"><a href="#buffer-和-cache" class="headerlink" title="buffer 和 cache"></a>buffer 和 cache</h3><p>buffer: 缓冲区<br>cache: 缓存<br>对应文件: /proc/meminfo<br>磁盘数据: 直接读写分区的数据<br>文件数据: 通过文件系统读写的文件<br>buffer是对磁盘数据的缓存,cache是对文件数据的缓存, 他们既会用在读请求,也会用在写请求.</p>
+<h3 id="回收内存的三种方式"><a href="#回收内存的三种方式" class="headerlink" title="回收内存的三种方式"></a>回收内存的三种方式</h3><ul>
+<li>基于LRU算法, 回收缓存</li>
+<li>基于swap机制,回收不常访问的匿名页</li>
+<li>基于oom机制,杀掉占用大量内存的进程<br>前两种方法回收缓存和swap都基于 LRU算法,都是优先回收不常访问的内存,LRU 回收算法其实维护这两个双向链表,active(记录活跃的内存页)和inactive(记录非活跃的内存页),越接近链表尾部,表示内存页越不常访问,回收内存时 根据活跃程度 优先回收不会活跃的进程.<br>可以从 <code>/proc/meminfo</code> 中查看他们的大小  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># grep 表示只保留包含 active 的指标（忽略大小写）</span><br><span class="hljs-comment"># sort 表示按照字母顺序排序</span><br>$ cat /proc/meminfo | grep -i active | sort<br>Active(anon):     167976 kB<br>Active(file):     971488 kB<br>Active:          1139464 kB<br>Inactive(anon):      720 kB<br>Inactive(file):  2109536 kB<br>Inactive:        2110256 kB<br></code></pre></td></tr></table></figure>
+第三种 oom机制安装 oom_score给进程排序, oom_score越大 进程就越容易被系统杀死<br>当系统发现内存不够分配时,会尝试回收内存, 如果回收了文件页和匿名页后 内存够用了 ,然后把内存分配给进程使用就可以了,如果还是不够用 然后在使用 oom机制杀死占用内存量大的进程</li>
+</ul>
+<p>查看OOM日志 <code>/var/log/dmesg</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ dmesg | grep -i <span class="hljs-string">&quot;Out of memory&quot;</span><br>Out of memory: Kill process 9329 (java) score 321 or sacrifice child<br></code></pre></td></tr></table></figure>
+
+<h3 id="衡量缓存使用的好坏指标"><a href="#衡量缓存使用的好坏指标" class="headerlink" title="衡量缓存使用的好坏指标?"></a>衡量缓存使用的好坏指标?</h3><p><code>缓存命中率</code></p>
+<ul>
+<li>cachestat : 提供了整个操作系统缓存的读写命中情况</li>
+<li>cachetop : 提供了每个进程的缓存命中情况</li>
+</ul>
+<h3 id="内存泄漏如何处理"><a href="#内存泄漏如何处理" class="headerlink" title="内存泄漏如何处理"></a>内存泄漏如何处理</h3><blockquote>
+<p>内存的分配和回收</p>
+</blockquote>
+<ul>
+<li><p>一般在局部定义一个变量,比如 int data[64] 就定义了一个可以存储64字节的内存段, 由于是一个局部变量 所以他会在<code>内存空间的栈</code>中分配内存. <br/><br>栈内存  由系统自动分配和管理, 所以程序一旦超出 就会被系统自动回收, 就不会产生 内存泄漏的问题.<br/><br>但是很多时候我们不知道数据大小, 所以要用到标准函数库 malloc()_, 在程序中动态分配内存, 这时候 系统会从<code>内存空间的堆</code>中分配内存.<br>堆内存由应用程序自己分配和管理,除非程序自己退出, 不然这些堆内存不会被自动释放,所以就要用到应用程序明确调用库函数 free()来释放, 如果应用程序没有正确释放,那么就会造成内存泄漏.</p>
+</li>
+<li><p>内存泄漏危害非常大,如果忘记释放内存,不仅应用自己无法访问,系统也不能把他们的空间自此分配给其他应用, 最终内存耗尽,gg <br/><br> 但是系统最终可以通过 OOM(out of momeory) 机制杀死进程,但是进程在OOM之前 以及引发了一连串的反应,遭到严重影响,  </p>
+</li>
+</ul>
+<h3 id="内存泄漏分析工具"><a href="#内存泄漏分析工具" class="headerlink" title="内存泄漏分析工具"></a>内存泄漏分析工具</h3><p><code>memleak</code> 是bbc软件包中的一个工具, 安装目录 <code>/usr/share/bcc/tools/memleak</code><br>分析容器中的应用常见问题: 调用栈不能正常显示,应为容器和外表隔离 所以参考 perf 方法中的案例, 如果单一二进制的应用程序 直接复制出来 运行 也可以</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># -a 显示每个内存分配请求的大小以及地址</span><br><span class="hljs-comment"># -p pid号</span><br>memleak -a -p $(pidof 进程)<br></code></pre></td></tr></table></figure>
+
+<h3 id="为何很多程序比如-Hadoop-es-k8s-等要关闭swap"><a href="#为何很多程序比如-Hadoop-es-k8s-等要关闭swap" class="headerlink" title="为何很多程序比如 Hadoop es k8s 等要关闭swap"></a>为何很多程序比如 Hadoop es k8s 等要关闭swap</h3><p><code>大多数的java程序都建议关闭swap , 这是应为 jvm 在gc 的时候 需要遍历所有用到的堆内存, 如果这一部分堆内存被swap出去了, 那么遍历的时候就要磁盘IO 严重影响性能</code></p>
+<h3 id="内存性能指标"><a href="#内存性能指标" class="headerlink" title="内存性能指标"></a>内存性能指标</h3><p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/%E5%86%85%E5%AD%98%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87.png" srcset="/img/loading.gif" lazyload alt="内存性能指标"></p>
+<h3 id="分析流程"><a href="#分析流程" class="headerlink" title="分析流程"></a>分析流程</h3><p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/%E5%86%85%E5%AD%98%E5%88%86%E6%9E%90%E6%B5%81%E7%A8%8B.png" srcset="/img/loading.gif" lazyload alt="内存分析流程"></p>
+<h3 id="内存优化的几种思路"><a href="#内存优化的几种思路" class="headerlink" title="内存优化的几种思路"></a>内存优化的几种思路</h3><ul>
+<li>最好禁止 swap 空间, 尤其是java程序,应为jvm在gc的时候会遍历进程的堆内存,如果这一部分内存被交换到swap 那么gc会进行io操作, 影响性能, 如果非要启用swap ,那么尽量减少 swappiness的值, 减少内存回收时swap的使用倾向</li>
+<li>减少内存的动态分配,比如, 可以使用内存池,大页(huge page)等.</li>
+<li>尽量使用缓存和缓冲来访问数据, 比如 可以使用堆栈明确声明内存空间,来存储需要缓存的数据, 或者使用redis这种第三方缓存组件, 优化数据的访问</li>
+<li>使用cgroups等方式限制进程的内存使用情况,这样可以确保系统内存不会被异常进程消耗殆尽</li>
+<li>通过 /proc/pid/oom_adj 调整核心应用的oom_score, 这样可以保值即使内存使用紧张, 核心应用进程也不会被oom杀死</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/linux/">linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/01/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-IO%E7%AF%87/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">linux性能优化-IO</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/01/ssh%E9%99%90%E5%88%B6%E7%99%BB%E5%BD%95%E6%AC%A1%E6%95%B0%E5%92%8C%E8%B6%85%E6%97%B6%E8%87%AA%E5%8A%A8%E9%80%80%E5%87%BA/">
+                        <span class="hidden-mobile">ssh限制登录次数和超时自动退出</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

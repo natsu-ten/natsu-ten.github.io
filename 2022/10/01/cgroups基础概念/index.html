@@ -1,0 +1,495 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>cgroups概念详解 - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="cgroups概念详解">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-10-01 19:08" pubdate>
+        2022年10月1日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">cgroups概念详解</h1>
+            
+            <div class="markdown-body">
+              <p> 参考链接:  <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/388101355">https://zhuanlan.zhihu.com/p/388101355</a></p>
+<h3 id="什么是cgroups"><a href="#什么是cgroups" class="headerlink" title="什么是cgroups?"></a><strong>什么是cgroups?</strong></h3><p>Cgroups是linux的一种内核机制,这种机制可以根据系统需求把系统任务和子任务按照资源等级划分或整合到不同的组内,从而为管理系统资源提供一个框架, 简单说 Cgroups就是限制,记录追踪应用程序使用物理资源的机制, 本质上说是内核附加在应用程序上面的一系列钩子,通过应用程序调用系统资源从而触发钩子,钩子追踪记录,限制程序使用系统资源</p>
+<h3 id="为什么要使用Cgroups"><a href="#为什么要使用Cgroups" class="headerlink" title="为什么要使用Cgroups?"></a><strong>为什么要使用Cgroups?</strong></h3><p>Cgroups可以对cpu,内存等资源进行精细化控制,比如docker k8s的pod 都使用cgroups进行对容器的资源控制</p>
+<h3 id="cgroups的主要作用"><a href="#cgroups的主要作用" class="headerlink" title="cgroups的主要作用"></a><strong>cgroups的主要作用</strong></h3><p>为不同用户层面提供一个资源管理的统一化的接口,从单个任务的资源控制到操作系统层面的虚拟化 Cgroups提供了四大功能</p>
+<ul>
+<li>资源限制 : 对任务总额进行限制,比如内存超出 触发OOM机制</li>
+<li>优先级分配 : 通过分配的cpu时间片和磁盘io带宽,实际上就等同于控制了任务运行的优先级 </li>
+<li>资源统计: Cgroup可以统计系统资源的使用量,比如cpu使用时长,内存使用量,等</li>
+<li>任务控制 : 可以对任务执行挂起,恢复等操作</li>
+</ul>
+<h3 id="Cgroups的概念以及原理"><a href="#Cgroups的概念以及原理" class="headerlink" title="Cgroups的概念以及原理"></a><strong>Cgroups的概念以及原理</strong></h3><ul>
+<li><strong>Task(任务)</strong> : 在linux系统中 , 内核本身的调度和管理并不对进程和线程进行区分,只是根据clone时传入的参数从概念上划分进行和线程, 这里使用task来表示系统的一个进程或者线程</li>
+<li><strong>Cgroups(控制组)</strong> : cgroups中的资源控制以cgroup为单位实现,cgroup表示按某种资源控制表中划分而成的任务组, 包含一个或多个子系统,一个任务可以加入某个cgroup,也可以从某个cgroup迁移到一个cgroup </li>
+<li><strong>subsystem(子系统)</strong> : 子系统可以到 /proc/cgrousp 文件下查看 就是一个资源调度控制器, 比如cpu子系统可以控制cpu的时间分配.内存子系统可以限制内存的使用量<ul>
+<li>blkio 对块设备的 IO 进行限制。</li>
+<li>cpu 限制 CPU 时间片的分配，与 cpuacct 挂载在同一目录。</li>
+<li>cpuacct 生成 cgroup 中的任务占用 CPU 资源的报告，与 cpu 挂载在同一目录。</li>
+<li>cpuset 给 cgroup 中的任务分配独立的 CPU(多处理器系统) 和内存节点。</li>
+<li>devices 允许或禁止 cgroup 中的任务访问设备。</li>
+<li>freezer 暂停/恢复 cgroup 中的任务。</li>
+<li>hugetlb 限制使用的内存页数量。</li>
+<li>memory 对 cgroup 中的任务的可用内存进行限制，并自动生成资源占用报告。</li>
+<li>net_cls 使用等级识别符（classid）标记网络数据包，这让 Linux 流量控制器（tc 指令）可以识别来自特定 cgroup 任务的数据包，并进行网络限制。</li>
+<li>net_prio 允许基于 cgroup 设置网络流量(netowork traffic)的优先级。</li>
+<li>perf_event 允许使用 perf 工具来监控 cgroup。</li>
+<li>pids 限制任务的数量。</li>
+</ul>
+</li>
+<li><strong>hierarchy(层级)</strong> : 层级有一系列cgroup以一个树状结构排列而成,每一个层级通过绑定对应的子系统进行资源控制,层级中的cgroup节点可以包含零个或者多个子节点 子节点继承父节点挂载的子系统,一个操作系统中可以有多个层级</li>
+</ul>
+<h3 id="测试以及测试后删除目录"><a href="#测试以及测试后删除目录" class="headerlink" title="测试以及测试后删除目录"></a><strong>测试以及测试后删除目录</strong></h3><p>利用Cgroup 限制进程cpu使用量<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs bash"> mount -t cgroup  <span class="hljs-comment">#查看cgroup挂在目录</span><br><br> <span class="hljs-comment"># 创建test测试目录</span><br> <span class="hljs-built_in">cd</span> /sys/fs/cgroup/cpu &amp;&amp;  mkdir <span class="hljs-built_in">test</span><br> <span class="hljs-built_in">cd</span> <span class="hljs-built_in">test</span><br><br> <span class="hljs-built_in">echo</span> 100000 &gt; cpu.cfs_period_us   <span class="hljs-comment"># 设定周期时间，必须与cfs_quota_us配合使用</span><br> <span class="hljs-built_in">echo</span> 20000 &gt; cpu.cfs_quota_us     <span class="hljs-comment"># 限制cpu最高占用20%资源</span><br><br> <span class="hljs-comment">#写一个死循环脚本</span><br> cat &gt; test.sh &lt;&lt; <span class="hljs-string">EOF</span><br><span class="hljs-string"> #!/bin/bash</span><br><span class="hljs-string"> i=1</span><br><span class="hljs-string"> while :</span><br><span class="hljs-string"> do</span><br><span class="hljs-string"> let i+=1</span><br><span class="hljs-string"> echo $i</span><br><span class="hljs-string"> done</span><br><span class="hljs-string"> EOF</span><br><br>bash test.sh <span class="hljs-comment"># 运行脚本</span><br><br>top  <span class="hljs-comment"># 查看test.sh 的pid 并写入 test目录下的task文件, 让他监控这个进程</span><br><br><span class="hljs-built_in">echo</span> 1234 &gt; /sys/fs/cgroup/cpu/<span class="hljs-built_in">test</span>/tasks <br><br><span class="hljs-comment">#观察cpu占用率</span><br><br><span class="hljs-comment">#删除测试完的目录</span><br>yum install libcgroup<br>yum install libcgroup-tools<br><br><span class="hljs-comment">#验证是否安装成功</span><br>cgdelete -h<br><br><span class="hljs-comment">#删除</span><br>cgdelete cpu:/<span class="hljs-built_in">test</span>/<br><br></code></pre></td></tr></table></figure></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/cgroups/">cgroups</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/linux/">linux</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/01/linux%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-%E7%BD%91%E7%BB%9C%E7%AF%87%20/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">linux性能优化-网络</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/01/%E8%BF%90%E7%BB%B4%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">
+                        <span class="hidden-mobile">运维面试题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>
