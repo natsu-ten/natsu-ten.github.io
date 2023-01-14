@@ -1,0 +1,592 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>shell 脚本100 例 - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="shell 脚本100 例">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-15 13:21" pubdate>
+        2022年3月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      78
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">shell 脚本100 例</h1>
+            
+            <div class="markdown-body">
+              <h3 id="1-编写一个hello-work-脚本"><a href="#1-编写一个hello-work-脚本" class="headerlink" title="1: 编写一个hello work 脚本"></a>1: 编写一个hello work 脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#! /bin/bash</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;hello word&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-通过位置变量创建linux系统账户及密码"><a href="#2-通过位置变量创建linux系统账户及密码" class="headerlink" title="2: 通过位置变量创建linux系统账户及密码"></a>2: 通过位置变量创建linux系统账户及密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>useradd <span class="hljs-variable">$1</span> -c <span class="hljs-string">&quot;测试用户&quot;</span> -G root -s /usr/sbin/nologin<br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$2</span> | passwd <span class="hljs-variable">$1</span> --stdin<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-每周5使用tar命令备份-var-log下的所有日志文件"><a href="#3-每周5使用tar命令备份-var-log下的所有日志文件" class="headerlink" title="3: 每周5使用tar命令备份/var/log下的所有日志文件"></a>3: 每周5使用tar命令备份/var/log下的所有日志文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># 备份的文件尽量用目前的日期命名</span><br><span class="hljs-comment"># P 因为tar 默认允许是相对路径， 如果路径写的是绝对路径 要加大写 P，要放在f前面 </span><br>tar zcPf /tmp/<span class="hljs-built_in">log</span>-`date +%F-%H-%M`.tar.gz /var/<span class="hljs-built_in">log</span>/*.<span class="hljs-built_in">log</span><br><br>---<br><br><span class="hljs-comment"># crontab -e</span><br>00 03 * * 5 /bin/bash /tmp/备份.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-一键部署LNMP-rpm包版本"><a href="#4-一键部署LNMP-rpm包版本" class="headerlink" title="4: 一键部署LNMP (rpm包版本)"></a>4: 一键部署LNMP (rpm包版本)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#配置yum源，安装epel源</span><br>yum install epel-release<br>yum makecache <br>yum install nginx<br>yum install mysql<br>yum install php php-mysql<br>systemctl start nginx mysql<br>systemctl <span class="hljs-built_in">enable</span> nginx mysql<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-实时监控本机内存和硬盘剩余空间，剩余内存小于500M-根空间剩余小于1000M-时发送报警邮件给root管理员"><a href="#5-实时监控本机内存和硬盘剩余空间，剩余内存小于500M-根空间剩余小于1000M-时发送报警邮件给root管理员" class="headerlink" title="5: 实时监控本机内存和硬盘剩余空间，剩余内存小于500M ,根空间剩余小于1000M 时发送报警邮件给root管理员"></a>5: 实时监控本机内存和硬盘剩余空间，剩余内存小于500M ,根空间剩余小于1000M 时发送报警邮件给root管理员</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#if语句中 -a &quot;and 且&quot;  |  -o &quot;or 或者&quot;</span><br><span class="hljs-comment"># awk // 正则</span><br>memu=400<br>diskmu=4000<br>mem=$(free -m | awk <span class="hljs-string">&#x27;/Mem/&#123;print $4&#125;&#x27;</span>)<br>disk=$(df -m / | awk <span class="hljs-string">&#x27;/\//&#123;print $4&#125;&#x27;</span>)<br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$mem</span> -lt <span class="hljs-variable">$memu</span> -a <span class="hljs-variable">$disk</span> -lt <span class="hljs-variable">$diskmu</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;资源不够用&quot;</span> | mail root -s <br>  <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$mem</span> -lt <span class="hljs-variable">$memu</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span>  <span class="hljs-string">&quot;内存小于<span class="hljs-variable">$memu</span>&quot;</span> | mail root -s<br>  <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$disk</span> -lt <span class="hljs-variable">$diskmu</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;磁盘小于<span class="hljs-variable">$diskmu</span>&quot;</span> | mail root -s<br><span class="hljs-keyword">fi</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-脚本生成一个100以内的随机数，提示用户猜数字，根据用户的输入，提示用户猜对了或者猜小了-猜大了-直至用户结束脚本"><a href="#6-脚本生成一个100以内的随机数，提示用户猜数字，根据用户的输入，提示用户猜对了或者猜小了-猜大了-直至用户结束脚本" class="headerlink" title="6: 脚本生成一个100以内的随机数，提示用户猜数字，根据用户的输入，提示用户猜对了或者猜小了 猜大了 直至用户结束脚本"></a>6: 脚本生成一个100以内的随机数，提示用户猜数字，根据用户的输入，提示用户猜对了或者猜小了 猜大了 直至用户结束脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># $RANDOM 随即范围 0-32767 ， 使用取余算法将随机数变为1-100的随机数 $[$RNADOM%100+1]</span><br><span class="hljs-comment"># echo 换行打印 参数 -e</span><br><span class="hljs-comment"># grep 匹配静默输出参数 -q</span><br><span class="hljs-comment"># 判断输入的类型是否是数字 使用grep 正则去判断 如果匹配到数字则返回0 匹配不到数字则返回1</span><br>yes=$[<span class="hljs-variable">$RANDOM</span>%10]<br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;这是一个猜数字游戏 \n输入你要猜的数字进行&quot;</span><br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;请输入你要猜的数字：&quot;</span> num<br>        <span class="hljs-keyword">if</span> grep -q <span class="hljs-string">&#x27;^[[:digit:]]*$&#x27;</span> &lt;&lt;&lt; <span class="hljs-string">&quot;<span class="hljs-variable">$num</span>&quot;</span> ;<span class="hljs-keyword">then</span><br>            <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$num</span> -lt <span class="hljs-variable">$yes</span> ];<span class="hljs-keyword">then</span><br>                <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;数字小于正确答案&quot;</span><br>            <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$num</span> -gt <span class="hljs-variable">$yes</span> ];<span class="hljs-keyword">then</span><br>                <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;数字大于正确答案&quot;</span><br>            <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$num</span> -eq <span class="hljs-variable">$yes</span> ];<span class="hljs-keyword">then</span><br>                <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;恭喜你才对了&quot;</span><br>                <span class="hljs-built_in">exit</span><br>            <span class="hljs-keyword">else</span><br>                <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;请输入真确的数字&quot;</span><br>            <span class="hljs-keyword">fi</span><br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;请输入数字&quot;</span><br>        <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-检测本机当前用户是否为超级管理员，如果是管理员，-则使用yum安装vsftp-，如果不是，则提示您非管理员（使用字符串对比版本）"><a href="#7-检测本机当前用户是否为超级管理员，如果是管理员，-则使用yum安装vsftp-，如果不是，则提示您非管理员（使用字符串对比版本）" class="headerlink" title="7: 检测本机当前用户是否为超级管理员，如果是管理员， 则使用yum安装vsftp ，如果不是，则提示您非管理员（使用字符串对比版本）"></a>7: 检测本机当前用户是否为超级管理员，如果是管理员， 则使用yum安装vsftp ，如果不是，则提示您非管理员（使用字符串对比版本）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$USER</span> == <span class="hljs-string">&quot;root&quot;</span> ]];<span class="hljs-keyword">then</span><br>    yum install vsftp -y<br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;请用管理员账号操作&quot;</span><br>  <span class="hljs-keyword">fi</span><br><br>---<br><br><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$UID</span> == 0 ]];<span class="hljs-keyword">then</span><br>    yum install vsftp -y<br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;请用管理员账号操作&quot;</span><br>  <span class="hljs-keyword">fi</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="8-编写脚本：-提示用户输入用户名和密码，脚本自动创建相应的账户和配置密码，如果用户不输入账户名，则提示必须输入账户名并退出脚本，如果用户不输入密码，则统一使用默认的123456-作为默认密码"><a href="#8-编写脚本：-提示用户输入用户名和密码，脚本自动创建相应的账户和配置密码，如果用户不输入账户名，则提示必须输入账户名并退出脚本，如果用户不输入密码，则统一使用默认的123456-作为默认密码" class="headerlink" title="8: 编写脚本： 提示用户输入用户名和密码，脚本自动创建相应的账户和配置密码，如果用户不输入账户名，则提示必须输入账户名并退出脚本，如果用户不输入密码，则统一使用默认的123456 作为默认密码"></a>8: 编写脚本： 提示用户输入用户名和密码，脚本自动创建相应的账户和配置密码，如果用户不输入账户名，则提示必须输入账户名并退出脚本，如果用户不输入密码，则统一使用默认的123456 作为默认密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#if -n 不为空。-z 为空</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入要创建的用户名：&quot;</span> user<br><br><span class="hljs-comment">#[ ! $user] &amp;&amp; useradd $user || echo &quot;请输入用户名&quot; exit 2</span><br><br><span class="hljs-keyword">if</span> [ -n <span class="hljs-string">&quot;<span class="hljs-variable">$user</span>&quot;</span> ];<span class="hljs-keyword">then</span><br>    useradd <span class="hljs-variable">$user</span><br>    <span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入密码：&quot;</span> password<br>    password=<span class="hljs-variable">$&#123;password:-123456&#125;</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$password</span> | passwd <span class="hljs-variable">$user</span> --stdin<br><span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;必须输入用户名&quot;</span><br>    <span class="hljs-built_in">exit</span> 2<br><span class="hljs-keyword">fi</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="9-依次提示用户输入3个整数，脚本根据数字大小依次排序输出3个数字"><a href="#9-依次提示用户输入3个整数，脚本根据数字大小依次排序输出3个数字" class="headerlink" title="9: 依次提示用户输入3个整数，脚本根据数字大小依次排序输出3个数字"></a>9: 依次提示用户输入3个整数，脚本根据数字大小依次排序输出3个数字</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment">#eval命令： 执行时会先扫描命令一遍 进行命令替换，然后在执行命令，用于那些使用一次扫描无法实现其功能的变量。</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入多一个数字：&quot;</span> num1<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入第二个数字：&quot;</span> num2<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入第三个数字：&quot;</span> num3<br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$num1</span> -gt <span class="hljs-variable">$num2</span> ];<span class="hljs-keyword">then</span><br>    tmp=<span class="hljs-variable">$num1</span><br>    num1=<span class="hljs-variable">$num2</span><br>    num2=<span class="hljs-variable">$tmp</span><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$num1</span> -gt <span class="hljs-variable">$num3</span> ];<span class="hljs-keyword">then</span><br>    tmp=<span class="hljs-variable">$num1</span><br>    num1=<span class="hljs-variable">$num3</span><br>    num3=<span class="hljs-variable">$tmp</span><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">fi</span> [ <span class="hljs-variable">$num2</span> -gt <span class="hljs-variable">$num3</span> ];<span class="hljs-keyword">then</span><br>    tmp=<span class="hljs-variable">$num2</span><br>    num2=<span class="hljs-variable">$num3</span><br>    num3=tmp<br><span class="hljs-keyword">fi</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;数字大小依次为：<span class="hljs-variable">$num1</span> - <span class="hljs-variable">$num2</span> - <span class="hljs-variable">$num3</span>&quot;</span> <br></code></pre></td></tr></table></figure>
+
+<h3 id="10-编写脚本，实现人机-剪刀石头布游戏"><a href="#10-编写脚本，实现人机-剪刀石头布游戏" class="headerlink" title="10: 编写脚本，实现人机 剪刀石头布游戏"></a>10: 编写脚本，实现人机 剪刀石头布游戏</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#case形式</span><br>num=$[<span class="hljs-variable">$RANDOM</span>%3+1]<br><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;1.石头 \n2.剪刀 \n3.布&quot;</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入1-3：&quot;</span> user<br><span class="hljs-keyword">case</span> <span class="hljs-variable">$user</span> <span class="hljs-keyword">in</span><br>1)<br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$num</span> -eq 1 ];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;平局&quot;</span><br>    <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$num</span> -eq 2 ];<span class="hljs-keyword">then</span> <br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你赢了&quot;</span><br>    <span class="hljs-keyword">else</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你输了&quot;</span><br>  <span class="hljs-keyword">fi</span>;;<br>2)<br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$num</span> -eq 2 ];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;平局&quot;</span><br>    <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$num</span> -eq 3 ];<span class="hljs-keyword">then</span> <br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你赢了&quot;</span><br>    <span class="hljs-keyword">else</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你输了&quot;</span><br>  <span class="hljs-keyword">fi</span>;;<br>3)<br><br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$num</span> -eq 3 ];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;平局&quot;</span><br>    <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$num</span> -eq 1 ];<span class="hljs-keyword">then</span> <br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你赢了&quot;</span><br>    <span class="hljs-keyword">else</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;你输了&quot;</span><br>  <span class="hljs-keyword">fi</span>;;<br>*) <br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;必须输入1-3数字&quot;</span><br><span class="hljs-keyword">esac</span><br><br><br><span class="hljs-comment">#if形式</span><br><span class="hljs-comment">#echo -e &quot;1.石头 \n2.剪刀 \n3.布&quot;</span><br><span class="hljs-comment">#while true;do</span><br><span class="hljs-comment">#  read -p &quot;输入拳法代表的数字进行猜拳：&quot; game</span><br><span class="hljs-comment">#  ai=$[$RANDOM%3+1]</span><br><span class="hljs-comment">#  echo &quot;机器人出拳为：$ai&quot;</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment">#  if [ $game -gt 3 -o $game -eq 0 ];then</span><br><span class="hljs-comment">#      echo &quot;请输入合法数字&quot;</span><br><span class="hljs-comment">#      exit 1</span><br><span class="hljs-comment">#  fi</span><br><span class="hljs-comment">#  if [ $ai -eq 1 ];then</span><br><span class="hljs-comment">#    if [ $game -eq $ai ];then</span><br><span class="hljs-comment">#        echo &quot;平局&quot;</span><br><span class="hljs-comment">#      elif [ $game -eq 2 ];then</span><br><span class="hljs-comment">#        echo &quot;你输了&quot;</span><br><span class="hljs-comment">#      else</span><br><span class="hljs-comment">#        echo &quot;你赢了&quot;</span><br><span class="hljs-comment">#    fi</span><br><span class="hljs-comment">#  fi</span><br><span class="hljs-comment">#  if [ $ai -eq 2 ];then</span><br><span class="hljs-comment">#      if [ $game -eq $ai ];then</span><br><span class="hljs-comment">#          echo &quot;平局&quot;</span><br><span class="hljs-comment">#        elif [ $game -eq 3 ];then</span><br><span class="hljs-comment">#          echo &quot;你输了&quot;</span><br><span class="hljs-comment">#        else</span><br><span class="hljs-comment">#          echo &quot;你赢了&quot;</span><br><span class="hljs-comment">#      fi</span><br><span class="hljs-comment">#  fi</span><br><span class="hljs-comment">#    if [ $ai -eq 3 ];then</span><br><span class="hljs-comment">#      if [ $game -eq $ai ];then</span><br><span class="hljs-comment">#          echo &quot;平局&quot;</span><br><span class="hljs-comment">#        elif [ $game -eq 1 ];then</span><br><span class="hljs-comment">#          echo &quot;你输了&quot;</span><br><span class="hljs-comment">#        else</span><br><span class="hljs-comment">#          echo &quot;你赢了&quot;</span><br><span class="hljs-comment">#      fi</span><br><span class="hljs-comment">#  fi</span><br><span class="hljs-comment">#done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="11-让-192-168-4-0-24-整个网段中那些主机处于开机状态，-那些处于关机状态（for-while-多进程-实现）"><a href="#11-让-192-168-4-0-24-整个网段中那些主机处于开机状态，-那些处于关机状态（for-while-多进程-实现）" class="headerlink" title="11: 让 192.168.4.0/24 整个网段中那些主机处于开机状态， 那些处于关机状态（for while 多进程 实现）"></a>11: 让 192.168.4.0/24 整个网段中那些主机处于开机状态， 那些处于关机状态（for while 多进程 实现）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment">#for循环</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..254&#125;;<span class="hljs-keyword">do</span><br>  ping -c2 -W1 192.168.249.<span class="hljs-variable">$i</span> &gt;/dev/null<br>  <span class="hljs-keyword">if</span> [ $? -eq 0 ];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;192.168.249.<span class="hljs-variable">$i</span> 上线&quot;</span><br>    <span class="hljs-keyword">else</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;192.168.249.<span class="hljs-variable">$i</span> 下线&quot;</span><br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br><br>---<br><br><span class="hljs-keyword">while</span> [ <span class="hljs-variable">$i</span> -le 254 ];<span class="hljs-keyword">do</span><br>  ping -c2 -W1 192.168.254.<span class="hljs-variable">$i</span> &gt;dev/null<br>  <span class="hljs-keyword">if</span> [ $? -eq 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;192.168.249.<span class="hljs-variable">$i</span> 上线&quot;</span><br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;192.168.249.<span class="hljs-variable">$i</span> 下线&quot;</span><br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br><br>---<br><br><br><span class="hljs-function"><span class="hljs-title">myping</span></span>()&#123;<br>  ping -c2 -W2 <span class="hljs-variable">$1</span> &amp;&gt;/dev/null<br>  <span class="hljs-keyword">if</span> [ $? -eq 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$1</span> 上线&quot;</span><br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$1</span> 下线&quot;</span><br>  <span class="hljs-keyword">fi</span><br>&#125;<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..254&#125;;<span class="hljs-keyword">do</span><br>  myping 192.168.249.<span class="hljs-variable">$i</span> &amp;<br><span class="hljs-keyword">done</span><br><span class="hljs-comment">#使用 &amp; 将执行放在后台执行</span><br><span class="hljs-comment">#这样做的好处是不需要等待ping第一台主机的回应， 就可以继续并发执行第二台 以此类推</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="12：编写脚本-显示进度条"><a href="#12：编写脚本-显示进度条" class="headerlink" title="12：编写脚本 显示进度条"></a>12：编写脚本 显示进度条</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#echo -n 不换行输出</span><br><span class="hljs-function"><span class="hljs-title">jindu</span></span>()&#123;<br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;#&quot;</span><br>  sleep 0.2<br><span class="hljs-keyword">done</span><br>&#125;<br>jindu &amp;<br>cp -a /usr/ /tmp<br>killall $!<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;拷贝完成&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="13-进度条-动态时钟脚"><a href="#13-进度条-动态时钟脚" class="headerlink" title="13: 进度条 动态时钟脚"></a>13: 进度条 动态时钟脚</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-function"><span class="hljs-title">jindu</span></span>()&#123;<br>  sp=0.1<br>  count=0<br>  <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>   count=$[<span class="hljs-variable">$count</span>+1]<br>    <span class="hljs-keyword">case</span> <span class="hljs-variable">$count</span> <span class="hljs-keyword">in</span><br>    1)<br>      <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;-\b\c&quot;</span><br>      sleep <span class="hljs-variable">$sp</span><br>      ;;<br>    2)<br>      <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&#x27;\\&#x27;</span><span class="hljs-string">&quot;\b\c&quot;</span><br>      sleep <span class="hljs-variable">$sp</span><br>      ;;<br>    3)<br>      <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;|\b\c&quot;</span><br>      sleep <span class="hljs-variable">$sp</span><br>      ;;<br>    4)<br>      <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;/\b\c&quot;</span><br>      sleep <span class="hljs-variable">$sp</span><br>      ;;<br>    *)<br>      count=0<br>    <span class="hljs-keyword">esac</span><br>  <span class="hljs-keyword">done</span><br>&#125;<br>jindu<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="14-9-9-乘法表"><a href="#14-9-9-乘法表" class="headerlink" title="14: 9*9 乘法表"></a>14: 9*9 乘法表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><br><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment">#for i in &#123;1..9&#125;;do</span><br><span class="hljs-comment">#    for((j=1;j&lt;$i+1;j++));do</span><br><span class="hljs-comment">#        echo -e &quot;$i&quot;x&quot;$j&quot;&quot;=&quot;&quot;$(($i*$j)) \c&quot;</span><br><span class="hljs-comment">#    done</span><br><span class="hljs-comment">#    echo -e &quot;\n&quot;</span><br><span class="hljs-comment">#done</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `seq 9`;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> `seq <span class="hljs-variable">$i</span>`;<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;<span class="hljs-variable">$i</span>*<span class="hljs-variable">$j</span>=$[i*j]  &quot;</span><br>  <span class="hljs-keyword">done</span><br>    <span class="hljs-built_in">echo</span><br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="15-使用死循环实时显示-ens33-网卡发送的数据包流量"><a href="#15-使用死循环实时显示-ens33-网卡发送的数据包流量" class="headerlink" title="15: 使用死循环实时显示 ens33 网卡发送的数据包流量"></a>15: 使用死循环实时显示 ens33 网卡发送的数据包流量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入要观察的网卡:&quot;</span> net<br><span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">$net</span> ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;不能为空&quot;</span><br>  <span class="hljs-built_in">exit</span> 1<br><span class="hljs-keyword">fi</span><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot; 发送流量: `ifconfig <span class="hljs-variable">$net</span> | grep &quot;</span>RX packets<span class="hljs-string">&quot; | awk &#x27;&#123;print <span class="hljs-variable">$6</span>,<span class="hljs-variable">$7</span>&#125;&#x27;`&quot;</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot; 接受流量: `ifconfig <span class="hljs-variable">$net</span> | grep &quot;</span>TX packets<span class="hljs-string">&quot; | awk &#x27;&#123;print <span class="hljs-variable">$6</span>,<span class="hljs-variable">$7</span>&#125;&#x27;`&quot;</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;-----------&quot;</span><br>  sleep 1<br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="16-使用user-txt-文件中的人员名单-在计算机中自动创建对应的用户并配置初始密码"><a href="#16-使用user-txt-文件中的人员名单-在计算机中自动创建对应的用户并配置初始密码" class="headerlink" title="16: 使用user.txt 文件中的人员名单,在计算机中自动创建对应的用户并配置初始密码"></a>16: 使用user.txt 文件中的人员名单,在计算机中自动创建对应的用户并配置初始密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br> <br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入初始化密码:&quot;</span> pw<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `cat user.txt`;<span class="hljs-keyword">do</span><br>  useradd <span class="hljs-variable">$i</span> &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$pw</span> | passwd <span class="hljs-variable">$i</span> --stdin<br>  <span class="hljs-keyword">if</span> [ $? -eq 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;创建用户:<span class="hljs-variable">$i</span>; 密码为:<span class="hljs-variable">$pw</span>&quot;</span><br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;创建用户:<span class="hljs-variable">$i</span> 失败&quot;</span><br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="17-编写批量修改扩展名脚本-如-批量将txt文件修改为doc文件"><a href="#17-编写批量修改扩展名脚本-如-批量将txt文件修改为doc文件" class="headerlink" title="17: 编写批量修改扩展名脚本,如 批量将txt文件修改为doc文件"></a>17: 编写批量修改扩展名脚本,如 批量将txt文件修改为doc文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-built_in">read</span> -p  <span class="hljs-string">&quot;输入需要批量修改的目录:&quot;</span> dir<br><span class="hljs-built_in">read</span> -p  <span class="hljs-string">&quot;输入修改的目标后缀:&quot;</span>  suffix<br><span class="hljs-built_in">read</span> -p  <span class="hljs-string">&quot;输入要修改成的后缀: &quot;</span> tag<br><br><span class="hljs-comment">##rename方法简单方便</span><br><span class="hljs-variable">$cd</span> <span class="hljs-variable">$dir</span><br><span class="hljs-variable">$rename</span> <span class="hljs-variable">$suffix</span> <span class="hljs-variable">$tag</span> *<br><br><span class="hljs-comment">##sed mv 重命名方法</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `ls <span class="hljs-variable">$dir</span>`;<span class="hljs-keyword">do</span><br> mv <span class="hljs-variable">$dir</span>/<span class="hljs-variable">$i</span> <span class="hljs-variable">$dir</span>/$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span> | sed s@<span class="hljs-variable">$suffix</span>@<span class="hljs-variable">$tag</span>@)<br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="18-使用expect-工具自动交互密码远程其他主机安装httpd"><a href="#18-使用expect-工具自动交互密码远程其他主机安装httpd" class="headerlink" title="18: 使用expect 工具自动交互密码远程其他主机安装httpd"></a>18: 使用expect 工具自动交互密码远程其他主机安装httpd</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#使用ansible</span><br>ansible node -m yum -a <span class="hljs-string">&#x27;name=nginx&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="19-编写一个脚本点名器"><a href="#19-编写一个脚本点名器" class="headerlink" title="19: 编写一个脚本点名器"></a>19: 编写一个脚本点名器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># 提前准备一个txt文件,该文件中需要包含所有姓名的信息,一行一个姓名, 脚本每次随机显示一个姓名</span><br><br><span class="hljs-keyword">while</span>;<span class="hljs-keyword">do</span><br>  <span class="hljs-comment">#统计user文件中有多少用户</span><br>  line=`cat user.txt | wc -l`<br>  num=$[RANDOM%line+1]<br>  sed -n <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;num&#125;</span>p&quot;</span> user.txt<br>  sleep 0.2<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="20-查看有多少远程的ip在连接本机-不管是ssh还是http-还是ftp"><a href="#20-查看有多少远程的ip在连接本机-不管是ssh还是http-还是ftp" class="headerlink" title="20: 查看有多少远程的ip在连接本机,(不管是ssh还是http 还是ftp)"></a>20: 查看有多少远程的ip在连接本机,(不管是ssh还是http 还是ftp)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#省略前2行, sed -n &#x27;3,$p&#x27;  , awk &#x27;NR&gt;2&#x27;</span><br>netstat -ant | awk <span class="hljs-string">&#x27;&#123;print $5&#125;&#x27;</span> | sed -n <span class="hljs-string">&#x27;3,$p&#x27;</span> | sort -nr | uniq -c<br></code></pre></td></tr></table></figure>
+
+<h3 id="21-对100以内的所有正整数相加求和"><a href="#21-对100以内的所有正整数相加求和" class="headerlink" title="21: 对100以内的所有正整数相加求和"></a>21: 对100以内的所有正整数相加求和</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>j=0<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..100&#125;;<span class="hljs-keyword">do</span><br>  j=$[j+=i]<br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$j</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="22-统计09-36-09-37-所有访问nginx服务器的请求有多少个-统计ip-有多少"><a href="#22-统计09-36-09-37-所有访问nginx服务器的请求有多少个-统计ip-有多少" class="headerlink" title="22: 统计09:36-09:37 所有访问nginx服务器的请求有多少个 | 统计ip 有多少"></a>22: 统计09:36-09:37 所有访问nginx服务器的请求有多少个 | 统计ip 有多少</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>awk -F <span class="hljs-string">&quot;:&quot;</span>  <span class="hljs-string">&#x27;$2&quot;:&quot;$3 &gt; &quot;09:36&quot; &amp;&amp; $2&quot;:&quot;$3 &lt;= &quot;09:37&quot;&#123;print $1&#125;&#x27;</span> mobile.haoqipei.com.log | awk <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span> | sort -n | uniq -c<br></code></pre></td></tr></table></figure>
+
+<h3 id="23-打印国际象棋棋盘"><a href="#23-打印国际象棋棋盘" class="headerlink" title="23: 打印国际象棋棋盘"></a>23: 打印国际象棋棋盘</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..8&#125;;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> &#123;1..8&#125;;<span class="hljs-keyword">do</span><br>    sun=$[i+j]<br>    <span class="hljs-keyword">if</span> [ $[sun%2] -eq 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> -en <span class="hljs-string">&quot;\033[46m  \033[0m&quot;</span><br>    <span class="hljs-keyword">fi</span><br>    <span class="hljs-built_in">echo</span> -en <span class="hljs-string">&quot;\033[47m  \033[0m&quot;</span><br>  <span class="hljs-keyword">done</span><br>  <span class="hljs-built_in">echo</span><br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="24-统计每个远程ip访问真机nginx-多少次"><a href="#24-统计每个远程ip访问真机nginx-多少次" class="headerlink" title="24: 统计每个远程ip访问真机nginx 多少次?"></a>24: 统计每个远程ip访问真机nginx 多少次?</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>awk <span class="hljs-string">&#x27;&#123;ip[$1]++&#125;END&#123;for (i in ip) print ip[i],i&#125;&#x27;</span> mobile.haoqipei.com.log<br></code></pre></td></tr></table></figure>
+
+<h3 id="25-统计当前linux系统中可以登录计算机的账户有多少"><a href="#25-统计当前linux系统中可以登录计算机的账户有多少" class="headerlink" title="25: 统计当前linux系统中可以登录计算机的账户有多少?"></a>25: 统计当前linux系统中可以登录计算机的账户有多少?</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#grep -v &quot;nologin&quot;  /etc/passwd | wc -l</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="26-统计-var-log-有多少文件-并显示这些文件名"><a href="#26-统计-var-log-有多少文件-并显示这些文件名" class="headerlink" title="26: 统计/var/log 有多少文件 并显示这些文件名"></a>26: 统计/var/log 有多少文件 并显示这些文件名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>sum=0<br><span class="hljs-comment">#cd /var/log/</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `ls -r /var/<span class="hljs-built_in">log</span>/*`;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">if</span> [ -f <span class="hljs-variable">$i</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">let</span> num++<br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;文件名: <span class="hljs-variable">$i</span>&quot;</span><br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;文件总数为 <span class="hljs-variable">$num</span>&quot;</span><br><br></code></pre></td></tr></table></figure>
+<h3 id="27-自动为其他脚本添加解释器信息-bin-bash"><a href="#27-自动为其他脚本添加解释器信息-bin-bash" class="headerlink" title="27: 自动为其他脚本添加解释器信息, #!/bin/bash"></a>27: 自动为其他脚本添加解释器信息, #!/bin/bash</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-keyword">if</span> ! grep -q <span class="hljs-string">&#x27;#!/bin&#x27;</span> $!;<span class="hljs-keyword">then</span><br>  sed <span class="hljs-string">&#x27;1i #!/bin/bash&#x27;</span> <span class="hljs-variable">$1</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="28-切割nginx日志"><a href="#28-切割nginx日志" class="headerlink" title="28: 切割nginx日志"></a>28: 切割nginx日志</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>nginx_log_path=<span class="hljs-string">&quot;/var/log/nginx/&quot;</span><br><br>mv <span class="hljs-variable">$&#123;nginx_log_path&#125;</span>access.log <span class="hljs-variable">$&#123;nginx_log_path&#125;</span>access_$(date +%F).<span class="hljs-built_in">log</span><br><br><span class="hljs-built_in">kill</span> -USER1 `cat /run/nginx.pid`<br><br></code></pre></td></tr></table></figure>
+<h3 id="29-检测mysql-数据库连接量"><a href="#29-检测mysql-数据库连接量" class="headerlink" title="29: 检测mysql 数据库连接量"></a>29: 检测mysql 数据库连接量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>log_file=/tmp/mysql_login.log<br>user=root<br>passwd=123456<br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>  mysqladmin -u<span class="hljs-string">&quot;<span class="hljs-variable">$user</span>&quot;</span> -p<span class="hljs-string">&quot;<span class="hljs-variable">$passwd</span>&quot;</span> status | awk <span class="hljs-string">&#x27;&#123;print $4&#125;&#x27;</span> &gt;&gt; <span class="hljs-variable">$log_file</span><br>  sleep 2<br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="30-根据md5-校验码-检测文件是否被修改"><a href="#30-根据md5-校验码-检测文件是否被修改" class="headerlink" title="30: 根据md5 校验码, 检测文件是否被修改"></a>30: 根据md5 校验码, 检测文件是否被修改</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `ls /etc/*conf`;<span class="hljs-keyword">do</span><br>  md5sum <span class="hljs-string">&quot;<span class="hljs-variable">$i</span>&quot;</span> &gt;&gt; /var/<span class="hljs-built_in">log</span>/md5.log<br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="40-检测mysql服务是否存活"><a href="#40-检测mysql服务是否存活" class="headerlink" title="40: 检测mysql服务是否存活"></a>40: 检测mysql服务是否存活</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>user=root<br>passwd=passwd<br><br>mysqladmin -u<span class="hljs-variable">$user</span> -p<span class="hljs-variable">$passwd</span> ping &amp;&gt;/dev/null<br><span class="hljs-keyword">if</span> [ $? -eq 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mysql 启动状态&quot;</span><br>  <span class="hljs-keyword">else</span> <br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;mysql 没有启动&quot;</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="41-备份mysql的shell脚本-mysqldump"><a href="#41-备份mysql的shell脚本-mysqldump" class="headerlink" title="41: 备份mysql的shell脚本(mysqldump)"></a>41: 备份mysql的shell脚本(mysqldump)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>user=root<br>passwd=passwd<br>db=testdb<br><br>[ ! d /mysqlback ] &amp;&amp; mkdir /mysqlback<br>mysqldump -u<span class="hljs-variable">$user</span> -p<span class="hljs-variable">$passwd</span> <span class="hljs-variable">$db</span> &gt; /mysqlback/<span class="hljs-variable">$db</span>.sql<br><br></code></pre></td></tr></table></figure>
+<h3 id="42-将文件中所有的小写字母转行为大写字母"><a href="#42-将文件中所有的小写字母转行为大写字母" class="headerlink" title="42: 将文件中所有的小写字母转行为大写字母"></a>42: 将文件中所有的小写字母转行为大写字母</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入需要转行的文件:&quot;</span> file<br><br>tr [a-z] [A-Z] &lt; <span class="hljs-variable">$file</span><br><br><span class="hljs-comment">#写入文件</span><br>cat test.sh | tr [a-z] [A-Z] &gt;&gt; test.sh<br></code></pre></td></tr></table></figure>
+
+<h3 id="43-非交互自动生成ssh密钥"><a href="#43-非交互自动生成ssh密钥" class="headerlink" title="43: 非交互自动生成ssh密钥"></a>43: 非交互自动生成ssh密钥</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#</span><br>rm rf ~/.ssh/*<br><br>ssh-keygen -t RSA -N <span class="hljs-string">&#x27;&#x27;</span> -f ~/.ssh/id_rsa<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="44-检测特定的软件是否已经安装"><a href="#44-检测特定的软件是否已经安装" class="headerlink" title="44: 检测特定的软件是否已经安装"></a>44: 检测特定的软件是否已经安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入要检测的软件:&quot;</span> pack<br><br><span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">$pack</span> ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;不能为空&quot;</span><br>  <span class="hljs-built_in">exit</span> 1<br><span class="hljs-keyword">fi</span><br><br>rpm -q <span class="hljs-variable">$pack</span> &amp;&gt;/dev/null<br><span class="hljs-keyword">if</span> [ $? -eq 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;已安装&quot;</span><br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;没有安装&quot;</span><br>    <span class="hljs-built_in">exit</span> 1<br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="45-监控http服务器的状态-测试返回码"><a href="#45-监控http服务器的状态-测试返回码" class="headerlink" title="45:监控http服务器的状态(测试返回码)"></a>45:监控http服务器的状态(测试返回码)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>url=<span class="hljs-string">&quot;https://h5.haoqipei.com&quot;</span><br>sum=0<br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>sleep 10;<br>code=$(curl -m 5 -o /dev/null -s -w %&#123;http_code&#125; <span class="hljs-variable">$url</span>)<br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$code</span> -lt 200 ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">let</span> sum+=1<br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$sun</span> -gt 3 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;网络失联30s, 请检查 http 服务&quot;</span><br>    <span class="hljs-built_in">unset</span> sum<br>    <span class="hljs-built_in">exit</span> 1<br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">done</span><br><br><br></code></pre></td></tr></table></figure>
+<h3 id="46-显示cpu-厂商信息"><a href="#46-显示cpu-厂商信息" class="headerlink" title="46: 显示cpu 厂商信息"></a>46: 显示cpu 厂商信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>awk <span class="hljs-string">&#x27;/vendor_id/&#123;print $3&#125;&#x27;</span> /proc/cpuinfo | uniq<br></code></pre></td></tr></table></figure>
+<h3 id="47-删除某个目录大小为0-的文件"><a href="#47-删除某个目录大小为0-的文件" class="headerlink" title="47: 删除某个目录大小为0 的文件"></a>47: 删除某个目录大小为0 的文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>dir=/usr/share<br><br>find <span class="hljs-variable">$dir</span> -<span class="hljs-built_in">type</span> f -szie 0 -<span class="hljs-built_in">exec</span> rm -rf &#123;&#125; \;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="48-查找linux-系统中的僵尸进程"><a href="#48-查找linux-系统中的僵尸进程" class="headerlink" title="48: 查找linux 系统中的僵尸进程"></a>48: 查找linux 系统中的僵尸进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>ps aux | awk <span class="hljs-string">&#x27;&#123;if($8 == &quot;Z&quot;)&#123;print $2,$11&#125;&#125;&#x27;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="49-提示用户输入年份后测试判断是否为闰年"><a href="#49-提示用户输入年份后测试判断是否为闰年" class="headerlink" title="49: 提示用户输入年份后测试判断是否为闰年"></a>49: 提示用户输入年份后测试判断是否为闰年</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#能被4整除 并且并100整除的年是闰年</span><br><span class="hljs-comment">#能被400整除的年也是闰年</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入年份:&quot;</span> year<br><br><span class="hljs-keyword">if</span> [ <span class="hljs-string">&quot;<span class="hljs-variable">$year</span>&quot;</span> == <span class="hljs-string">&quot;&quot;</span> ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入有效年份&quot;</span><br>  <span class="hljs-built_in">exit</span><br><span class="hljs-keyword">fi</span><br><span class="hljs-comment">#使用正则测试变量 year中是否包含大小写字母</span><br><br><span class="hljs-keyword">if</span> [[ <span class="hljs-string">&quot;<span class="hljs-variable">$year</span>&quot;</span> =~ [a-z] ]];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入的不是数字&quot;</span><br>  <span class="hljs-built_in">exit</span><br><span class="hljs-keyword">fi</span><br><br><span class="hljs-keyword">if</span> [ $[<span class="hljs-variable">$year</span> % 4] -eq 0 ] &amp;&amp; [ $[<span class="hljs-variable">$year</span> % 100] -ne 0 ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$year</span>是闰年&quot;</span><br>  <span class="hljs-keyword">elif</span> [ $[year % 400] -eq 0];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$year</span>是闰年&quot;</span><br>  <span class="hljs-keyword">else</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$year</span>不是闰年&quot;</span><br><span class="hljs-keyword">fi</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="50-生成随机密码-urandom版本"><a href="#50-生成随机密码-urandom版本" class="headerlink" title="50:  生成随机密码, urandom版本"></a>50:  生成随机密码, urandom版本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#/dev/urandom 是linux 内置的随机设备文件</span><br><span class="hljs-comment"># cat /dev/urandom 查看文件内容.</span><br><span class="hljs-comment">#查看该文件后 发现内容有些太随机,包含很多特殊符号 我们需要的密码  不希望使用这样的符号,</span><br><span class="hljs-comment"># tr -dc &#x27;_A-Za-z9-9&#x27; &lt; /dev/urandom</span><br><span class="hljs-comment"># 该命令可以将随机文件中的其他字符删除, 仅保留大小写字母 数字 下划线, 但是内容还是太多,</span><br><span class="hljs-comment"># 我们可以继续吧优化好的内容 通过管道传递给 head 命令, 在大量数据中仅显示头10个字节,</span><br><span class="hljs-comment"># 注意A 前面有个下划线</span><br>tr -dc <span class="hljs-string">&#x27;_A-Za-z0-9&#x27;</span> &lt;/dev/urandom | head -c 10<br></code></pre></td></tr></table></figure>
+
+<h3 id="51-随机生成密码"><a href="#51-随机生成密码" class="headerlink" title="51: 随机生成密码"></a>51: 随机生成密码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#uuid版本,16进制密码</span><br>uuidgen<br><br><span class="hljs-comment">#进程id版本 数字密码</span><br><span class="hljs-built_in">echo</span> $$<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="52-shell脚本的fork炸弹"><a href="#52-shell脚本的fork炸弹" class="headerlink" title="52: shell脚本的fork炸弹"></a>52: shell脚本的fork炸弹</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment">#快速消耗计算机资源, 指使计算机死机,</span><br><span class="hljs-comment">#定义函数名为.(点) 函数中的递归调用自己并放入后台执行</span><br>.()&#123;<br>  .|.&amp;<br>&#125;;<br>.<br><br></code></pre></td></tr></table></figure>
+<h3 id="53-批量下载有序文件"><a href="#53-批量下载有序文件" class="headerlink" title="53: 批量下载有序文件"></a>53: 批量下载有序文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>url=www.baidu.com<br><span class="hljs-built_in">type</span>=jpg<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `seq 100`;<span class="hljs-keyword">do</span><br>  curl <span class="hljs-variable">$url</span>/<span class="hljs-variable">$i</span>.<span class="hljs-variable">$type</span> -o /tmp/<span class="hljs-variable">$i</span>.<span class="hljs-variable">$type</span><br>  sleep 2<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="54-显示当前计算机中所有账户的用户名称"><a href="#54-显示当前计算机中所有账户的用户名称" class="headerlink" title="54: 显示当前计算机中所有账户的用户名称"></a>54: 显示当前计算机中所有账户的用户名称</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># awk -F&#x27;:&#x27; &#x27;&#123;print $1&#125;&#x27; /etc/passwd</span><br><span class="hljs-comment"># cut -d&#x27;:&#x27; -f1 /etc/passwd</span><br><span class="hljs-comment"># sed &quot;s/:.*//&quot; /etc/passwd</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="55-制定目录路径-脚本自动将该目录使用tar命令打包备份到-data目录"><a href="#55-制定目录路径-脚本自动将该目录使用tar命令打包备份到-data目录" class="headerlink" title="55: 制定目录路径, 脚本自动将该目录使用tar命令打包备份到/data目录"></a>55: 制定目录路径, 脚本自动将该目录使用tar命令打包备份到/data目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入要打包的目录路径(绝对路径):&quot;</span> dir<br><br><span class="hljs-keyword">if</span> [ ! -d <span class="hljs-variable">$dir</span> ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;目录不存在&quot;</span> <br><span class="hljs-keyword">fi</span><br><br>tar zcvf /tmp/<span class="hljs-variable">$dir</span>.tar.gz <span class="hljs-variable">$dir</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="56-显示进度条-回旋镖版本"><a href="#56-显示进度条-回旋镖版本" class="headerlink" title="56: 显示进度条(回旋镖版本)"></a>56: 显示进度条(回旋镖版本)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>  clear<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `seq 20`;<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\033[3;<span class="hljs-variable">$&#123;i&#125;</span>H*&quot;</span><br>    sleep 0.1<br>  <span class="hljs-keyword">done</span><br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;20..1&#125;;<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\033[3;<span class="hljs-variable">$&#123;1&#125;</span>H*&quot;</span><br>    sleep 0.1<br>  <span class="hljs-keyword">done</span><br>  clear<br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="57-循环关闭局域网中所有主机"><a href="#57-循环关闭局域网中所有主机" class="headerlink" title="57: 循环关闭局域网中所有主机"></a>57: 循环关闭局域网中所有主机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>ip=90<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..254&#125;;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$i</span> -ne <span class="hljs-variable">$ip</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;正在关闭 192.168.249.<span class="hljs-variable">$i</span>...&quot;</span><br>    ssh 192.168.249.<span class="hljs-variable">$i</span> poweroff<br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="58-获取本机mac地址"><a href="#58-获取本机mac地址" class="headerlink" title="58: 获取本机mac地址"></a>58: 获取本机mac地址</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>ip a show ens33 | awk <span class="hljs-string">&#x27;/link\/ether^Cprint $2&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="59-修改linux-系统里最大打开文件数量"><a href="#59-修改linux-系统里最大打开文件数量" class="headerlink" title="59: 修改linux 系统里最大打开文件数量"></a>59: 修改linux 系统里最大打开文件数量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#往/etc/secruity/limits.conf 文件的末尾追加两行配置参数, 修改最大打开文件数量为 65536</span><br>cat &gt;&gt; /etc/security/limits.conf &lt;&lt; <span class="hljs-string">EOF</span><br><span class="hljs-string">* soft nofile 65536</span><br><span class="hljs-string">* hard nofile 65536</span><br><span class="hljs-string">EOF</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="60-自动修改计划任务配置文件"><a href="#60-自动修改计划任务配置文件" class="headerlink" title="60: 自动修改计划任务配置文件"></a>60: 自动修改计划任务配置文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入分钟信息(00-59):&quot;</span> min<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入小时信息(00-24):&quot;</span> hour<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入日期信息(01-31):&quot;</span> date<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入月份信息(01-12):&quot;</span> month<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入星期信息(00-06):&quot;</span> weak<br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入要执行的命令或者脚本:&quot;</span> program<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$min</span> <span class="hljs-variable">$hour</span> <span class="hljs-variable">$date</span> <span class="hljs-variable">$month</span> <span class="hljs-variable">$weak</span> <span class="hljs-variable">$program</span>&quot;</span> &gt;&gt; /etc/crontab<br></code></pre></td></tr></table></figure>
+
+<h3 id="61-找出-etc-passwd-中能登录的用户-并将对应在-etc-shadow-中第二列密码提出处理"><a href="#61-找出-etc-passwd-中能登录的用户-并将对应在-etc-shadow-中第二列密码提出处理" class="headerlink" title="61: 找出/etc/passwd 中能登录的用户, 并将对应在/etc/shadow 中第二列密码提出处理"></a>61: 找出/etc/passwd 中能登录的用户, 并将对应在/etc/shadow 中第二列密码提出处理</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#awk -v 把外部变量影射为内部变量 </span><br>user=`awk -F<span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print $1&#125;&#x27;</span>  /etc/passwd`<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-variable">$user</span>;<span class="hljs-keyword">do</span><br> <span class="hljs-comment"># awk -F: -v x=$i  &#x27;$1==x&#123;print $1,$2&#125;&#x27; /etc/shadow  #awk &#x27;&#x27; 单引号不识别变量 所以用赋值的方式 去条件里面判断</span><br>   awk -F<span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;/$&#123;i&#125;/&#123;print $1,$2&#125;&#x27;</span> /etc/shadow        <span class="hljs-comment"># 这种方式不行, $i 不识别</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="62-使用脚本循环创建-三位数的文本文件-111-999的文件"><a href="#62-使用脚本循环创建-三位数的文本文件-111-999的文件" class="headerlink" title="62: 使用脚本循环创建 三位数的文本文件 (111-999的文件)"></a>62: 使用脚本循环创建 三位数的文本文件 (111-999的文件)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>mkdir -p /tmp/testnum<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..99&#125;;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> &#123;1..99&#125;;<span class="hljs-keyword">do</span><br>    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> &#123;1..99&#125;;<span class="hljs-keyword">do</span><br>      touch /tmp/testnum/<span class="hljs-variable">$&#123;i&#125;</span><span class="hljs-variable">$&#123;j&#125;</span><span class="hljs-variable">$&#123;k&#125;</span>.txt<br>    <span class="hljs-keyword">done</span><br>  <span class="hljs-keyword">done</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="63-统计-etc-passwd-中root-出现的次数"><a href="#63-统计-etc-passwd-中root-出现的次数" class="headerlink" title="63: 统计/etc/passwd 中root 出现的次数"></a>63: 统计/etc/passwd 中root 出现的次数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment">#awk -F&#x27;:&#x27; &#x27;&#123;i=1;while(i&lt;=NF)&#123;if($i~/root/)&#123;x++&#125;;i++&#125;&#125;END&#123;print &quot;root 出现次数为 x&quot;&#125;&#x27; /etc/passwd</span><br>sum=0<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `awk -F<span class="hljs-string">&#x27;/&#x27;</span> <span class="hljs-string">&#x27;&#123;print $NF&#125;&#x27;</span> /etc/passwd`;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$i</span> == <span class="hljs-string">&quot;nologin&quot;</span> ];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">let</span> sum++<br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$sum</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="64-统计linux进程相关的数量信息"><a href="#64-统计linux进程相关的数量信息" class="headerlink" title="64: 统计linux进程相关的数量信息"></a>64: 统计linux进程相关的数量信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>running=0<br>sleeping=0<br>stoped=0<br>zombie=0<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> /proc/[1-9]*;<span class="hljs-keyword">do</span><br> tatus=`awk <span class="hljs-string">&#x27;&#123;print $3&#125;&#x27;</span> <span class="hljs-variable">$i</span>/<span class="hljs-built_in">stat</span>`<br> <span class="hljs-keyword">case</span> <span class="hljs-variable">$tatus</span> <span class="hljs-keyword">in</span><br> R)<br>    running=$[running+1];;<br> T)<br>    stoped=$[stoped+1];;<br> S)<br>    sleeping=$[sleeping+1];;<br> Z)<br>    zombie=$[zombie+1];;<br> <span class="hljs-keyword">esac</span><br><span class="hljs-keyword">done</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;运行的:<span class="hljs-variable">$running</span>  sleep的:<span class="hljs-variable">$sleeping</span> stop的:<span class="hljs-variable">$stoped</span> zeom的:<span class="hljs-variable">$zombie</span>&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="65-判断用户输入的数据类型"><a href="#65-判断用户输入的数据类型" class="headerlink" title="65: 判断用户输入的数据类型,"></a>65: 判断用户输入的数据类型,</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;请输入一个字符:&quot;</span> key<br><span class="hljs-keyword">case</span> <span class="hljs-variable">$key</span> <span class="hljs-keyword">in</span><br>[a-z]|[A-Z])<br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入的是一个字母&quot;</span>;;<br>[0-9])<br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入的是一个数字&quot;</span>;;<br>*)<br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入的是空格或功能键字符&quot;</span><br><span class="hljs-keyword">esac</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="66-打印斐波那契数列-该数列的特点是最后一个数字-永远都是前2个数字之和"><a href="#66-打印斐波那契数列-该数列的特点是最后一个数字-永远都是前2个数字之和" class="headerlink" title="66: 打印斐波那契数列 (该数列的特点是最后一个数字 永远都是前2个数字之和)"></a>66: 打印斐波那契数列 (该数列的特点是最后一个数字 永远都是前2个数字之和)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#斐波那契数列最后一个数字永远是前2个数字之和</span><br><span class="hljs-comment">#如: 0 1 1 2 3 5 8 13</span><br>list=(0 1)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `seq 2 11`;<span class="hljs-keyword">do</span><br>  list[<span class="hljs-variable">$i</span>]=`expr <span class="hljs-variable">$&#123;list[-1]&#125;</span> + <span class="hljs-variable">$&#123;list[-2]&#125;</span>`<br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$&#123;list[@]&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="67-判断用户输入的是yes还是no"><a href="#67-判断用户输入的是yes还是no" class="headerlink" title="67: 判断用户输入的是yes还是no"></a>67: 判断用户输入的是yes还是no</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入yes或者no:&quot;</span> sure<br><br><span class="hljs-keyword">case</span> <span class="hljs-variable">$sure</span> <span class="hljs-keyword">in</span><br>yes|y|Y|yes)<br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入的是yes&quot;</span>;;<br>no|NO|N|n)<br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;输入的是no&quot;</span>;;<br>*)<br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;error&quot;</span><br><span class="hljs-keyword">esac</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="68-显示本机上linux系统上所有的开发的端口列表"><a href="#68-显示本机上linux系统上所有的开发的端口列表" class="headerlink" title="68: 显示本机上linux系统上所有的开发的端口列表"></a>68: 显示本机上linux系统上所有的开发的端口列表</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>netstat -tlunp| awk <span class="hljs-string">&#x27;&#123;print $1,$4&#125;&#x27;</span>|awk -F<span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;&#123;print &quot;协议&quot;$1,&quot;端口&quot;$NF&#125;&#x27;</span>| grep <span class="hljs-string">&quot;[0-9]&quot;</span>| uniq<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="69-将linux系统中UID-大于1000的用户都删除"><a href="#69-将linux系统中UID-大于1000的用户都删除" class="headerlink" title="69: 将linux系统中UID 大于1000的用户都删除"></a>69: 将linux系统中UID 大于1000的用户都删除</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>user=`awk -F<span class="hljs-string">&#x27;:&#x27;</span> <span class="hljs-string">&#x27;$3&gt;=1000&#123;print $1&#125;&#x27;</span> /etc/passwd`<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-variable">$user</span>;<span class="hljs-keyword">do</span><br>  userdel -r <span class="hljs-variable">$i</span><br><span class="hljs-keyword">done</span><br></code></pre></td></tr></table></figure>
+<h3 id="70-使用脚本打印如下图像"><a href="#70-使用脚本打印如下图像" class="headerlink" title="70: 使用脚本打印如下图像"></a>70: 使用脚本打印如下图像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment">#第一个图像</span><br><br><span class="hljs-keyword">for</span>((i=1;i&lt;=9;i++));<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span>((j=1;j&lt;=i;j++));<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -n <span class="hljs-variable">$i</span><br>  <span class="hljs-keyword">done</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">done</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;按任意键继续&quot;</span> key<br><br><span class="hljs-keyword">for</span>((i=1;i&lt;=9;i++));<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span>((j=1;j&lt;=i;j++));<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;|&quot;</span><br>  <span class="hljs-keyword">done</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;_&quot;</span><br><span class="hljs-keyword">done</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;按任意键继续&quot;</span> key<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> &#123;1..10&#125;;<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span>((j=1;j&lt;=i;j++));<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;*&quot;</span><br>  <span class="hljs-keyword">done</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">done</span><br><span class="hljs-keyword">for</span>((i=10;i&gt;=1;i--));<span class="hljs-keyword">do</span><br>  <span class="hljs-keyword">for</span>((j=1;j&lt;=i;j++));<span class="hljs-keyword">do</span><br>    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">&quot;*&quot;</span><br>  <span class="hljs-keyword">done</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&quot;</span><br><span class="hljs-keyword">done</span><br><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="71-根据计算机当前时间-返回问候语-可以将脚本设置为开机自启"><a href="#71-根据计算机当前时间-返回问候语-可以将脚本设置为开机自启" class="headerlink" title="71: 根据计算机当前时间, 返回问候语, 可以将脚本设置为开机自启"></a>71: 根据计算机当前时间, 返回问候语, 可以将脚本设置为开机自启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>tm=`date +%H`<br><br><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$tm</span> -le 12 ];<span class="hljs-keyword">then</span><br>  msg=<span class="hljs-string">&quot;早上好&quot;</span><br><span class="hljs-keyword">elif</span> [ <span class="hljs-variable">$tm</span> -gt 12 -a <span class="hljs-variable">$tm</span> -le 18 ];<span class="hljs-keyword">then</span><br>  msg=<span class="hljs-string">&quot;中午好&quot;</span><br><span class="hljs-keyword">else</span><br>  msg=<span class="hljs-string">&quot;晚上好&quot;</span><br><span class="hljs-keyword">if</span><br><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;当前时间是: <span class="hljs-subst">$(date +%F-%H:%M:%S)</span>&quot;</span><br><span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;\033[34m<span class="hljs-variable">$msg</span>\033[0m&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="72-读取用户输入的账户名称-将账户名写入到数组保存"><a href="#72-读取用户输入的账户名称-将账户名写入到数组保存" class="headerlink" title="72: 读取用户输入的账户名称, 将账户名写入到数组保存"></a>72: 读取用户输入的账户名称, 将账户名写入到数组保存</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br>i=0<br><span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>;<span class="hljs-keyword">do</span><br>  <span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入用户名 保存到数组:&quot;</span> name<br>  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$name</span> == <span class="hljs-string">&quot;over&quot;</span> ];<span class="hljs-keyword">then</span><br>    <span class="hljs-built_in">break</span><br>  <span class="hljs-keyword">else</span><br>    name_arr[<span class="hljs-variable">$i</span>]=<span class="hljs-variable">$name</span><br>    <span class="hljs-built_in">let</span> i++<br>  <span class="hljs-keyword">fi</span><br><span class="hljs-keyword">done</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;总账户数量为 <span class="hljs-variable">$&#123;#name_arr[*]&#125;</span>&quot;</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;<span class="hljs-variable">$&#123;name_arr[*]&#125;</span>&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="73-判断文件或目录是否存在"><a href="#73-判断文件或目录是否存在" class="headerlink" title="73: 判断文件或目录是否存在"></a>73: 判断文件或目录是否存在</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-built_in">read</span> -p <span class="hljs-string">&quot;输入目录或者文件:&quot;</span>  dir<br><br><span class="hljs-keyword">if</span> [ -f <span class="hljs-variable">$dir</span> ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;该文件存在&quot;</span><br>  ls -l <span class="hljs-variable">$dir</span><br><span class="hljs-keyword">elif</span> [ -d <span class="hljs-variable">$dir</span> ];<span class="hljs-keyword">then</span><br>  <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;该目录存在&quot;</span><br>  ls -ld <span class="hljs-variable">$dir</span><br><span class="hljs-keyword">fi</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="74-打印各种时间格式"><a href="#74-打印各种时间格式" class="headerlink" title="74: 打印各种时间格式"></a>74: 打印各种时间格式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示星期简称(如: Sun)&quot;</span><br>date +%a<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示星期全程(如: sunday)&quot;</span><br>date +%A<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示月份简称(如: jan)&quot;</span><br>date +%b<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示月份全称(如: january)&quot;</span><br>date +%B<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示数字月份(如: 12)&quot;</span><br>date +%m<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示当前分钟&quot;</span><br>date +%M<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;显示当前数字日期&quot;</span><br>date +%d<br><span class="hljs-comment">#更多查百度吧</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="75-使用egrep-过滤mac地址"><a href="#75-使用egrep-过滤mac地址" class="headerlink" title="75: 使用egrep 过滤mac地址"></a>75: 使用egrep 过滤mac地址</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br>ip a show ens33 | egrep -o <span class="hljs-string">&quot;[0-9a-fA-F]&#123;2&#125;(:[0-9a-fA-F]&#123;2&#125;)&#123;5&#125;&quot;</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id="76-使用awk编写wc程序"><a href="#76-使用awk编写wc程序" class="headerlink" title="76: 使用awk编写wc程序"></a>76: 使用awk编写wc程序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment">#自定义变量chars 变量存储字符个数,自定义变量 words 变量存储单词个数</span><br><span class="hljs-comment">#awk 变量内置NR存储行数</span><br><span class="hljs-comment">#length()为awk内置函数, 用来统计每行的字符数量, 因为每行都会有一个隐藏的$, 所以每次统计后都+1</span><br><span class="hljs-comment">#awk程序会把文件结尾符$也统计在内,可以使用 cat -A 文件名, 查看隐藏字符</span><br>awk <span class="hljs-string">&#x27;&#123;chars+=length($0)+1;words+=NF&#125; END&#123;print NR,words,chars&#125;&#x27;</span> <span class="hljs-variable">$1</span><br><br></code></pre></td></tr></table></figure>
+
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/shell/">shell</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/shell/">shell</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/15/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9A%8489%E4%B8%AA%E6%A6%82%E5%BF%B5/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计算机网络的89个概念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/15/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/">
+                        <span class="hidden-mobile">费曼学习法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

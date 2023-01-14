@@ -1,0 +1,564 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>ACM + Confd 管理配置文件 - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="ACM + Confd 管理配置文件">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-15 13:19" pubdate>
+        2022年3月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      14
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">ACM + Confd 管理配置文件</h1>
+            
+            <div class="markdown-body">
+              <h2 id="ACM-confd-管理配置文件"><a href="#ACM-confd-管理配置文件" class="headerlink" title="ACM + confd 管理配置文件"></a>ACM + confd 管理配置文件</h2><blockquote>
+<p>confd 是一款开源的配置管理工具， 通过将存储于etcd，redis zookeeper 等后端存储系统的数据于配置模板结合起来使用，可实现保持配置处于最新状态的目的， 现在将阿里云的 ACM 作为后端，配合confd 实现无侵入式 的配置，实现 自动推送 监听等功能！</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/confd+ACM.jpeg" srcset="/img/loading.gif" lazyload alt="ACM结果图"></p>
+<h3 id="ACM配置"><a href="#ACM配置" class="headerlink" title="ACM配置"></a>ACM配置</h3><p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/ACM.png" srcset="/img/loading.gif" lazyload alt="ACM"></p>
+<ul>
+<li><p>配置列表</p>
+<ul>
+<li>命名空间<ul>
+<li>每个命名空间相当于一个大的分组,拥有自己的<code>&quot;命名空间ID&quot;</code> , 启动服务的时候需要指定链接的命名空间</li>
+</ul>
+</li>
+<li>Endpoint<ul>
+<li>服务访问的地址</li>
+</ul>
+</li>
+<li>AccessKey/SecretKey<ul>
+<li>登录需要的key</li>
+</ul>
+</li>
+<li>创建配置<ul>
+<li>Data ID<ul>
+<li>Data ID在一个Group下是唯一的。相当于 一个单独的应用id</li>
+</ul>
+</li>
+<li>Group<ul>
+<li> 配置分组,全局唯一, <code>启动服务时需要指定分组</code></li>
+</ul>
+</li>
+<li>配置内容和格式 根据格式自行选择</li>
+<li>其余功能,看字面意思即可理解</li>
+</ul>
+</li>
+</ul>
+<h3 id="confd-安装"><a href="#confd-安装" class="headerlink" title="confd 安装"></a>confd 安装</h3></li>
+</ul>
+<ol>
+<li><p>confd 的构建依赖于 Go 1.10 或更高版本。</p>
+</li>
+<li><p>创建docker容器,并进入容器,下载源码包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkdir -p <span class="hljs-variable">$GOPATH</span>/src/github.com/kelseyhightower <br><span class="hljs-built_in">cd</span> <span class="hljs-variable">$GOPATH</span>/src/github.com/kelseyhightower <br>wget https://github.com/nacos-group/nacos-confd/archive/v0.19.2.tar.gz<br></code></pre></td></tr></table></figure></li>
+<li><p>解压下载的 confd 源码。并重命名为 confd</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">tar -xvf v0.19.2.tar.gz<br>mv nacos-confd-0.19.2 confd<br></code></pre></td></tr></table></figure></li>
+<li><p>编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> confd<br>make<br>-------<br>如果编译报错用 : mkdir -p bin; go build -o bin/confd .<br></code></pre></td></tr></table></figure></li>
+<li><p>编译好之后,复制 二进制文件 到想要运行的目录即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mv bin/confd /etc/confd<br></code></pre></td></tr></table></figure></li>
+<li><p>confd  –verion 查看是否成功 </p>
+</li>
+<li><p><strong><code>confd 官方文档: https://github.com/kelseyhightower/confd/tree/master/docs</code></strong></p>
+</li>
+</ol>
+<h3 id="confd配合ACM配置"><a href="#confd配合ACM配置" class="headerlink" title="confd配合ACM配置"></a>confd配合ACM配置</h3><ol>
+<li><p>创建 confd 所需的目录用来存放模板资源配置文件和模板文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">mkdir -p /etc/confd/&#123;conf.d,templates&#125;<br></code></pre></td></tr></table></figure></li>
+<li><p>在 conf.d 目录下创建 TOML 格式的 confd 模板资源配置文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/confd/conf.d/tomcat-admin.toml<br></code></pre></td></tr></table></figure>
+<ul>
+<li>配置参数<ul>
+<li>src 参数指定 confd 模板文件</li>
+<li>dest 参数指定生成的配置文件</li>
+<li>keys 参数指定将模板渲染成配置文件所需的配置内容</li>
+<li>mode 文件权限</li>
+<li>reload_cmd 运行重启命令, 可以运行自定义的脚本  </li>
+<li>check_cmd 同上</li>
+<li><code>模板见下面示例</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在 templates 目录下创建 confd 模板文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">vim /etc/confd/templates/tomcat-admin.tmpl<br></code></pre></td></tr></table></figure>
+
+<p>在该模板文件中添加以下内容。其含义为通过 getv 从 ACM 获取 Data ID 为 tomcat-admin 的配置内容</p>
+<blockquote>
+<p>说明 在模板中必须将 ACM 的 Data ID 中的 .  转换为 / 格式，即以斜线（/）代替句点（.）并在开头增加一个斜线。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">value = &#123;&#123;getv <span class="hljs-string">&quot;/tomcat-admin&quot;</span>&#125;&#125;<br></code></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>4 启动confd</p>
+<ul>
+<li><blockquote>
+<p>说明 请将代码中的 {endpoint}、{namespace}、{accessKey}、{secretKey} 分别替换为 ACM 控制台上命名空间详情对话框内的 End Point、命名空间 ID、AccessKey、SecretKey。</p>
+</blockquote>
+</li>
+<li><pre><code class="bash">confd -backend nacos -endpoint &#123;endpoint&#125;:8080 -namespace &#123;namespace&#125; -accessKey &#123;accessKey&#125; -secretKey &#123;secretKey&#125;
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs dts">  * 查看<span class="hljs-meta-keyword">/usr/</span>loca<span class="hljs-meta-keyword">/tomcat-admini/</span>conf/server.xml 目录下有没有生成 dataid 里面配置的内容<br><br><br><span class="hljs-meta">## 开启confd监听</span><br>如果按照上述方法操作，confd 生成一次配置文件后就会退出。只要在 confd 启动命令中添加 -watch 参数即可监听后端系统（在本示例中为 ACM）的配置变更，一旦配置内容发生变化，confd 就会重新生成配置文件。<br>* 以监听模式启动<br>  ```bash<br>  confd -watch -backend nacos -<span class="hljs-class">endpoint </span>&#123;endpoint&#125;:<span class="hljs-number">8080</span> -<span class="hljs-class">namespace </span>&#123;namespace&#125; -<span class="hljs-class">accessKey </span>&#123;accessKey&#125; -<span class="hljs-class">secretKey </span>&#123;secretKey&#125;<br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<hr>
+<h2 id="配置内容参考"><a href="#配置内容参考" class="headerlink" title="配置内容参考"></a>配置内容参考</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash</span><br><br><span class="hljs-comment">## config param</span><br>endpoint=addr-sz-internal.edas.aliyun.com<br>namespace=acee06c8-xxxxx-xxxxxxxxxx-xxxxxxxxxxxx<br>accessKey=LTxxxxxxxxxxxxxx<br>secretKey=Kxxxxxxxxxxxxxx<br><span class="hljs-comment">#dataId=myapp.database.url</span><br>group=tomcat<br><br><span class="hljs-function"><span class="hljs-title">start</span></span> () &#123;<br>    <span class="hljs-comment">#以tomcat用户运行并监听confd</span><br>    nohup sudo -u tomcat /etc/confd/bin/confd -watch -backend nacos -endpoint <span class="hljs-variable">$endpoint</span>:8080 -namespace <span class="hljs-variable">$namespace</span> -group <span class="hljs-variable">$group</span> -accessKey <span class="hljs-variable">$accessKey</span> -secretKey <span class="hljs-variable">$secretKey</span> &gt;/dev/null 2&gt;&amp;1 &amp;<br>    <span class="hljs-keyword">if</span> [[ $? == 0 ]];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;启动成功&quot;</span><br>    <span class="hljs-keyword">fi</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-title">stop</span></span> () &#123;<br>    killall confd<br>    <span class="hljs-keyword">if</span> [[ $? == 0 ]];<span class="hljs-keyword">then</span><br>      <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;停止成功&quot;</span><br>    <span class="hljs-keyword">fi</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-title">restart</span></span> ()&#123;<br>    stop<br>    start<br>&#125;<br><br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;<span class="hljs-variable">$1</span>&quot;</span> <span class="hljs-keyword">in</span><br>start)<br>    start<br>;;<br>stop)<br>    stop<br>;;<br>restart)<br>    restart<br>;;<br>*)<br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;参数:start|stop|restart&quot;</span><br><span class="hljs-keyword">esac</span><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">[template]<br>src = <span class="hljs-string">&quot;tomcat-admin.tmpl&quot;</span><br>dest = <span class="hljs-string">&quot;/usr/local/tomcat-admin/conf/server.xml&quot;</span><br>mode = <span class="hljs-string">&quot;0775&quot;</span><br>keys = [<br><span class="hljs-string">&quot;/tomcat-admin&quot;</span>,<br>]<br>reload_cmd = <span class="hljs-string">&quot;/etc/confd/dos2unix.sh /usr/local/tomcat-admin/conf/server.xml&quot;</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-meta">#! /bin/bash</span><br>dos2unix -q <span class="hljs-variable">$1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>发现问题:  ACM配置管理编辑器,换行符是windows编码格式, 在linux里面用vim打开 会发现^M </code></p>
+<p><code>解决办法:  dos2unix -q file   转换为inux编码格式, 可以将脚本写到 reload_cmd 里面, 如 reload_cmd = dos2nuix.sh fiel</code></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">安装教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ACM-CONFD/">ACM - CONFD</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/15/hexo+live2D/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">HEXO + live2D 添加看板娘</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/15/bash%E4%B8%AD%E6%96%87%E9%80%9F%E6%9F%A5%E8%A1%A8/">
+                        <span class="hidden-mobile">bash中文速查表</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

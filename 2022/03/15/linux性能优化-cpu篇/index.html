@@ -1,0 +1,510 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>linux性能优化-cpu - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="linux性能优化-cpu">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-15 13:06" pubdate>
+        2022年3月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      12
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">linux性能优化-cpu</h1>
+            
+            <div class="markdown-body">
+              <h3 id="什么是”平均负载”"><a href="#什么是”平均负载”" class="headerlink" title="什么是”平均负载”"></a>什么是”平均负载”</h3><p>单位时间内, 系统处于可运行状态和不可终端状态的评价进程数,也就是平均活跃进程数,(和cpu并没有直接关系)</p>
+<ul>
+<li>可运行状态: 正在使用cpu或者等待cpu的进程,r状态</li>
+<li>不可中断状态: 处于内核态流程装的状态, 并且不可中断,比如常见的硬件等I/O响应,D状态</li>
+</ul>
+<p>也就是系统一段时间内运行的进程的数量. 负载的压力程度跟cpu的逻辑个数成正比.</p>
+<h3 id="负载多少时比较合理"><a href="#负载多少时比较合理" class="headerlink" title="负载多少时比较合理"></a>负载多少时比较合理</h3><p>平均负载最理想的情况是等于cpu的个数,所以提前要知道有多少个cpu<br>cpu文件: /proc/cpuinfo<br><code>grep &#39;model name&#39; /proc/cpuinfo | wc -l</code></p>
+<h3 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h3><p>top / uptime  1分钟 5分钟 15分钟的平均负载<br>iostat / mpstat / pidstat</p>
+<h3 id="平均负载与cpu使用率"><a href="#平均负载与cpu使用率" class="headerlink" title="平均负载与cpu使用率"></a>平均负载与cpu使用率</h3><p>平均负载包含运行和中断状态, 所以包含了 正在使用cpu的进程,等待cpu和等待io的进程<br>而cpu使用率, 是单位时间内,cpu繁忙情况的统计,跟平均负载并不完全对应例如:</p>
+<ul>
+<li>cpu密集型 大量使用cpu 导致平均负载升高</li>
+<li>io密集型 等待io导致平均负载升高, 但是cpu使用率不一定会升高</li>
+<li>大量等待cpu的进程调度也会导致平均负载升高,此时cpu使用率也会比较高(上下文切换)</li>
+</ul>
+<hr>
+<h3 id="什么是上下文切换"><a href="#什么是上下文切换" class="headerlink" title="什么是上下文切换"></a>什么是上下文切换</h3><p>linux 是一个多任务操作系统, 为了保持多任务运行 所以 要将cpu轮流分配给程序运行,造成了多任务同时运行的错觉.</p>
+<p>知识点: cpu寄存器 , 程序计数器</p>
+<p>cpu寄存器 cpu内置的内存, 程序计数器 用来存储cpu正在执行指令的位置,或者下一条指令的位置, 他们都是cpu在允许程序前必须依赖的环境, 也就是上下文切换</p>
+<p>上下文切换包含: 进程上下文切换 线程上下文切换 中断上下文切换<br>进程上下文切换: 用户态–&gt; 内核态 —&gt; 用户态 期间通过<code>系统调用</code>完成,  需要 open() —&gt; read() —&gt; write() —&gt; close() , 那么上下文就是 保存用户态,切换内核态,恢复用户态, 一次系统调用 发生两次cpu上下文切换.<br>进程是由内核来管理和调度的,进程的切换只能发生在内核态, 所以进程的切换不仅包含了 虚拟内存,栈,全局变量,用户空间等资源,还包括了 内核堆栈,寄存器等内核空间的状态<br>线程上下文切换: 线程共享进程的资源数据, 所以线程切换只需要保存自己的私有数据即可, 所以多线程可以节约上下文切换中消耗的资源</p>
+<p><img src="https://cdn.jsdelivr.net/gh/natsu-ten/images/img/%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2.png" srcset="/img/loading.gif" lazyload alt="上下文切换"></p>
+<p>cpu上下文切换常用工具：</p>
+<ul>
+<li>vmstat 5 #每五秒输出一组数据</li>
+<li>pidstat -w 5 # 每5秒输出一组数据 -t 显示线程<ul>
+<li> cswch/s : 自愿上下文切换 ： 指进程无法获取到所需资源，导致的上下文切换， 比如 io 内存等系统资源不足时 就会发生自愿上下文切换</li>
+<li> nvcswch/s ： 非自愿上下文切换： 由于时间片已到等待时间，被系统强行调度，而发生的上下文切换</li>
+</ul>
+</li>
+</ul>
+<h3 id="cpu使用率"><a href="#cpu使用率" class="headerlink" title="cpu使用率"></a>cpu使用率</h3><p>linux 作为一个多任务操作系统， 将每个cpu的时间划分为很短的时间片，再通过调度器分配给各个任务使用，因此造成多个任务同时执行的假象<br>为了维护cpu时间， linux 通过事先定义的节拍率 （内核中表示为HZ），触发时间中断，并使用全局变量jiffes 记录开机以来的节拍数 每发生一次时间中断，jiffies就加一</p>
+<p>不同的系统可能设置不同的数值， 可以设置为 100 250 1000 等， 可以通过 /boot/config 内核选项来查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ grep <span class="hljs-string">&#x27;CONFIG_HZ=&#x27;</span> /boot/config-$(uname -r)<br>CONFIG_HZ=250<br></code></pre></td></tr></table></figure>
+
+<h3 id="cpu使用率过高怎么处理"><a href="#cpu使用率过高怎么处理" class="headerlink" title="cpu使用率过高怎么处理"></a>cpu使用率过高怎么处理</h3><p>dstat 1 10<br>perf top<br>perf recode<br>perf report</p>
+<p>docker里面无法显示进程名，容器外执行perf recode之后 复制data文件到容器内部执行 perf report</p>
+<h3 id="cpu-优化思路"><a href="#cpu-优化思路" class="headerlink" title="cpu 优化思路"></a>cpu 优化思路</h3><ul>
+<li>怎么评估性能优化的效果<ul>
+<li>性能指标量化</li>
+<li>优化前 vs 优化后  性能指标的对比</li>
+</ul>
+</li>
+<li>多个性能问题时,怎么优化<ul>
+<li>并不是所有的性能问题都必须优化, 二八原则, 可能80%的问题是由于20%的问题导致,优化前先思考清楚 分析问题,怎么优化才能收益最大化</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/linux/">linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/15/centos7-%E5%85%B3%E9%97%ADipv6/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">centos7-关闭ipv6</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/15/%E9%98%BF%E9%87%8C%E4%BA%91ecs%20%E6%90%AD%E5%BB%BAvps%E4%B8%93%E6%9C%89%E7%BD%91%E7%BB%9CNAT%E7%BD%91%E5%85%B3/">
+                        <span class="hidden-mobile">三步搭建VPC专有网络NAT网关</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

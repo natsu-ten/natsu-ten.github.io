@@ -1,0 +1,612 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>计算机网络的89个概念 - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="计算机网络的89个概念">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-15 13:21" pubdate>
+        2022年3月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      20
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">计算机网络的89个概念</h1>
+            
+            <div class="markdown-body">
+              <h3 id="文章转载-程序员cxuan-的公众号"><a href="#文章转载-程序员cxuan-的公众号" class="headerlink" title="文章转载 程序员cxuan 的公众号"></a>文章转载 程序员cxuan 的公众号</h3><ol>
+<li><p><code>主机</code> : 计算机网络上任何一种能够链接网络的终端</p>
+</li>
+<li><p><code>通信链路</code> : 通信链路是由物理链路(同轴电缆,双绞线,光纤等),链接到一起组成的物理通路</p>
+</li>
+<li><p><code>传输速率</code> : 用来度量一个端系统到另一个端系统的通信传输速度</p>
+</li>
+<li><p><code>分组</code> : 当一台端系统向另一台端系统发送数据时,通常会将数据进行分组,然后为每段加上首部字节,从而形成计算机网络的专业术语: 分组, 这些分组通过网络发送到端 然后进行数据处理</p>
+</li>
+<li><p><code>路由器</code> : 相当于带有路由功能的交换机,主要用来转发数据</p>
+</li>
+<li><p><code>路径</code> : 一个分组所经历一系列通信链路和分组交换机称为通过这个网络的路径</p>
+</li>
+<li><p><code>因特网服务商</code> : 也叫ISP 也就是网络运营商</p>
+</li>
+<li><p><code>网络协议</code> : 计算机网络中进行数据交互而设定的规则和约束</p>
+</li>
+<li><p><code>IP</code> : 网际协议, 规定了 路由器 到 端系统 之间发送和接受的分组格式</p>
+</li>
+<li><p><code>TCP/IP协议簇</code> : 不仅仅只有TCP IP 协议 ,而是以 TCP IP 为主的一系列协议, 比如 ICMP(png) ARP UDP DNS SMTP等</p>
+</li>
+<li><p><code>分布式应用程序</code> : 多个端系统之间交互数据的系统 </p>
+</li>
+<li><p><code>套接字接口</code> : 也就是 sockte 接口, 这个接口规定了端系统之间通过因特网进行数据交互的方式 </p>
+</li>
+<li><p><code>协议</code> : 规定了两个通信实体 之间交互报文的格式和顺序所遵从的标准</p>
+</li>
+<li><p><code>客户端</code> : 一般是请求方 </p>
+</li>
+<li><p><code>服务器</code> : 服务端 提供服务的端, 供请求方使用</p>
+</li>
+<li><p><code>转发表</code> : 路由内部记录报文路径的映射关系的一种记录</p>
+</li>
+<li><p><code>时延</code> : 一个报文或者分组 从一个端传递到另一端所需要的时间, 时延分类有: 发送时延,传播时延,处理时延,排队时延, 总时延=发送时延+传播时延+处理时延+排队时延</p>
+</li>
+<li><p><code>丢包</code> : 指在网络中 分组的丢失现象</p>
+</li>
+<li><p><code>吞吐量</code> : 在计算机网络中 单位时间内 成功传输数据的数量</p>
+</li>
+<li><p><code>报文</code> : 应用层的分组</p>
+</li>
+<li><p><code>报文段</code> : 通常把运输层的分组称为报文段</p>
+</li>
+<li><p><code>数据报</code> : 通常把网络层的分组称为数据报</p>
+</li>
+<li><p><code>帧</code> : 一般把链路层的分组称为帧</p>
+</li>
+<li><p><code>CIDR</code> : 把几个标准网络合成一个大的网络,</p>
+</li>
+<li><p><code>p2p</code> : 对等体系结构,相当于自由服务器 大家都是客户机 每个客户既能发送请求也能做出响应</p>
+</li>
+<li><p><code>IP地址</code> : ip地址就是网际协地址,在互联网中唯一一个标识主机的一种地址,每一台入网的设备都会有一个ip地址,</p>
+</li>
+<li><p><code>端口号</code>: 用来标识不同程序不同应用的进程</p>
+</li>
+<li><p><code>URL</code> : 网址</p>
+</li>
+<li><p><code>URI</code> : 统一资源标识符,能够唯一的标记互联网上的资源,</p>
+</li>
+<li><p><code>HTML</code> : 超文本标记语言 </p>
+</li>
+<li><p><code>web页面</code> : 通俗理解 浏览器里面打开的页面 </p>
+</li>
+<li><p><code>web服务器</code> : 提供web服务的服务器 </p>
+</li>
+<li><p><code>cdn</code> : 内容分发网络, 利用http的缓存和代理技术, 代替源站响应客户端的请求,依靠部署在各地的边缘服务器, 通过中心平台的负载均衡,内容分发 调度等模块功能 是用户就近获取所需要的内容</p>
+</li>
+<li><p><code>WAF</code> : 应用程序防护系统, 通过执行一系列对 http https 的安全策略 来专门为web应用提供保护的产品</p>
+</li>
+<li><p><code>webservice</code> : web应用程序, 是一种跨编程语言和跨操作系统平台的远程调用技术</p>
+</li>
+<li><p><code>HTTP</code> : tcpip协议的一种</p>
+</li>
+<li><p><code>session</code> : 客户的的会话缓存</p>
+</li>
+<li><p><code>cookie</code> : 保存在浏览器的用户数据</p>
+</li>
+<li><p><code>smtp协议</code> : 提供邮件服务的协议</p>
+</li>
+<li><p><code>dns协议</code> : </p>
+</li>
+<li><p><code>telnet协议</code> : 远程登录协议,运行用户通过一个协商过程来与一个远程设备进行通信</p>
+</li>
+<li><p><code>ssh协议</code> : 建立在应用层的安全加密协议,</p>
+</li>
+<li><p><code>ftp协议</code> : 文件传输协议</p>
+</li>
+<li><p><code>MIME类型</code> : 表示互联网的资源类型, .html .mp4 .mp3  </p>
+</li>
+<li><p><code>多路分解</code> : 在接收端,运输层会检查源端口号和目的端口号等字段,然后标识出接收的套接字,从而将运输层报文段的数据交付到正确套接字的过程被称为多路分解</p>
+</li>
+<li><p><code>多路复用</code> : 在发送方,从不同的套接字中收集数据块,然后为数据块封装上首部信息 从而生成报文段 然后将报文段传递给网络层的过程被称之为多路复用</p>
+</li>
+<li><p><code>周知端口号</code> : 在主机中 0-1023的端口号是受限制的,被称之为周知端口号,这些端口一般不能占用</p>
+</li>
+<li><p><code>单向数据传输</code> : 数据的流向只是单向的</p>
+</li>
+<li><p><code>双向数据传输</code> : 数据双向传输 也叫全双工 发送端和接收端相互发送数据</p>
+</li>
+<li><p><code>面向链接的</code> : 面向链接指的是应用进程在向另一个应用进程发送数据前 需要先进行握手,即他们必须先相互发送预备报文段,用来建立确保数据传输的参数</p>
+</li>
+<li><p><code>三次握手</code> : <img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY8uhE7FS3VNFO89BQRfVicFCnHynpabACU4ohPZiaiaSNicAQxjeo6pM5pibw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>最大报文段长度</code> : MSS 指z从缓存中取出并放入报文段中的最大值</p>
+</li>
+<li><p><code>最大传输单元</code> : MTU  指通信双方能够接受有效负荷的大小,即 mss 通常会根据mtu来设</p>
+</li>
+<li><p><code>冗余ACK</code> : 就是再次确认某报文段的ACK 报文段的丢失会导致冗余ACK的出现</p>
+</li>
+<li><p><code>四次挥手</code> : <img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY8mRnzXHWQGnMaUyRhfnR3rziboQcDf6ybnceLpjuI3mTUpaxmznsSF0g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>路由选择算法</code> : 网络层中决定分组发送路径的一种算法</p>
+</li>
+<li><p><code>转发</code> : 将分组从一个输入链路转移到合适的输出链路的动作</p>
+</li>
+<li><p><code>分组调度</code> : 分组调度讨论的是分组如何经输出链路传输的问题, 主要有三种调度方式 : 先进先出,优先级排队,循环和加权公平排队</p>
+</li>
+<li><p><code>接口</code> : 主机和物理链路之间的边界</p>
+</li>
+<li><p><code>ARP协议</code> : ARP 是一种解决地址问题的协议,通过ip位线索 可以定位下一个用来接受数据的网络设备的mac地址, 如果目标主机与主机不在同一个链路上时,可以通过ARP查找下一个跳路由的地址,适用于ipv4 不适用ipv6</p>
+</li>
+<li><p><code>RAPP</code> : ARP 协议反过来,通过mac地址定位 ip地址的一种协议<br><img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY8fVzLNBPXFzCMDjvvBxEBxPeW7UOsOpp4kaq0KzF2PVRwnGogkUzJqg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>代理ARP</code> : 用户解决 ARP 包被路由隔离的情况, 通过代理ARP可以实现将ARP请求转发给临近的网段</p>
+</li>
+<li><p><code>ICMP协议</code> : 报文控制协议, 如果ip在通信过程中由于某个ip包某个原因未能到达目标主机,那么将发送icmp消息<br><img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY8OdU5jKbhQr2qzknLAGunKx9lVlHxdcZOBGX7h4KdXtozTI4X9GCFaA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>NAT协议</code>: 网络地址转换协议,将所有本地地址的主机在接入网络时,都会要在NAT路由器上将其转换称为全球ip地址 才能和其他主机进行通信</p>
+</li>
+<li><p><code>ip隧道</code> : ip隧道技术是由路由器把网络层协议封装到另一个协议中从而跨国网络传输到另一个路由器的过程</p>
+</li>
+<li><p><code>单播</code> : 一对一 <img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY8oAp0GiaD3oT0GqJhia23Coop8rgM4xGHeGDcpia7uG8V93bqltRNNqiafw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>广播</code> : 一对多 <img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY82psT8qQ2ficggzoVqUtWJfJA65fjr2RpNaugrA5qos9Q0ria4rvfRMtw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>多播</code> : 于广播类似,也是将消息发送给多个主机,不同之处在于多播要限定在某一组主机作为接收端 <img src="https://mmbiz.qpic.cn/mmbiz_png/A3ibcic1Xe0iaSJ18w9BYZq1IWkMEGoNiaY82EuVM7pOzYQDffeickicjdmnfXE4nKJPfVgoJ9iawmvibHnKvAYA3CtnPw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p><code>IGP</code> : 内部网关协议,一般用于企业内部自己搭建的路由自治系统</p>
+</li>
+<li><p><code>EGP</code> : 外部网关协议,EGP通常用于在网络主机之间相互交互路由信息</p>
+</li>
+<li><p><code>RIP</code> : 一种距离向量型路由协议 广泛应用于 lan网</p>
+</li>
+<li><p><code>OSPF</code> : </p>
+</li>
+<li><p><code>MPLS</code> : </p>
+</li>
+</ol>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/">网络基础</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/15/alpine%20%E9%95%9C%E5%83%8F%E6%97%A5%E5%BF%97%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">alpine 镜像 java 日志中文问号乱码</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/15/shell%E8%84%9A%E6%9C%AC100%E4%BE%8B/">
+                        <span class="hidden-mobile">shell 脚本100 例</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>

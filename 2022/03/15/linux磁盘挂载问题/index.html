@@ -1,0 +1,518 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/index_bg/img1.jpg">
+  <link rel="icon" href="/img/index_bg/img1.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="夏十的blog">
+  <meta name="author" content="natsu-ten">
+  <meta name="keywords" content="">
+  
+  <title>Linux 离奇磁盘爆满，如何解决 - 夏十</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"tutuu.top","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 60vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>夏十</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/index_bg/saber.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux 离奇磁盘爆满，如何解决">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-15 12:54" pubdate>
+        2022年3月15日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux 离奇磁盘爆满，如何解决</h1>
+            
+            <div class="markdown-body">
+              <p>##查看磁盘 uuid<br>    * blkid /dev/sdb</p>
+<h2 id="Linux-离奇磁盘爆满，如何解决？"><a href="#Linux-离奇磁盘爆满，如何解决？" class="headerlink" title="Linux 离奇磁盘爆满，如何解决？"></a>Linux 离奇磁盘爆满，如何解决？</h2><p>对于 Linux 磁盘满的问题，我们通常的处理思路是用 du 查找可清理的大文件，然后临时删掉让磁盘使用率先降下来，从而尽快保证磁盘能继续写入。</p>
+<p>但是，有一些情况的处理效果不太一样，du/df 呈现的结果可能还会让人迷惑不解。下面，我就分享下几个工作中遇到过的较离奇的磁盘满问题。</p>
+<p>被忽略的隐藏文件</p>
+<p>1、认识 swapfile</p>
+<p>Linux 的交换文件 swapfile 的产生场景较普遍，而且也是以隐藏文件的形式存在的，因此这里主要聊聊 swapfile 这一类的隐藏文件。</p>
+<p>当用 vim 打开一个文件时，都会产生一个 .swp 的临时隐藏交换文件，用来备份缓冲区中的内容。</p>
+<p>当文件非正常关闭（比如直接关闭终端或者电脑断电等）时，.swp文件不会被删除，这样就可以用此文件来恢复文件。（注意当正常关闭时，此文件会被删除；且如果只是读取文件，不会产生 .swp 文件）</p>
+<p>而且，如果 vim 意外退出后，又重新打开文件二次编辑，那么旧的 .swp 文件会继续保留，并产生新的 .swo 临时隐藏文件。</p>
+<p>如果二次编辑的时候，vim 又异常退出了，那么还会继续产生新的临时隐藏文件.swn、.swm、 .swl ……</p>
+<p>2、处理建议</p>
+<p>有些隐藏文件的磁盘占用也挺大：</p>
+<p>:/tmp # ll -rth | grep G<br>total 17.7G<br>-rw——- 1 xxxx users 17.6G 2020-02-12 18:27 .sqlkfJTFl.swp<br>所以有时候碰到大隐藏文件导致磁盘满的情况，如果没能发现这些隐藏文件，就会觉得离奇和疑惑。</p>
+<p>所以在排查磁盘满问题的时候，可以通过执行 vim -r 来查看和检查下所有临时交换文件的大小；或者通过 ls -lha 把所有隐藏文件都列出来看看大小。</p>
+<p>如果不想留 swapfile 这个特性，可以考虑关掉 swapfile ：</p>
+<p>vim /etc/vimrc   </p>
+<h1 id="添加如下配置"><a href="#添加如下配置" class="headerlink" title="添加如下配置"></a>添加如下配置</h1><p>set noswapfile  # 禁止在编辑时候产生此文件；<br>但是注意这仅限于对文件损失可以容忍的情况下；如果不能容忍文件损失，那还是建议还是打开 swapfile：</p>
+<p>vim /etc/vimrc   # 添加如下配置set swapfile  # 则是在编辑时候产生此文件；</p>
+<p>未释放的已删除文件</p>
+<p>1、du 和 df 不一致</p>
+<p>如果隐藏文件因素排除了，还是发现 du 出来的大小诡异，比如 du 发现磁盘并没有用满，但是 df 看到磁盘使用率却是 100% 。</p>
+<p>这又会是什么原因呢？</p>
+<p>这时候，通常就得怀疑有一些已删除的文件，还被一些进程 hold 住句柄没释放，导致这些文件虽然已经删除，也的确看不到了，但是却还占着磁盘空间；</p>
+<p>从而导致 du 和 df 出来的磁盘使用结果不一致的情况。</p>
+<p>2、处理建议</p>
+<p>通过执行 lsof | grep deleted 可以找到那些没有释放磁盘空间的文件和进程，</p>
+<p>然后通过重启对应进程，就可以达到释放已删除文件占用的空间的目的。</p>
+<p>这个帖子 《 清空热文件的常见错误操作 》 阐述了 “已删除文件还占用磁盘” 的产生场景和处理方式。</p>
+<p>另外，对于这种情况，还有个错误的处理方法，这里特别提醒下：</p>
+<p>有些同学在找到未释放已删除文件的 pid 之后，可能会直接通过 kill pid 来达到释放已删除文件的目的。</p>
+<p>这种做法确实能够释放已删除文件，从而释放磁盘空间，但是这种做法是有副作用的，危害可大可小。</p>
+<p>如果在离线环境这么操作，影响一般不大；但是如果在生产环境这么操作的话，那就可能搞出故障来了。</p>
+<p>我们假设这么一种场景：</p>
+<p>生产环境的某程序由于某种Bug，一直不会释放日志文件，而分时写入的日志文件又是有过期删除机制的，这样一直持续下去，就会发现服务器上有大量的已过期删除日志文件还占用着磁盘空间，直到产生磁盘满风险。</p>
+<p>那么这个时候如果直接通过 kill pid 来处理的话，就直接把生产环境的在线程序直接干掉了；这个后果就可想而知了：在这个程序被守护进程拉起来之前，这个服务都是不可用的。</p>
+<p>挂载引发的悬案</p>
+<p>1、消失的空间</p>
+<p>如果执行 ls -lha 并没有发现大隐藏文件，执行 lsof | grep deleted 也没有发现未释放的已删除文件；但是 df 看到根目录确实达到 100% 了 ，而 du 出来的根目录实际使用空间却并没有用满 。</p>
+<p>这又会是什么原因呢？</p>
+<p>出现这种情况的时候，请回忆下最近这台磁盘异常的机器，是否检修 或者 换过磁盘？</p>
+<p>根目录出现这种离奇现象，通常就是在检修/更换磁盘的时候（这里假设是更换/data1 ）,新磁盘还没挂载就开始往 /data1 写数据了，这时候由于还没挂载新盘，所以写入数据占用的是根目录的空间。</p>
+<p>然后换好/data1 盘并重新挂载上去后，原本放在 /data1 的数据，也不会出现在挂载盘上，还是继续占用根目录的空间。</p>
+<p>所以这时候就会出现这样的现象：</p>
+<p>挂载后 du /data1 并不大 ，但是挂载前 /data1目录写入的数据实际却占用了根目录空间；而且这个数据在挂载后是看不到的，因此很难发现。于是就会发现根目录有一些空间似乎凭空消失了，相当诡异。</p>
+<p>2、处理建议</p>
+<p>2.1 解决方法</p>
+<p>怎么确认是新的挂载盘掩盖了一些数据呢？把新的挂载盘 /data1 umount掉，然后再看看 /data1 占用的空间就知道了。</p>
+<p>如果 umount提示 busy，可以通过执行以下命令来解决：</p>
+<p>fuser -kmvi /data1 &amp;&amp; umount /data1<br>卸载后，就会发现 /data1 目录下确实有大量文件，删除后，再 mount -a 重新挂载，然后根目录消失的磁盘空间，一般就能找回来了。</p>
+<p>2.2 测试验证</p>
+<p>如果还不放心的话，清理完数据再次挂载后，可以简单测试下：</p>
+<p>dd if=/dev/zero of=/data1 bs=1M count=20000<br>往 /data1 大概写个 20G 数据，再观察下根目录的空间是否受影响，如果不受影响就说明问题解决！</p>
+<p>2.3 给个建议</p>
+<p>针对根目录这类离奇问题：建议在每次更换磁盘重新做挂载动作之前，检查一下根目录的空间使用情况；如果存在错误写入数据的情况，需要及时清理，然后再进行新盘挂载，切记。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/linux/">linux</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%A3%81%E7%9B%98/">磁盘</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/15/gcc%E7%BC%96%E8%AF%91%E5%99%A8%E5%8D%87%E7%BA%A7/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">gcc 升级</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/15/zsh%20%E9%85%8D%E7%BD%AE%E8%8C%83%E4%BE%8B/">
+                        <span class="hidden-mobile">zsh 配置范例</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="waline"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#waline', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@waline/client@0.16.2/dist/Waline.min.js', function() {
+        var options = Object.assign(
+          {"serverURL":"https://tutuu.vercel.app/","placeholder":"说点什么","path":"window.location.pathname","avatar":"monsterid","meta":["nick","mail","link"],"pageSize":10,"lang":"zh-CN","highlight":true,"avatarCDN":"","avatarForce":false,"requiredFields":[],"emojiCDN":null,"emojiMaps":null,"anonymous":null},
+          {
+            el: '#waline',
+            path: window.location.pathname
+          }
+        )
+        new Waline(options);
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"scale":1,"jsonPath":"/live2dw/assets/grizzly.model.json"},"display":{"width":320,"height":650,"position":"left","hOffset":0,"vOffset":-20},"mobile":{"show":false,"scale":0.5},"log":false});</script></body>
+</html>
